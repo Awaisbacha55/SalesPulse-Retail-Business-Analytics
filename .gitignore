@@ -1,0 +1,52 @@
+# ==============================================================================
+# SalesPulse - Git Ignore Configuration
+# ==============================================================================
+
+# Raw and Processed Datasets (Preserve local CSVs; do not commit large data)
+data/raw/*.csv
+data/raw/**/*.csv
+data/processed/*.csv
+data/processed/**/*.csv
+*.csv
+
+# Environment Variables & Credentials
+.env
+.env.*
+*.env
+!*.env.example
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+.pytest_cache/
+
+# IDE & Editor Temporary Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+.dbeaver/
+.dbeaver-data/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary Scratch Files & Logs
+scratch/
+*.log
+

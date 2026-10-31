@@ -1,0 +1,11 @@
+# ==============================================================================
+# SalesPulse - Retail Business Analytics Dependencies
+# Python Runtime: >= 3.12
+# ==============================================================================
+
+# PostgreSQL database adapter
+psycopg2-binary>=2.9.9
+
+# Environment variable management (for credentials isolation)
+python-dotenv>=1.0.0
+
