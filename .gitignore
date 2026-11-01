@@ -50,3 +50,6 @@ Desktop.ini
 scratch/
 *.log
 
+
+# Local backup files
+*.bak

@@ -1,0 +1,99 @@
+# SalesPulse — Business Intelligence Dashboard Overview
+
+## 1. Executive Summary
+
+The **SalesPulse Business Intelligence Dashboard** translates the underlying 1.55-million-row PostgreSQL relational database into an intuitive, interactive analytical command center. Built and visualized in **Metabase** (and fully compatible with Power BI, Tableau, and Apache Superset), the dashboard empowers commercial leaders, operations managers, and merchandising directors to monitor retail velocity, logistics compliance, and customer retention metrics.
+
+![SalesPulse Dashboard Preview](../images/dashboard_preview.png)
+*Figure 1: SalesPulse Interactive Executive Business Intelligence Dashboard in Metabase.*
+
+---
+
+## 2. Dashboard Architecture & Information Hierarchy
+
+The dashboard is structured into four functional tiers:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        1. Executive KPI Scorecard                      │
+│   [ Total Revenue ]   [ Paid Orders ]   [ Average Order Value ]   [ On-Time Rate ]  │
+│      R$ 16.01M            99,440               R$ 160.99               91.89%       │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+    ┌───────────────────────────────┴───────────────────────────────┐
+    │                                                               │
+    ▼                                                               ▼
+┌──────────────────────────────────────┐  ┌──────────────────────────────────────┐
+│  2. Commercial Growth & Seasonality  │  │   3. Category & Product Economics    │
+│  • Monthly Revenue Trajectory        │  │  • Top 10 Revenue Product Categories │
+│  • Month-over-Month Growth Velocity  │  │  • Average Selling Price by Category │
+│  • Day-of-Week Order Distribution    │  │  • Freight Cost vs. Product Price    │
+└──────────────────┬───────────────────┘  └──────────────────┬───────────────────┘
+                   │                                         │
+                   └────────────────────┬────────────────────┘
+                                        │
+                                        ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                   4. Operational SLAs & Customer Retention             │
+│  • Delivery On-Time Rate vs. Customer Review Score (4.29 vs. 2.57)      │
+│  • Customer Repeat Purchase Concentration (3.12% Retention Rate)       │
+│  • Geographic Sales Distribution by Brazilian State (SP 38.28%)        │
+│  • Payment Method Volume Breakdown (Credit Card 78.34%, Boleto 17.92%) │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 3. Visual Components & Underlying Queries
+
+All visual tiles are powered by the SQL queries cataloged in [`dashboard/dashboard_queries.sql`](dashboard_queries.sql):
+
+### Tier 1: Executive KPI Scorecard
+1. **Total Platform Revenue**: `R$ 16,008,872.12` (~16.01M BRL) across historical transactions.
+2. **Total Paid Orders**: `99,440` completed orders.
+3. **Average Order Value (AOV)**: `R$ 160.99` per customer order.
+4. **On-Time Delivery SLA**: `91.89%` of delivered packages arrived on or before promised estimated dates.
+
+### Tier 2: Revenue Velocity & Seasonality
+- **Monthly Sales Trend Line**: Tracks revenue acceleration from October 2016 through August 2018, highlighting Black Friday peaks in November 2017 (`R$ 1,194,482.80`).
+- **Month-over-Month Growth**: Bar visual detailing percentage swings to pinpoint seasonal demand contractions and expansion periods.
+- **Day of Week Purchasing Heatmap**: Reveals purchase concentration on Mondays and Tuesdays, tapering off on weekends.
+
+### Tier 3: Merchandising & Product Analytics
+- **Top 10 Product Categories**: Ranked horizontal bar chart featuring `health_beauty` (R$ 1.26M), `watches_gifts` (R$ 1.21M), and `bed_bath_table` (R$ 1.04M).
+- **Price Elasticity by Category**: Compares units sold against average item ticket size to isolate high-volume vs. high-margin categories.
+
+### Tier 4: Operations, Logistics & Customer Retention
+- **Logistics Impact on Customer Sentiment**: Dual-bar comparison demonstrating that on-time orders maintain an average rating of **4.29 / 5.0**, whereas delayed orders plunge to **2.57 / 5.0** (a 40% satisfaction drop).
+- **Geographic Penetration (State Distribution)**: Map and ranked visual establishing that the state of São Paulo (`SP`) represents **38.28%** of merchandise revenue, with the Southeast region (`SP`, `RJ`, `MG`) accounting for **63.36%**.
+- **Payment Method Distribution**: Donut chart illustrating credit card dominance (**78.34%** of payment value) followed by Boleto Bancário (**17.92%**).
+- **Customer Repeat Purchase Rate**: Donut card highlighting the 3.12% repeat rate (2,997 repeat buyers out of 96,096 unique customers).
+
+---
+
+## 4. Interactive Filters & Dashboard Controls
+
+The dashboard is configured with four global filter parameters:
+1. **Date Range Filter**: Filter all cards by custom purchase dates (e.g., Year 2017, Q4 2017, Year 2018).
+2. **Customer State Multi-Select**: Filter by federative units (e.g., `SP`, `RJ`, `MG`, `RS`, `PR`).
+3. **Product Category Dropdown**: Filter specific product categories (in English via `category_translation`).
+4. **Payment Type Selector**: Filter by `credit_card`, `boleto`, `voucher`, or `debit_card`.
+
+---
+
+## 5. Local Setup & Reproduction in Metabase
+
+1. Ensure the PostgreSQL `salespulse` database is active.
+2. Launch Metabase (via Docker or standalone JAR):
+   ```bash
+   java -jar metabase.jar
+   ```
+3. In Metabase Admin settings, add a new database connection:
+   - **Database type**: PostgreSQL
+   - **Host**: `localhost`
+   - **Port**: `5432`
+   - **Database name**: `salespulse`
+   - **Username**: `postgres`
+   - **Password**: `[Your local password]`
+4. Import or execute the queries from [`dashboard/dashboard_queries.sql`](dashboard_queries.sql) and assemble the visual cards onto a shared dashboard canvas.
+

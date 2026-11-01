@@ -3,114 +3,122 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.x-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![DBeaver](https://img.shields.io/badge/DBeaver-Community-382923?logo=dbeaver&logoColor=white)](https://dbeaver.io/)
+[![Metabase](https://img.shields.io/badge/Metabase-BI%20Dashboard-509EE3?logo=metabase&logoColor=white)](https://www.metabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Project Status](https://img.shields.io/badge/Status-Day%201%20Completed-success)]()
+[![SQL Analytics](https://img.shields.io/badge/SQL%20Analytics-40%2B%20Queries%20%26%20Views-blueviolet)]()
 
-> A retail business analytics project utilizing PostgreSQL 17, Python 3.12, and SQL to model Brazilian e-commerce operations, resolve real-world data quality anomalies, uncover sales and customer trends, and lay the data foundation for business intelligence dashboards.
-
----
+> An enterprise-grade retail business analytics and data engineering project modeling 100,000+ Brazilian e-commerce orders, resolving real-world data quality anomalies, executing 40+ commercial SQL analyses and saved views in PostgreSQL 17, and delivering an interactive executive Business Intelligence dashboard.
 
 ## Table of Contents
 
-- [1. Project Title and Overview](#1-project-title-and-overview)
-- [2. Real-World Business Problem](#2-real-world-business-problem)
-- [3. Project Objectives](#3-project-objectives)
-- [4. Dataset Information and Source](#4-dataset-information-and-source)
-- [5. Technologies Used](#5-technologies-used)
-- [6. Database Architecture](#6-database-architecture)
-- [7. Entity-Relationship Diagram (ERD)](#7-entity-relationship-diagram-erd)
-- [8. Database Tables and Relationships](#8-database-tables-and-relationships)
-- [9. Data-Quality Investigation](#9-data-quality-investigation)
-- [10. Duplicate Review ID Anomaly & Resolution](#10-duplicate-review-id-anomaly--resolution)
-- [11. Dataset Inspection and Batch Import Process](#11-dataset-inspection-and-batch-import-process)
-- [12. Current Project Progress](#12-current-project-progress)
-- [13. Installation & Environment Setup](#13-installation--environment-setup)
-- [14. PostgreSQL Database Setup](#14-postgresql-database-setup)
-- [15. Python Virtual Environment Setup](#15-python-virtual-environment-setup)
-- [16. How to Execute Python Scripts](#16-how-to-execute-python-scripts)
-- [17. How to Run SQL Files](#17-how-to-run-sql-files)
-- [18. Project Folder Structure](#18-project-folder-structure)
-- [19. Planned Dashboard and Analytics Features](#19-planned-dashboard-and-analytics-features)
-- [20. Project Limitations and Future Improvements](#20-project-limitations-and-future-improvements)
+1. [Project Title](#1-project-title)
+2. [Project Overview](#2-project-overview)
+3. [Business Problem](#3-business-problem)
+4. [Project Objectives](#4-project-objectives)
+5. [Dataset Information](#5-dataset-information)
+6. [Technology Stack](#6-technology-stack)
+7. [System Architecture](#7-system-architecture)
+8. [Database Structure and ERD](#8-database-structure-and-erd)
+9. [Data Cleaning and Validation Process](#9-data-cleaning-and-validation-process)
+10. [SQL Analysis Categories](#10-sql-analysis-categories)
+11. [SQL Techniques Used](#11-sql-techniques-used)
+12. [Dashboard Preview](#12-dashboard-preview)
+13. [Business Insights](#13-business-insights)
+14. [Repository Structure](#14-repository-structure)
+15. [Installation Instructions](#15-installation-instructions)
+16. [Database Setup](#16-database-setup)
+17. [How to Run Python Scripts](#17-how-to-run-python-scripts)
+18. [How to Execute SQL Analysis](#18-how-to-execute-sql-analysis)
+19. [Dashboard Setup](#19-dashboard-setup)
+20. [Project Limitations](#20-project-limitations)
+21. [Future Improvements](#21-future-improvements)
+22. [Author and Project Credits](#22-author-and-project-credits)
 
 ---
 
-## 1. Project Title and Overview
+## 1. Project Title
 
-**SalesPulse** is an end-to-end data engineering and retail business analytics repository focused on uncovering commercial, operational, and customer behavioral patterns within the Brazilian e-commerce sector.
-
-The project models the end-to-end transaction journey: from customer order placement, payment installments, and multi-seller fulfillment to logistics delivery milestones and post-purchase customer satisfaction surveys.
-
----
-
-## 2. Real-World Business Problem
-
-In multi-sided e-commerce marketplaces such as Olist (which integrates thousands of independent Brazilian merchants with major sales channels), operational complexity presents significant business risks:
-
-- **Delivery Delays Across Vast Geography**: Cross-state logistics in Brazil span extreme distances. Delivery latency severely impacts customer satisfaction ratings.
-- **Freight Cost Inefficiencies**: High shipping fees compress seller margins and trigger cart abandonment.
-- **Merchant Reliability & Fulfillment SLAs**: Unreliable sellers failing shipping deadlines harm the platform's brand reputation.
-- **Customer Churn & Low Repeat Rates**: Understanding repeat purchase frequency and identifying high-value customer segments is critical for sustainable growth.
-- **Customer Review Sentiment Gaps**: Negative ratings often stem from logistics bottlenecks rather than defective products; separating these factors is vital for seller remediation.
+**SalesPulse — Retail Business Analytics with SQL**  
+*A comprehensive retail intelligence data warehouse and analytical platform modeling the Brazilian e-commerce ecosystem.*
 
 ---
 
-## 3. Project Objectives
+## 2. Project Overview
 
-1. **Relational Data Architecture**: Transform nine disparate flat CSV datasets into a normalized, high-performance PostgreSQL 17 relational database.
-2. **Data Integrity & Anomaly Resolution**: Identify and solve real-world data quality flaws—specifically non-unique natural keys in customer reviews and misspelled attribute headers.
-3. **Core Commercial KPIs** *(Planned - Day 2)*: Analyze Gross Merchandise Value (GMV), order volume velocity, Average Order Value (AOV), and payment installment trends.
-4. **Customer Behavioral Intelligence** *(Planned - Day 3)*: Compute repeat purchase percentages, geographic concentration, and RFM (Recency, Frequency, Monetary) customer segmentation.
-5. **Logistics & Delivery Efficiency** *(Planned - Day 4)*: Measure carrier delivery lead times, quantify estimated vs. actual delivery gaps, and identify logistics choke points.
-6. **Product & Seller Analytics** *(Planned - Day 5)*: Determine top revenue-generating categories and correlate merchant response times with customer ratings.
-7. **Business Intelligence Reporting** *(Planned - Day 6)*: Deliver an interactive BI dashboard and strategic executive briefing.
+**SalesPulse** is an end-to-end data engineering and retail business intelligence solution developed using **PostgreSQL 17**, **Python 3.12**, and **Metabase**. Based on the real-world **Brazilian E-Commerce Public Dataset by Olist**, the project models the full customer transaction lifecycle across **99,441 orders** and **1,547,842 total relational records** placed between 2016 and 2018.
+
+The repository takes raw, unstructured CSV datasets through pre-ingestion profiling, relational schema design, primary key anomaly resolution, batch ETL ingestion, 39 deep diagnostic SQL analyses, and interactive visual dashboards.
 
 ---
 
-## 4. Dataset Information and Source
+## 3. Business Problem
 
-The dataset used is the **Brazilian E-Commerce Public Dataset by Olist**, publicly hosted on Kaggle:
-- **Source**: [Kaggle — Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
-- **Timeframe**: October 2016 to October 2018
-- **Coverage**: ~100k anonymized orders placed across all 27 Brazilian federative units.
-- **Datasets**: 9 relational CSV files totaling ~1.55 million rows.
+Olist operates a major marketplace integrator connecting small and medium-sized independent merchants to the largest e-commerce platforms across Brazil. In multi-sided marketplace operations, key business bottlenecks arise:
 
----
-
-## 5. Technologies Used
-
-- **Database Engine**: [PostgreSQL 17](https://www.postgresql.org/)
-- **Database Client & Administration**: [DBeaver Community 24+](https://dbeaver.io/)
-- **Scripting & ETL**: [Python 3.12](https://www.python.org/)
-- **Database Driver**: [psycopg2-binary 2.9+](https://pypi.org/project/psycopg2-binary/)
-- **Environment Management**: [python-dotenv](https://pypi.org/project/python-dotenv/)
-- **Version Control**: Git & GitHub
+- **Logistics Latency Across Extreme Geographies**: Brazil spans vast transit corridors. Package delivery delays severely depress customer satisfaction and brand loyalty.
+- **Customer Churn & Retention Deficit**: While customer acquisition is high, understanding the repeat purchasing rate is critical to maximizing Customer Lifetime Value (LTV).
+- **Regional Sales Polarization**: Pinpointing revenue contribution across Brazilian states is vital for allocating fulfillment centers and localized advertising budgets.
+- **Payment Method Dynamics**: Brazilian consumers rely heavily on credit card installments and Boleto Bancário; optimizing checkout conversion requires understanding tender type distributions.
+- **Customer Satisfaction Sensitivity**: Understanding whether negative customer review scores are driven by product defects or logistics delivery delays is essential for seller remediation.
 
 ---
 
-## 6. Database Architecture
+## 4. Project Objectives
 
-The schema follows a hybrid star/snowflake relational architecture centered around the `orders` fact entity, connected to `customers`, `order_items`, `order_payments`, `order_reviews`, `products`, `sellers`, `category_translation`, and `geolocation`.
-
-All primary keys, foreign keys, and analytical B-tree indexes are implemented to guarantee ACID integrity and query performance.
-
----
-
-## 7. Entity-Relationship Diagram (ERD)
-
-The relational schema and foreign key constraints generated in DBeaver:
-
-![SalesPulse Database Entity-Relationship Diagram](images/salespulse_erd.png)
-
-*Figure 1: SalesPulse PostgreSQL 17 Entity-Relationship Diagram (ERD).*
+1. **Relational Data Architecture**: Transform nine disparate flat CSV datasets into a normalized, high-performance PostgreSQL 17 relational database with strict primary/foreign key constraints and analytical B-tree indexing.
+2. **Data Integrity & Anomaly Resolution**: Detect and resolve real-world data quality anomalies—specifically non-unique natural keys in customer reviews and misspelled column headers.
+3. **Deep Commercial Analytics**: Author and execute 39 verified business queries answering strategic questions across revenue growth, customer segmentation, seller performance, and operational SLAs.
+4. **Interactive BI Dashboards**: Build an executive Metabase dashboard featuring scorecards, time-series velocity trends, geographic penetration maps, and SLA correlation charts.
+5. **Actionable Recommendations**: Translate query findings into data-backed strategic interventions for executive management.
 
 ---
 
-## 8. Database Tables and Relationships
+## 5. Dataset Information
+
+- **Source**: [Brazilian E-Commerce Public Dataset by Olist (Kaggle)](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
+- **Timeframe**: October 2016 – October 2018
+- **Scope**: ~100k real customer orders spanning all 27 Brazilian federative units.
+- **Relational Scale**: 9 datasets totaling 1,547,842 ingested records.
+
+---
+
+## 6. Technology Stack
+
+| Domain | Technology / Tool | Version | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Database** | PostgreSQL | 17.x | Relational schema modeling, ACID transactions, B-tree indexing |
+| **SQL Client** | DBeaver Community | 24.x+ | Database administration, query execution, ERD generation |
+| **Data Scripting** | Python | 3.12 | Pre-ingestion profiling, data-quality auditing, batch ETL loader |
+| **DB Driver** | psycopg2-binary | 2.9.x | High-throughput batch streaming into PostgreSQL |
+| **Config Isolation**| python-dotenv | 1.0.x | Secure local environment variable isolation |
+| **Business Intel** | Metabase | Latest OSS | Interactive executive dashboard, KPI cards, visual charts |
+| **Version Control** | Git / GitHub | Latest | Source code tracking, documentation engineering |
+
+---
+
+## 7. System Architecture
+
+The high-level end-to-end architecture from raw CSV data ingestion to PostgreSQL warehousing and Metabase visual analytics:
+
+![Project Architecture](images/project_architecture.png)
+
+*Figure 1: SalesPulse End-to-End System Architecture.*
+
+---
+
+## 8. Database Structure and ERD
+
+The database schema is organized into a hybrid star/snowflake relational model centered around the `orders` fact entity, linked to `customers`, `order_items`, `order_payments`, `order_reviews`, `products`, `sellers`, `category_translation`, and `geolocation`.
+
+![Database ERD](images/salespulse_erd.png)
+
+*Figure 2: SalesPulse PostgreSQL 17 Entity-Relationship Diagram (ERD).*
+
+### Database Tables and Verified Record Counts
 
 | # | Table Name | Primary Key | Foreign Keys | Row Count | Description |
 | :-: | :--- | :--- | :--- | :-: | :--- |
-| **1** | `customers` | `customer_id` | — | 99,441 | Unique order-level customer identifier and location |
+| **1** | `customers` | `customer_id` | — | 99,441 | Order-level customer identifier and location |
 | **2** | `sellers` | `seller_id` | — | 3,095 | Merchant identifiers, ZIP codes, cities, and states |
 | **3** | `category_translation` | `product_category_name` | — | 71 | Portuguese-to-English product category mapping |
 | **4** | `products` | `product_id` | — | 32,951 | Product catalog, dimensions, weight, photos count |
@@ -120,111 +128,170 @@ The relational schema and foreign key constraints generated in DBeaver:
 | **8** | `order_reviews` | `review_record_id` *(Surrogate PK)* | `order_id` $\rightarrow$ `orders` | 99,224 | Customer ratings (1-5), review comments, timestamps |
 | **9** | `geolocation` | `geolocation_id` *(Identity PK)* | — | 1,000,163 | Brazilian geographic coordinates by ZIP code prefix |
 
-**Total Verified Records in Database**: **1,547,842 rows** (100% matched with raw source data).
+**Total Verified Records**: **1,547,842 rows** (100% data fidelity verified).
 
 ---
 
-## 9. Data-Quality Investigation
+## 9. Data Cleaning and Validation Process
 
-Before importing any data, an automated data-quality audit was executed using [`python/check_data_quality.py`](python/check_data_quality.py). 
+Before importing data, automated profiling scripts inspected all nine CSV files for structural integrity, missing values, and candidate key uniqueness.
 
-The audit evaluated:
-1. **Primary Key Uniqueness**: Verified that candidate key combinations contained zero duplicate values.
-2. **Missing Identifiers**: Verified that required primary key fields contained zero null or blank strings.
+![Data Quality Report](images/data_quality_report.png)
 
-### Key Findings
-- **8 out of 9 tables passed without issues**: `customers`, `orders`, `products`, `sellers`, `category_translation`, `order_items`, and `order_payments` exhibited 100% unique primary keys and 0 missing values.
-- **An anomaly was identified in the reviews dataset**: The candidate natural key `review_id` contained 814 duplicate rows across 99,224 records, requiring detailed forensic investigation.
+*Figure 3: Automated Data Quality Audit Output.*
 
----
-
-## 10. Duplicate Review ID Anomaly & Resolution
-
-A dedicated diagnostic script, [`python/investigate_reviews.py`](python/investigate_reviews.py), was executed to inspect `olist_order_reviews_dataset.csv`.
-
-### Quantitative Findings
-- Total review records: **99,224**
-- Unique `review_id` values: **98,410**
-- `review_id` values occurring more than once: **789**
-- Total excess duplicate rows: **814**
-- **Exact duplicate rows across all columns**: **0**
-- Duplicate IDs associated with a single order: **0**
-- Duplicate IDs associated with multiple distinct orders: **789**
-
-### Root Cause Analysis
-In the Olist platform, when a buyer places a multi-item purchase or orders from multiple sellers in one session, the review system assigns the identical `review_id` to each individual order survey. Because each record points to a distinct `order_id` and has its own review timestamp, these records represent **valid customer feedback**, not corrupted duplicates.
-
-### Architectural Solution
-Using `review_id` as the table's primary key would cause PostgreSQL to reject 814 legitimate reviews due to primary key violations.
-
-**The Solution**:
-Introduced a surrogate auto-incrementing primary key (`review_record_id BIGINT GENERATED ALWAYS AS IDENTITY`), retaining `review_id` as an informational attribute:
-
-```sql
-CREATE TABLE IF NOT EXISTS order_reviews (
-    review_record_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    review_id VARCHAR(50),
-    order_id VARCHAR(50) NOT NULL,
-    review_score INTEGER,
-    review_comment_title TEXT,
-    review_comment_message TEXT,
-    review_creation_date TIMESTAMP,
-    review_answer_timestamp TIMESTAMP,
-
-    CONSTRAINT fk_reviews_orders
-        FOREIGN KEY (order_id)
-        REFERENCES orders(order_id),
-
-    CONSTRAINT chk_review_score
-        CHECK (review_score BETWEEN 1 AND 5)
-);
-```
-
-This structural correction allowed all **99,224** review records to be imported with 100% data preservation and strict relational integrity.
+### Key Validation Findings & Fixes
+1. **Header Normalization**: Two misspelled headers in the raw products CSV were detected and dynamically mapped during stream ingestion:
+   - `product_name_lenght` $\rightarrow$ normalized to `product_name_length`
+   - `product_description_lenght` $\rightarrow$ normalized to `product_description_length`
+2. **Duplicate Review Anomaly Resolution**:
+   - Automated checks revealed that the candidate natural key `review_id` contained **814 duplicate rows** across 99,224 records (**789 distinct review IDs** appearing more than once).
+   - Forensic analysis confirmed that when buyers purchased items across multiple orders in one session, the platform generated the identical `review_id` for distinct order evaluations.
+   - **Resolution**: Enforcing `review_id` as the primary key would have rejected 814 valid reviews. A surrogate primary key (`review_record_id BIGINT GENERATED ALWAYS AS IDENTITY`) was introduced, ensuring **100% of customer reviews** were ingested without data loss.
 
 ---
 
-## 11. Dataset Inspection and Batch Import Process
+## 10. SQL Analysis Categories
 
-### Dynamic Header Normalization
-During inspection ([`python/inspect_dataset.py`](python/inspect_dataset.py)), two typos were detected in the raw products CSV:
-- `product_name_lenght` $\rightarrow$ normalized to `product_name_length`
-- `product_description_lenght` $\rightarrow$ normalized to `product_description_length`
-
-The batch loader dynamically maps these column headers during the ingestion stream.
-
-### Batch ETL Pipeline
-The ingestion pipeline ([`python/import_olist_data.py`](python/import_olist_data.py)) utilizes `psycopg2.extras.execute_values` with a batch size of **2,000 rows**. Empty string fields are parsed as SQL `NULL` values.
+The 39 verified business queries are organized into eight commercial domains:
 
 ```
-Importing olist_customers_dataset.csv -> customers: 99,441 rows
-Importing olist_sellers_dataset.csv -> sellers: 3,095 rows
-Importing product_category_name_translation.csv -> category_translation: 71 rows
-Importing olist_products_dataset.csv -> products: 32,951 rows
-Importing olist_orders_dataset.csv -> orders: 99,441 rows
-Importing olist_order_items_dataset.csv -> order_items: 112,650 rows
-Importing olist_order_payments_dataset.csv -> order_payments: 103,886 rows
-Importing olist_order_reviews_dataset.csv -> order_reviews: 99,224 rows
-Importing olist_geolocation_dataset.csv -> geolocation: 1,000,163 rows
-Total Ingested Records: 1,547,842 rows
+┌────────────────────────────────────────────────────────────────────────┐
+│                        39 SQL BUSINESS ANALYSES                        │
+├───────────────────────────────────┬────────────────────────────────────┤
+│ • Revenue & Sales Analysis (7)    │ • Seller Performance Analysis (2)  │
+│ • Product & Category Metrics (6)  │ • Order & Payment Dynamics (6)     │
+│ • Customer Analytics & LTV (5)    │ • Delivery & Operational SLAs (3)  │
+│ • Customer Satisfaction (2)       │ • Advanced Window Functions (8)    │
+└───────────────────────────────────┴────────────────────────────────────┘
+```
+
+For complete technical documentation of all 39 queries, see [`docs/sql_analysis_documentation.md`](docs/sql_analysis_documentation.md).
+
+---
+
+## 11. SQL Techniques Used
+
+The analytical query suite demonstrates enterprise SQL competency:
+
+- **Aggregations & Grouping**: `SUM()`, `AVG()`, `COUNT(DISTINCT ...)`, multi-column `GROUP BY`, `HAVING`.
+- **Date & Time Intelligence**: `DATE_TRUNC('month', ...)`, `EXTRACT(DOW FROM ...)`, `TO_CHAR()`, timestamp intervals.
+- **Common Table Expressions (CTEs)**: Modular multi-level CTEs for customer lifetime value and order status pipelines.
+- **Complex Multi-Table Joins**: 3-to-5 table joins linking orders, customers, items, products, sellers, and translations.
+- **Window Functions**:
+  - `LAG()` for month-over-month revenue growth and customer repurchase intervals.
+  - `SUM() OVER (ORDER BY ... ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)` for running totals.
+  - `ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...)` for top 3 products per category and purchase sequence numbers.
+  - `RANK()` and `DENSE_RANK()` for state revenue rankings and top-value order rankings.
+  - `AVG() OVER (ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)` for rolling 3-month moving averages.
+
+![SQL Analysis](images/sql_analysis.png)
+
+*Figure 4: Executing Complex SQL Customer & Window Analyses in DBeaver.*
+
+---
+
+## 12. Dashboard Preview
+
+The interactive executive dashboard built in Metabase consolidates commercial KPIs, revenue trajectories, geographic distribution, and operational health:
+
+![Dashboard Preview](images/dashboard_preview.png)
+
+*Figure 5: SalesPulse Interactive Executive Business Intelligence Dashboard.*
+
+---
+
+## 13. Business Insights
+
+The 39 SQL analyses produced five key commercial findings:
+
+![Revenue Analysis](images/revenue_analysis.png)
+
+*Figure 6: Revenue Analytics Execution in DBeaver.*
+
+1. **Delivery Latency Directly Governs Customer Sentiment (The 1.72-Star Penalty)**:
+   - On-time delivered orders average **4.29 / 5.0 stars** (88,163 reviews).
+   - Delayed orders average **2.57 / 5.0 stars** (7,661 reviews).
+   - Package delays trigger a **-1.72 star penalty (-40%)**, proving that logistics execution is the primary driver of negative feedback.
+2. **Severe Repeat Purchase Deficit (96.88% One-Time Buyers)**:
+   - Out of 96,096 unique customer profiles, only **2,997 customers (3.12%)** made more than one order.
+   - **93,099 buyers (96.88%)** made only one purchase, highlighting an untapped opportunity for post-purchase retention marketing.
+3. **Geographic Concentration in Southeast Brazil (63.36% in Top 3 States)**:
+   - São Paulo (`SP`) alone generates **R\$ 5,202,955.05** (**38.28%** of item merchandise revenue).
+   - Combined with Rio de Janeiro (`RJ`, 13.42%) and Minas Gerais (`MG`, 11.66%), the top 3 states capture **63.36%** of all merchandise sales.
+4. **Credit Card Dominance and Installment Financing Culture**:
+   - Credit cards capture **78.34%** of total payment volume (R\$ 12,542,084.19), followed by Boleto Bancário at **17.92%** (R\$ 2,869,361.27). Customers heavily leverage multi-month installments for higher-priced goods.
+5. **Category Power Law Concentration**:
+   - Top 5 categories (`health_beauty`, `watches_gifts`, `bed_bath_table`, `sports_leisure`, `computers_accessories`) generate **R\$ 5,400,679.03**, representing nearly **40%** of all item sales across 71 categories.
+
+*For full strategic recommendations and action plans, see [`docs/business_insights.md`](docs/business_insights.md).*
+
+---
+
+## 14. Repository Structure
+
+```
+SalesPulse-Retail-Business-Analytics/
+│
+├── README.md                           # Main repository documentation
+├── LICENSE                             # MIT License
+├── .gitignore                          # Excludes raw data, credentials, virtualenvs
+├── requirements.txt                    # Project Python dependencies
+├── .env.example                        # Template for database credentials
+│
+├── database/
+│   └── create_tables.sql               # PostgreSQL 17 DDL and index creation script
+│
+├── data/
+│   ├── raw/                            # Directory for source CSV files (git-ignored)
+│   └── processed/                      # Directory for processed datasets (git-ignored)
+│
+├── python/
+│   ├── inspect_dataset.py              # CSV profiling and structure inspector
+│   ├── check_data_quality.py           # Primary key & missing value validator
+│   ├── investigate_reviews.py          # Forensic review ID duplicate diagnostic
+│   └── import_olist_data.py            # High-performance batch ETL loader
+│
+├── sql/
+│   ├── 00_verify_tables.sql            # Table verification query
+│   ├── 01_basic_aggregate_analysis.sql # 19 foundational aggregate analyses (Q1-Q20)
+│   ├── 02_joins_and_cte_analysis.sql   # 10 joins, CTEs, and customer analyses (Q21-Q30)
+│   ├── 03_window_functions.sql         # 10 advanced window function analyses (Q31-Q40)
+│   └── 04_bonus_views_and_pareto.sql   # 4 reusable views, Pareto 80/20 & EXPLAIN
+│
+├── dashboard/
+│   ├── dashboard_overview.md           # Dashboard architecture and KPI layout
+│   ├── dashboard_queries.sql           # SQL queries powering dashboard tiles
+│   └── screenshots/                    # Dashboard preview screenshots
+│
+├── images/
+│   ├── project_architecture.png        # System architecture diagram
+│   ├── dashboard_preview.png           # Metabase BI dashboard screenshot
+│   ├── salespulse_erd.png              # DBeaver Entity-Relationship Diagram
+│   ├── sql_analysis.png                # DBeaver SQL query execution screenshot
+│   ├── revenue_analysis.png            # DBeaver revenue trends query execution
+│   └── data_quality_report.png         # Terminal data quality execution screenshot
+│
+├── reports/
+│   ├── dataset_inspection.txt          # Raw dataset inspection output
+│   ├── data_quality_report.txt         # Automated data quality report
+│   ├── review_duplicate_investigation.txt # Forensic review anomaly analysis
+│   └── repository_audit.md             # Formal repository audit report
+│
+└── docs/
+    ├── project_overview.md             # Business problem, scope, & 6-day roadmap
+    ├── database_schema.md              # Complete relational schema documentation
+    ├── sql_analysis_documentation.md   # Catalog of all SQL analyses & bonus views
+    ├── dashboard_documentation.md      # Metabase setup and visual configuration
+    ├── business_insights.md            # Data-backed insights & recommendations
+    ├── executive_summary.md            # High-level summary for leadership
+    ├── dashboard_walkthrough_script.md # 2-3 minute video walkthrough script
+    └── deployment_guide.md             # Free-tier cloud hosting blueprint
 ```
 
 ---
 
-## 12. Current Project Progress
-
-| Phase | Milestone | Status | Details |
-| :---: | :--- | :---: | :--- |
-| **Day 1** | **Database Architecture & Data Ingestion** | **COMPLETED** | PostgreSQL 17 configured, data-quality profiling, review PK resolution, 1.55M rows loaded, ERD generated. |
-| **Day 2** | **Core Business Metrics & Revenue Analytics** | Planned | SQL queries for GMV, monthly trends, AOV, payment splits. |
-| **Day 3** | **Customer Segmentation & RFM Modeling** | Planned | Customer repeat purchase rates, cohort analysis, RFM segmentation. |
-| **Day 4** | **Logistics & Delivery SLA Performance** | Planned | Estimated vs. actual delivery gap, carrier latency, freight analysis. |
-| **Day 5** | **Product Category & Seller Merchandising** | Planned | Top-selling categories, return rates, seller fulfillment scoring. |
-| **Day 6** | **Interactive BI Dashboard & Executive Briefing** | Planned | Metabase / Power BI dashboard and final portfolio presentation. |
-
----
-
-## 13. Installation & Environment Setup
+## 15. Installation Instructions
 
 ### Prerequisites
 - [Git](https://git-scm.com/)
@@ -238,162 +305,116 @@ git clone https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics.g
 cd SalesPulse-Retail-Business-Analytics
 ```
 
+### Python Virtual Environment Setup
+```bash
+# Windows (PowerShell)
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+
+# macOS / Linux
+python3 -m venv venv
+source venv/bin/activate
+
+# Install required dependencies
+pip install -r requirements.txt
+```
+
 ---
 
-## 14. PostgreSQL Database Setup
+## 16. Database Setup
 
-1. Start your local PostgreSQL service.
-2. Launch `psql` or DBeaver and create the `salespulse` database:
+1. Start your local PostgreSQL 17 service.
+2. Create the `salespulse` database:
    ```sql
    CREATE DATABASE salespulse;
    ```
-3. Execute the schema creation script to build the tables and indexes:
+3. Execute the schema script to create all 9 tables and analytical B-tree indexes:
    ```bash
    psql -U postgres -d salespulse -f database/create_tables.sql
    ```
-
----
-
-## 15. Python Virtual Environment Setup
-
-1. Create and activate a Python virtual environment:
-   ```bash
-   # Windows (PowerShell)
-   python -m venv venv
-   .\venv\Scripts\Activate.ps1
-
-   # macOS / Linux
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-2. Install project dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Set up environment variables:
+4. Configure your local `.env` file from the provided template:
    ```bash
    cp .env.example .env
    ```
-   *Edit `.env` to configure your local PostgreSQL database credentials.*
+   *Edit `.env` to input your local PostgreSQL database credentials.*
 
 ---
 
-## 16. How to Execute Existing Python Scripts
+## 17. How to Run Python Scripts
 
-All scripts run from the project root directory:
+All scripts are executed from the project root directory:
 
 ```bash
 # 1. Inspect raw CSV file structures and column names
 python python/inspect_dataset.py
 
-# 2. Run automated primary key and missing value checks
+# 2. Run automated primary key and missing value audits
 python python/check_data_quality.py
 
-# 3. Investigate the duplicate review ID anomaly
+# 3. Investigate the duplicate review ID phenomenon
 python python/investigate_reviews.py
 
-# 4. Ingest raw CSV data into PostgreSQL tables
+# 4. Ingest raw CSV data into PostgreSQL tables (batch size: 2,000)
 python python/import_olist_data.py
 ```
 
 ---
 
-## 17. How to Run SQL Files
+## 18. How to Execute SQL Analysis
 
 ### Via DBeaver:
 1. Connect to the `salespulse` database.
-2. Open [`sql/00_verify_tables.sql`](sql/00_verify_tables.sql).
-3. Press `Alt + X` to execute the script.
+2. Open any analysis script from `sql/`:
+   - [`sql/00_verify_tables.sql`](sql/00_verify_tables.sql): Schema verification.
+   - [`sql/01_basic_aggregate_analysis.sql`](sql/01_basic_aggregate_analysis.sql): Analyses Q1–Q20.
+   - [`sql/02_joins_and_cte_analysis.sql`](sql/02_joins_and_cte_analysis.sql): Analyses Q21–Q30.
+   - [`sql/03_window_functions.sql`](sql/03_window_functions.sql): Analyses Q31–Q40.
+3. Highlight a query and press `Ctrl + Enter` (or `Alt + X` to run the entire script).
 
 ### Via `psql` CLI:
 ```bash
 psql -U postgres -d salespulse -f sql/00_verify_tables.sql
-```
-
-Expected output:
-```
-       table_name       
-------------------------
- category_translation
- customers
- geolocation
- order_items
- order_payments
- order_reviews
- orders
- products
- sellers
-(9 rows)
+psql -U postgres -d salespulse -f sql/01_basic_aggregate_analysis.sql
+psql -U postgres -d salespulse -f sql/02_joins_and_cte_analysis.sql
+psql -U postgres -d salespulse -f sql/03_window_functions.sql
 ```
 
 ---
 
-## 18. Project Folder Structure
+## 19. Dashboard Setup
 
-```
-SalesPulse-Retail-Business-Analytics/
-│
-├── README.md                           # Main repository overview and documentation
-├── .gitignore                          # Excludes raw data, secrets, environments
-├── .env.example                        # Template for database credentials
-├── requirements.txt                    # Python dependencies
-├── LICENSE                             # MIT License
-│
-├── database/
-│   └── create_tables.sql               # PostgreSQL DDL and index creation script
-│
-├── data/
-│   ├── raw/                            # Directory for source CSV files (git-ignored)
-│   └── processed/                      # Directory for cleaned datasets (git-ignored)
-│
-├── python/
-│   ├── inspect_dataset.py              # CSV profiling and structure inspection
-│   ├── check_data_quality.py           # Primary key & missing value validator
-│   ├── investigate_reviews.py          # Detailed duplicate review ID diagnostic
-│   └── import_olist_data.py            # High-performance batch ETL ingestion script
-│
-├── sql/
-│   └── 00_verify_tables.sql            # Verification query for database tables
-│
-├── reports/
-│   ├── dataset_inspection.txt          # Raw dataset inspection output
-│   ├── data_quality_report.txt         # Automated data quality report
-│   └── review_duplicate_investigation.txt # Forensic review anomaly analysis
-│
-├── images/
-│   └── salespulse_erd.png              # DBeaver-generated Entity-Relationship Diagram
-│
-├── dashboard/                          # Staging directory for future BI assets (Day 6)
-│
-└── docs/
-    ├── project_overview.md             # In-depth business context and 6-day roadmap
-    ├── database_schema.md              # Detailed schema specifications and dictionary
-    └── day1_completion_report.md       # Formal Day 1 milestone verification report
-```
+1. Launch Metabase locally via Docker or standalone JAR:
+   ```bash
+   java -jar metabase.jar
+   # Or using Docker:
+   docker run -d -p 3000:3000 --name salespulse-metabase metabase/metabase:latest
+   ```
+2. Navigate to `http://localhost:3000` and connect to the `salespulse` PostgreSQL database.
+3. Import or execute the queries from [`dashboard/dashboard_queries.sql`](dashboard/dashboard_queries.sql) to populate dashboard cards.
+4. For detailed configuration steps, consult [`docs/dashboard_documentation.md`](docs/dashboard_documentation.md).
 
 ---
 
-## 19. Planned Dashboard and Analytics Features
+## 20. Project Limitations
 
-The upcoming phases will build on this relational foundation:
-- **Executive KPI Dashboard**: Real-time sales velocity, cumulative revenue trends, and dynamic geographic filters.
-- **Logistics Health Matrix**: Carrier delivery SLA compliance tracking and shipping fee vs. distance elasticity.
-- **Customer RFM Segmentation**: Categorizing buyers into Champions, Loyal Customers, At Risk, and Lost segments.
-- **Product Profitability & Review Drivers**: Pinpointing categories with high order volume but low review satisfaction.
+- **Historical Time Horizon**: The Olist public dataset covers historical orders from 2016 through 2018; current macroeconomic shifts and currency inflation adjustments are not reflected.
+- **Geolocation Cardinality**: `olist_geolocation_dataset.csv` contains multiple coordinate entries per ZIP prefix; aggregating coordinate centroids by prefix optimizes spatial queries.
+- **Inventory Visibility**: Real-time stock levels and merchant replenishment lead times are not recorded in the public dataset.
 
 ---
 
-## 20. Project Limitations and Future Improvements
+## 21. Future Improvements
 
-- **Historical Snapshot**: The Olist public dataset covers historical orders from 2016 through 2018; current macroeconomic shifts and currency inflation adjustments are not represented.
-- **Geolocation Cardinality**: The `olist_geolocation_dataset.csv` contains 1,000,163 coordinate entries with duplicate ZIP code prefixes. Planned improvements include aggregating coordinate centroids by ZIP prefix.
-- **Stock & Inventory**: The public dataset does not capture merchant inventory replenishment intervals or out-of-stock events.
+- **Predictive Machine Learning**: Train logistic regression and XGBoost models to predict delivery delays and customer review sentiment at checkout.
+- **Automated Cloud Data Pipeline**: Build automated ingestion DAGs using Apache Airflow or dbt for continuous incremental transformations.
+- **Customer Lifetime Value (CLV) Forecasting**: Implement BG/NBD and Gamma-Gamma probabilistic models to forecast customer lifetime spend.
 
 ---
 
-## Author & Acknowledgments
+## 22. Author and Project Credits
 
-- **Author**: Muhammad Awais
-- **Dataset**: Provided by [Olist](https://www.olist.com/) via [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce).
-- **License**: This project is licensed under the [MIT License](LICENSE).
-
+- **Author**: Muhammad Awais  
+- **GitHub**: [@Awaisbacha55](https://github.com/Awaisbacha55)  
+- **Project Repository**: [SalesPulse-Retail-Business-Analytics](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics)  
+- **Dataset Provider**: [Olist](https://www.olist.com/) via [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)  
+- **License**: Licensed under the [MIT License](LICENSE).
