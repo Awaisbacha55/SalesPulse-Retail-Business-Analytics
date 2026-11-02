@@ -418,3 +418,12 @@ psql -U postgres -d salespulse -f sql/03_window_functions.sql
 - **Project Repository**: [SalesPulse-Retail-Business-Analytics](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics)  
 - **Dataset Provider**: [Olist](https://www.olist.com/) via [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)  
 - **License**: Licensed under the [MIT License](LICENSE).
+
+
+## 🎥 Project Demo Video
+
+Watch the complete SalesPulse project demonstration:
+
+[▶️ Watch SalesPulse Demo on YouTube](https://youtu.be/JfchSQo9VEQ)
+
+In this video, I demonstrate the PostgreSQL database, SQL analysis, database relationships, and interactive Metabase dashboard.
