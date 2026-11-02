@@ -1,13 +1,22 @@
-# SalesPulse — Retail Business Analytics with SQL
+# SalesPulse — Retail Business Analytics with SQL & Next.js
 
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.x-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![DBeaver](https://img.shields.io/badge/DBeaver-Community-382923?logo=dbeaver&logoColor=white)](https://dbeaver.io/)
+[![Next.js 15](https://img.shields.io/badge/Next.js-15.x-black?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19.x-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.x%20%7C%20Neon-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel&logoColor=white)](https://vercel.com/)
 [![Metabase](https://img.shields.io/badge/Metabase-BI%20Dashboard-509EE3?logo=metabase&logoColor=white)](https://www.metabase.com/)
+[![YouTube Walkthrough](https://img.shields.io/badge/YouTube-Video%20Demo-FF0000?logo=youtube&logoColor=white)](https://youtu.be/JfchSQo9VEQ)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![SQL Analytics](https://img.shields.io/badge/SQL%20Analytics-40%2B%20Queries%20%26%20Views-blueviolet)]()
 
-> An enterprise-grade retail business analytics and data engineering project modeling 100,000+ Brazilian e-commerce orders, resolving real-world data quality anomalies, executing 40+ commercial SQL analyses and saved views in PostgreSQL 17, and delivering an interactive executive Business Intelligence dashboard.
+> An enterprise-grade retail business analytics platform modeling 100,000+ Brazilian e-commerce orders. Features **PostgreSQL 17** / **Neon Serverless PostgreSQL**, 40+ commercial SQL analyses and saved views, a **Next.js 15 + React 19 + Recharts** interactive analytics dashboard deployable to **Vercel**, and an executive **Metabase BI Dashboard**.
+
+📺 **Video Walkthrough**: [Watch the SalesPulse Dashboard Demo on YouTube (2:45)](https://youtu.be/JfchSQo9VEQ)  
+🚀 **Deployment Guide**: [Step-by-step Vercel + Neon Cloud Deployment Guide](DEPLOYMENT.md)  
+📖 **Data Dictionary**: [Complete Relational Schema & 9-Table Catalog](DATA_DICTIONARY.md)
+
+---
 
 ## Table of Contents
 
@@ -18,36 +27,41 @@
 5. [Dataset Information](#5-dataset-information)
 6. [Technology Stack](#6-technology-stack)
 7. [System Architecture](#7-system-architecture)
-8. [Database Structure and ERD](#8-database-structure-and-erd)
+8. [Database Structure and Data Dictionary](#8-database-structure-and-data-dictionary)
 9. [Data Cleaning and Validation Process](#9-data-cleaning-and-validation-process)
 10. [SQL Analysis Categories](#10-sql-analysis-categories)
 11. [SQL Techniques Used](#11-sql-techniques-used)
-12. [Dashboard Preview](#12-dashboard-preview)
-13. [Business Insights](#13-business-insights)
-14. [Repository Structure](#14-repository-structure)
-15. [Installation Instructions](#15-installation-instructions)
-16. [Database Setup](#16-database-setup)
-17. [How to Run Python Scripts](#17-how-to-run-python-scripts)
-18. [How to Execute SQL Analysis](#18-how-to-execute-sql-analysis)
-19. [Dashboard Setup](#19-dashboard-setup)
-20. [Project Limitations](#20-project-limitations)
-21. [Future Improvements](#21-future-improvements)
-22. [Author and Project Credits](#22-author-and-project-credits)
+12. [Next.js Interactive Web Dashboard](#12-nextjs-interactive-web-dashboard)
+13. [Metabase BI Dashboard](#13-metabase-bi-dashboard)
+14. [Business Insights & Executive Recommendations](#14-business-insights--executive-recommendations)
+15. [Repository Structure](#15-repository-structure)
+16. [Installation & Local Setup](#16-installation--local-setup)
+17. [Database Setup & Data Ingestion](#17-database-setup--data-ingestion)
+18. [Executing SQL Analyses](#18-executing-sql-analyses)
+19. [Running the Next.js Dashboard Locally](#19-running-the-nextjs-dashboard-locally)
+20. [Deploying to Vercel](#20-deploying-to-vercel)
+21. [Project Limitations & Future Improvements](#21-project-limitations--future-improvements)
+22. [Author & Credits](#22-author--credits)
 
 ---
 
 ## 1. Project Title
 
-**SalesPulse — Retail Business Analytics with SQL**  
-*A comprehensive retail intelligence data warehouse and analytical platform modeling the Brazilian e-commerce ecosystem.*
+**SalesPulse — Retail Business Analytics with SQL & Next.js**  
+*A complete retail intelligence warehouse and interactive web analytics application modeling the Brazilian e-commerce ecosystem.*
 
 ---
 
 ## 2. Project Overview
 
-**SalesPulse** is an end-to-end data engineering and retail business intelligence solution developed using **PostgreSQL 17**, **Python 3.12**, and **Metabase**. Based on the real-world **Brazilian E-Commerce Public Dataset by Olist**, the project models the full customer transaction lifecycle across **99,441 orders** and **1,547,842 total relational records** placed between 2016 and 2018.
+**SalesPulse** is an end-to-end retail business intelligence and analytics solution powered by **PostgreSQL 17 / Neon Serverless PostgreSQL**, **Python 3.12**, **Next.js 15**, and **Metabase**. Built using the real-world **Brazilian E-Commerce Public Dataset by Olist**, the project models the full customer transaction lifecycle across **99,441 orders** and **1,547,842 total relational records** placed between 2016 and 2018.
 
-The repository takes raw, unstructured CSV datasets through pre-ingestion profiling, relational schema design, primary key anomaly resolution, batch ETL ingestion, 39 deep diagnostic SQL analyses, and interactive visual dashboards.
+Key highlights of the solution:
+- **Relational Data Warehouse**: 9 normalized tables and 4 reusable analytical views in PostgreSQL.
+- **Enterprise SQL Suite**: 39 verified business queries answering revenue, customer, product, and logistics questions.
+- **Modern Full-Stack Dashboard (`salespulse-dashboard/`)**: Built with **Next.js 15 App Router**, **React 19**, **TypeScript**, **Tailwind CSS**, and **Recharts**, connecting directly to **Neon PostgreSQL** via server-side connection pooling.
+- **Executive BI Dashboard**: Metabase dashboard featuring interactive KPI scorecards, date filters, and SLA correlation charts.
+- **Evidence-Based Recommendations**: 5 empirical insights and 3 actionable business strategies to optimize delivery SLA, improve repeat rates, and capture regional demand.
 
 ---
 
@@ -68,8 +82,9 @@ Olist operates a major marketplace integrator connecting small and medium-sized 
 1. **Relational Data Architecture**: Transform nine disparate flat CSV datasets into a normalized, high-performance PostgreSQL 17 relational database with strict primary/foreign key constraints and analytical B-tree indexing.
 2. **Data Integrity & Anomaly Resolution**: Detect and resolve real-world data quality anomalies—specifically non-unique natural keys in customer reviews and misspelled column headers.
 3. **Deep Commercial Analytics**: Author and execute 39 verified business queries answering strategic questions across revenue growth, customer segmentation, seller performance, and operational SLAs.
-4. **Interactive BI Dashboards**: Build an executive Metabase dashboard featuring scorecards, time-series velocity trends, geographic penetration maps, and SLA correlation charts.
-5. **Actionable Recommendations**: Translate query findings into data-backed strategic interventions for executive management.
+4. **Interactive Web Dashboard**: Build and deploy an enterprise Next.js 15 web application with serverless database connectivity, parameterized SQL caching, and responsive charts.
+5. **Interactive BI Dashboards**: Build an executive Metabase dashboard featuring scorecards, time-series velocity trends, geographic penetration maps, and SLA correlation charts.
+6. **Actionable Recommendations**: Translate query findings into data-backed strategic interventions for executive management.
 
 ---
 
@@ -86,19 +101,24 @@ Olist operates a major marketplace integrator connecting small and medium-sized 
 
 | Domain | Technology / Tool | Version | Purpose |
 | :--- | :--- | :--- | :--- |
-| **Database** | PostgreSQL | 17.x | Relational schema modeling, ACID transactions, B-tree indexing |
-| **SQL Client** | DBeaver Community | 24.x+ | Database administration, query execution, ERD generation |
-| **Data Scripting** | Python | 3.12 | Pre-ingestion profiling, data-quality auditing, batch ETL loader |
-| **DB Driver** | psycopg2-binary | 2.9.x | High-throughput batch streaming into PostgreSQL |
-| **Config Isolation**| python-dotenv | 1.0.x | Secure local environment variable isolation |
-| **Business Intel** | Metabase | Latest OSS | Interactive executive dashboard, KPI cards, visual charts |
-| **Version Control** | Git / GitHub | Latest | Source code tracking, documentation engineering |
+| **Frontend Framework** | Next.js (App Router) | 15.x | Server-side rendering, API routes, fast edge delivery |
+| **UI Library** | React | 19.x | Component lifecycle, hooks, reactive state management |
+| **Language** | TypeScript | 5.x | Strict end-to-end type safety for data models and APIs |
+| **Styling** | Tailwind CSS | 3.4.x | Utility-first responsive styling and dark/light accents |
+| **Data Visualization** | Recharts | 2.15.x | Responsive SVG charts (Area, Bar, Donut, Multi-line) |
+| **Iconography** | Lucide React | Latest | Clean, consistent modern UI icons |
+| **Database** | PostgreSQL / Neon | 17.x | Relational warehousing, ACID transactions, SSL pooling |
+| **DB Client Driver** | `pg` / `psycopg2` | Latest | Serverless connection pooling and batch ETL ingestion |
+| **BI Tool** | Metabase | Latest OSS | Self-service executive analytics and embedded dashboards |
+| **Cloud Hosting** | Vercel | Free Tier | Global edge deployment with zero-config Next.js hosting |
+| **Scripting / ETL** | Python | 3.12 | Pre-ingestion profiling, quality validation, ETL loader |
+| **SQL Administration** | DBeaver Community | 24.x+ | Visual querying, EXPLAIN ANALYZE, ERD generation |
 
 ---
 
 ## 7. System Architecture
 
-The high-level end-to-end architecture from raw CSV data ingestion to PostgreSQL warehousing and Metabase visual analytics:
+The high-level end-to-end architecture from raw CSV data ingestion to PostgreSQL warehousing, Next.js web application, and Metabase visual analytics:
 
 ![Project Architecture](images/project_architecture.png)
 
@@ -106,7 +126,7 @@ The high-level end-to-end architecture from raw CSV data ingestion to PostgreSQL
 
 ---
 
-## 8. Database Structure and ERD
+## 8. Database Structure and Data Dictionary
 
 The database schema is organized into a hybrid star/snowflake relational model centered around the `orders` fact entity, linked to `customers`, `order_items`, `order_payments`, `order_reviews`, `products`, `sellers`, `category_translation`, and `geolocation`.
 
@@ -128,7 +148,8 @@ The database schema is organized into a hybrid star/snowflake relational model c
 | **8** | `order_reviews` | `review_record_id` *(Surrogate PK)* | `order_id` $\rightarrow$ `orders` | 99,224 | Customer ratings (1-5), review comments, timestamps |
 | **9** | `geolocation` | `geolocation_id` *(Identity PK)* | — | 1,000,163 | Brazilian geographic coordinates by ZIP code prefix |
 
-**Total Verified Records**: **1,547,842 rows** (100% data fidelity verified).
+**Total Verified Records**: **1,547,842 rows** (100% data fidelity verified).  
+*For complete column-level definitions, constraints, and data types, refer to [`DATA_DICTIONARY.md`](DATA_DICTIONARY.md).*
 
 ---
 
@@ -191,53 +212,120 @@ The analytical query suite demonstrates enterprise SQL competency:
 
 ---
 
-## 12. Dashboard Preview
+## 12. Next.js Interactive Web Dashboard
 
-The interactive executive dashboard built in Metabase consolidates commercial KPIs, revenue trajectories, geographic distribution, and operational health:
+Located in the [`salespulse-dashboard/`](salespulse-dashboard/) directory, the Next.js web application provides an interactive, executive analytics dashboard designed for live public deployment on Vercel:
 
-![Dashboard Preview](images/dashboard_preview.png)
-
-*Figure 5: SalesPulse Interactive Executive Business Intelligence Dashboard.*
+### Key Application Features
+- **Real-Time Database Connectivity**: Connects to Neon Serverless PostgreSQL with SSL encryption and connection pooling (`lib/db.ts`).
+- **Interactive Global Filters**: Filter by date range (2016-2018), Brazilian state (e.g., `SP`, `RJ`, `MG`), and English product category with instant state propagation.
+- **Live Recharts Visualizations**:
+  - **Monthly Revenue & MoM Velocity**: Area chart and dual-axis growth velocity.
+  - **Top Categories Horizontal Bar Chart**: Top categories by GMV and units sold.
+  - **State Revenue Geographic Chart**: Highlighting Southeast corridor dominance.
+  - **Customer Retention Donut**: Visualizing 96.9% one-time vs. 3.1% repeat buyers.
+  - **Logistics SLA vs. CSAT Rating Chart**: Visualizing the -1.72 star drop on delayed orders.
+  - **Pareto 80/20 Distribution Card**: Top 20% SKU revenue contribution.
+- **Seven Dedicated Analytical Pages**:
+  1. `/` — Executive Overview with 8 live KPI scorecards.
+  2. `/revenue` — Monthly revenue trajectory, AOV trend line, and monthly ledger table.
+  3. `/products` — Category rankings, Pareto 80/20 analysis, and top revenue items.
+  4. `/customers` — Buyer retention donut, average repurchase gap (86.4 days), and top customer lifetime values.
+  5. `/regions` — Geographic state distribution and regional revenue shares.
+  6. `/delivery` — Delivery transit averages, on-time SLA rate (91.89%), and worst-case delay table.
+  7. `/insights` — 5 empirical data findings and 3 prioritized strategic recommendations.
 
 ---
 
-## 13. Business Insights
+## 13. Metabase BI Dashboard
 
-The 39 SQL analyses produced five key commercial findings:
+The project includes a production-grade Metabase BI dashboard:
+
+![Dashboard Preview](images/dashboard_preview.png)
+
+*Figure 5: SalesPulse Interactive Metabase Business Intelligence Dashboard.*
+
+- **Video Demonstration**: [Watch the Metabase Dashboard Demo on YouTube](https://youtu.be/JfchSQo9VEQ)
+- **Verified Baseline Metrics**:
+  - **Total Revenue**: R\$ 13,591,643.70 (Merchandise GMV)
+  - **Total Orders**: 99,441
+  - **Average Order Value (AOV)**: R\$ 137.75
+  - **Total Unique Customers**: 96,096
+  - **Average Delivery Duration**: 12.6 Days
+  - **On-Time Delivery Rate**: 91.89%
+
+---
+
+## 14. Business Insights & Executive Recommendations
+
+The 39 SQL analyses and dashboard analytics produced five critical empirical findings and three strategic recommendations:
 
 ![Revenue Analysis](images/revenue_analysis.png)
 
 *Figure 6: Revenue Analytics Execution in DBeaver.*
 
-1. **Delivery Latency Directly Governs Customer Sentiment (The 1.72-Star Penalty)**:
-   - On-time delivered orders average **4.29 / 5.0 stars** (88,163 reviews).
-   - Delayed orders average **2.57 / 5.0 stars** (7,661 reviews).
-   - Package delays trigger a **-1.72 star penalty (-40%)**, proving that logistics execution is the primary driver of negative feedback.
+### 5 Empirical Findings
+1. **Logistics SLA vs. Customer Review Rating (-1.72 Star Penalty)**:
+   - On-time orders average **4.29 / 5.0 stars** (88,649 orders).
+   - Delayed orders drop to **2.57 / 5.0 stars** (8,199 orders), representing a **-40.1% collapse** in satisfaction.
 2. **Severe Repeat Purchase Deficit (96.88% One-Time Buyers)**:
-   - Out of 96,096 unique customer profiles, only **2,997 customers (3.12%)** made more than one order.
-   - **93,099 buyers (96.88%)** made only one purchase, highlighting an untapped opportunity for post-purchase retention marketing.
-3. **Geographic Concentration in Southeast Brazil (63.36% in Top 3 States)**:
-   - São Paulo (`SP`) alone generates **R\$ 5,202,955.05** (**38.28%** of item merchandise revenue).
-   - Combined with Rio de Janeiro (`RJ`, 13.42%) and Minas Gerais (`MG`, 11.66%), the top 3 states capture **63.36%** of all merchandise sales.
-4. **Credit Card Dominance and Installment Financing Culture**:
-   - Credit cards capture **78.34%** of total payment volume (R\$ 12,542,084.19), followed by Boleto Bancário at **17.92%** (R\$ 2,869,361.27). Customers heavily leverage multi-month installments for higher-priced goods.
-5. **Category Power Law Concentration**:
-   - Top 5 categories (`health_beauty`, `watches_gifts`, `bed_bath_table`, `sports_leisure`, `computers_accessories`) generate **R\$ 5,400,679.03**, representing nearly **40%** of all item sales across 71 categories.
+   - Only **2,997 of 96,096 customers (3.12%)** made a second order.
+   - The average repurchase interval is **86.4 days**.
+3. **Extreme Geographic Concentration in Southeast Brazil (63.36% Share)**:
+   - São Paulo (`SP`) generates **R\$ 5.20M (38.28%)**, Rio de Janeiro (`RJ`) **R\$ 1.69M (12.44%)**, and Minas Gerais (`MG`) **R\$ 1.58M (11.64%)**.
+4. **Credit Card Dominance and Installment Financing**:
+   - Credit cards capture **73.9%** of payments (R\$ 12.54M), followed by Boleto Bancário (**19.0%**). Over **52%** of credit transactions use multi-month installments.
+5. **Top 5 Product Category Pareto Dominance**:
+   - Top 5 of 73 categories generate **36.8%** of total revenue (`bed_bath_table`, `health_beauty`, `computers_accessories`, `furniture_decor`, `sports_leisure`).
 
-*For full strategic recommendations and action plans, see [`docs/business_insights.md`](docs/business_insights.md).*
+### 3 Actionable Executive Recommendations
+1. **Automated Carrier SLA Exception Triggers**: Deploy automated carrier webhook triggers. When an order is 48 hours from estimated delivery and still in transit, trigger a proactive SMS/email apology and a 10% voucher to mitigate 1-star reviews.
+2. **86-Day Customer Retention Lifecycle Flow**: Capitalize on the 86.4-day average repurchase window by sending triggered email replenishment recommendations between Days 60 and 75, targeting a 2x increase in repeat customer rate.
+3. **Regional 3PL Micro-Fulfillment in Northern Corridors**: Pre-stock top 20 Pareto SKUs in regional fulfillment hubs in Salvador or Recife to slash 20+ day shipping delays and capture underserved regional demand.
+
+*For complete details, see [`docs/business_insights.md`](docs/business_insights.md) and [`docs/executive_summary.md`](docs/executive_summary.md).*
 
 ---
 
-## 14. Repository Structure
+## 15. Repository Structure
 
 ```
 SalesPulse-Retail-Business-Analytics/
 │
-├── README.md                           # Main repository documentation
+├── README.md                           # Main repository documentation & guide
+├── DEPLOYMENT.md                       # Vercel & Neon PostgreSQL deployment guide
+├── DATA_DICTIONARY.md                  # Comprehensive schema & column data dictionary
 ├── LICENSE                             # MIT License
 ├── .gitignore                          # Excludes raw data, credentials, virtualenvs
 ├── requirements.txt                    # Project Python dependencies
 ├── .env.example                        # Template for database credentials
+│
+├── salespulse-dashboard/               # Next.js 15 Full-Stack Web Application
+│   ├── app/                            # App Router (pages & API routes)
+│   │   ├── api/                        # Serverless SQL API endpoints (/overview, /revenue, etc.)
+│   │   ├── revenue/                    # Revenue analytics page
+│   │   ├── products/                   # Products & Pareto analysis page
+│   │   ├── customers/                  # Customer lifecycle page
+│   │   ├── regions/                    # Regional distribution page
+│   │   ├── delivery/                   # Logistics SLA page
+│   │   ├── insights/                   # 5 Insights & 3 Recommendations page
+│   │   ├── layout.tsx                  # Root layout with Client Providers
+│   │   └── page.tsx                    # Executive Overview page
+│   ├── components/                     # Reusable UI components
+│   │   ├── charts/                     # Recharts components (Area, Bar, Donut, SLA)
+│   │   ├── filters/                    # FilterBar & React Context Provider
+│   │   ├── header/                     # Top bar with Neon DB status badge
+│   │   ├── kpi/                        # Metric cards with loading states
+│   │   ├── layout/                     # Responsive DashboardShell
+│   │   └── sidebar/                    # Dark navy sidebar navigation
+│   ├── lib/                            # Database pool (pg) and SQL queries
+│   │   ├── db.ts                       # Neon SSL PostgreSQL pool singleton
+│   │   ├── formatters.ts               # Currency (BRL), percentages, numbers
+│   │   └── queries/analytics.ts        # Parameterized SQL query suite
+│   ├── types/dashboard.ts              # TypeScript domain interfaces
+│   ├── package.json                    # Dashboard dependencies
+│   ├── tsconfig.json                   # TypeScript configuration
+│   └── tailwind.config.ts              # Tailwind CSS configuration
 │
 ├── database/
 │   └── create_tables.sql               # PostgreSQL 17 DDL and index creation script
@@ -264,38 +352,39 @@ SalesPulse-Retail-Business-Analytics/
 │   ├── dashboard_queries.sql           # SQL queries powering dashboard tiles
 │   └── screenshots/                    # Dashboard preview screenshots
 │
-├── images/
-│   ├── project_architecture.png        # System architecture diagram
-│   ├── dashboard_preview.png           # Metabase BI dashboard screenshot
-│   ├── salespulse_erd.png              # DBeaver Entity-Relationship Diagram
-│   ├── sql_analysis.png                # DBeaver SQL query execution screenshot
-│   ├── revenue_analysis.png            # DBeaver revenue trends query execution
-│   └── data_quality_report.png         # Terminal data quality execution screenshot
+├── images/                             # Architectural, ERD, and SQL execution screenshots
+│   ├── project_architecture.png
+│   ├── dashboard_preview.png
+│   ├── salespulse_erd.png
+│   ├── sql_analysis.png
+│   ├── revenue_analysis.png
+│   └── data_quality_report.png
 │
-├── reports/
-│   ├── dataset_inspection.txt          # Raw dataset inspection output
-│   ├── data_quality_report.txt         # Automated data quality report
-│   ├── review_duplicate_investigation.txt # Forensic review anomaly analysis
-│   └── repository_audit.md             # Formal repository audit report
+├── reports/                            # Automated profiling & forensic reports
+│   ├── dataset_inspection.txt
+│   ├── data_quality_report.txt
+│   ├── review_duplicate_investigation.txt
+│   └── repository_audit.md
 │
-└── docs/
-    ├── project_overview.md             # Business problem, scope, & 6-day roadmap
-    ├── database_schema.md              # Complete relational schema documentation
-    ├── sql_analysis_documentation.md   # Catalog of all SQL analyses & bonus views
-    ├── dashboard_documentation.md      # Metabase setup and visual configuration
-    ├── business_insights.md            # Data-backed insights & recommendations
-    ├── executive_summary.md            # High-level summary for leadership
-    ├── dashboard_walkthrough_script.md # 2-3 minute video walkthrough script
-    └── deployment_guide.md             # Free-tier cloud hosting blueprint
+└── docs/                               # Formal engineering & analytics documentation
+    ├── project_overview.md
+    ├── database_schema.md
+    ├── sql_analysis_documentation.md
+    ├── dashboard_documentation.md
+    ├── business_insights.md
+    ├── executive_summary.md
+    ├── dashboard_walkthrough_script.md
+    └── deployment_guide.md
 ```
 
 ---
 
-## 15. Installation Instructions
+## 16. Installation & Local Setup
 
 ### Prerequisites
 - [Git](https://git-scm.com/)
-- [PostgreSQL 17](https://www.postgresql.org/download/)
+- [PostgreSQL 17](https://www.postgresql.org/download/) or a free [Neon](https://neon.tech/) account
+- [Node.js 18+ or 20+](https://nodejs.org/)
 - [Python 3.12+](https://www.python.org/)
 - [DBeaver Community](https://dbeaver.io/)
 
@@ -305,7 +394,7 @@ git clone https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics.g
 cd SalesPulse-Retail-Business-Analytics
 ```
 
-### Python Virtual Environment Setup
+### Python Virtual Environment Setup (For ETL Scripts)
 ```bash
 # Windows (PowerShell)
 python -m venv venv
@@ -321,9 +410,9 @@ pip install -r requirements.txt
 
 ---
 
-## 16. Database Setup
+## 17. Database Setup & Data Ingestion
 
-1. Start your local PostgreSQL 17 service.
+1. Start your local PostgreSQL service or provision a Neon Serverless instance.
 2. Create the `salespulse` database:
    ```sql
    CREATE DATABASE salespulse;
@@ -332,89 +421,94 @@ pip install -r requirements.txt
    ```bash
    psql -U postgres -d salespulse -f database/create_tables.sql
    ```
-4. Configure your local `.env` file from the provided template:
+4. Configure your `.env` file from the provided template:
    ```bash
    cp .env.example .env
    ```
-   *Edit `.env` to input your local PostgreSQL database credentials.*
-
----
-
-## 17. How to Run Python Scripts
-
-All scripts are executed from the project root directory:
-
-```bash
-# 1. Inspect raw CSV file structures and column names
-python python/inspect_dataset.py
-
-# 2. Run automated primary key and missing value audits
-python python/check_data_quality.py
-
-# 3. Investigate the duplicate review ID phenomenon
-python python/investigate_reviews.py
-
-# 4. Ingest raw CSV data into PostgreSQL tables (batch size: 2,000)
-python python/import_olist_data.py
-```
-
----
-
-## 18. How to Execute SQL Analysis
-
-### Via DBeaver:
-1. Connect to the `salespulse` database.
-2. Open any analysis script from `sql/`:
-   - [`sql/00_verify_tables.sql`](sql/00_verify_tables.sql): Schema verification.
-   - [`sql/01_basic_aggregate_analysis.sql`](sql/01_basic_aggregate_analysis.sql): Analyses Q1–Q20.
-   - [`sql/02_joins_and_cte_analysis.sql`](sql/02_joins_and_cte_analysis.sql): Analyses Q21–Q30.
-   - [`sql/03_window_functions.sql`](sql/03_window_functions.sql): Analyses Q31–Q40.
-3. Highlight a query and press `Ctrl + Enter` (or `Alt + X` to run the entire script).
-
-### Via `psql` CLI:
-```bash
-psql -U postgres -d salespulse -f sql/00_verify_tables.sql
-psql -U postgres -d salespulse -f sql/01_basic_aggregate_analysis.sql
-psql -U postgres -d salespulse -f sql/02_joins_and_cte_analysis.sql
-psql -U postgres -d salespulse -f sql/03_window_functions.sql
-```
-
----
-
-## 19. Dashboard Setup
-
-1. Launch Metabase locally via Docker or standalone JAR:
+5. Run the automated data quality checks and batch ingestion ETL:
    ```bash
-   java -jar metabase.jar
-   # Or using Docker:
-   docker run -d -p 3000:3000 --name salespulse-metabase metabase/metabase:latest
+   python python/check_data_quality.py
+   python python/investigate_reviews.py
+   python python/import_olist_data.py
    ```
-2. Navigate to `http://localhost:3000` and connect to the `salespulse` PostgreSQL database.
-3. Import or execute the queries from [`dashboard/dashboard_queries.sql`](dashboard/dashboard_queries.sql) to populate dashboard cards.
-4. For detailed configuration steps, consult [`docs/dashboard_documentation.md`](docs/dashboard_documentation.md).
 
 ---
 
-## 20. Project Limitations
+## 18. Executing SQL Analyses
+
+Connect using DBeaver or run directly via `psql`:
+
+```bash
+# 1. Verify all 9 tables and record counts
+psql -U postgres -d salespulse -f sql/00_verify_tables.sql
+
+# 2. Foundational aggregate queries (Q1 - Q20)
+psql -U postgres -d salespulse -f sql/01_basic_aggregate_analysis.sql
+
+# 3. Joins, CTEs, and customer analytics (Q21 - Q30)
+psql -U postgres -d salespulse -f sql/02_joins_and_cte_analysis.sql
+
+# 4. Advanced window functions (Q31 - Q40)
+psql -U postgres -d salespulse -f sql/03_window_functions.sql
+
+# 5. Create 4 reusable views and run Pareto 80/20 analysis
+psql -U postgres -d salespulse -f sql/04_bonus_views_and_pareto.sql
+```
+
+---
+
+## 19. Running the Next.js Dashboard Locally
+
+```bash
+# 1. Navigate to dashboard directory
+cd salespulse-dashboard
+
+# 2. Copy the environment template
+cp .env.example .env.local
+
+# 3. Add your database connection string to .env.local:
+# DATABASE_URL=postgresql://user:password@host/salespulse?sslmode=require
+
+# 4. Install dependencies
+npm install
+
+# 5. Start the development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 20. Deploying to Vercel
+
+The dashboard is configured for free-tier deployment on Vercel:
+
+1. Push your repository to GitHub.
+2. Sign in to [Vercel](https://vercel.com) and click **Import Project**.
+3. Select `Awaisbacha55/SalesPulse-Retail-Business-Analytics`.
+4. In **Project Settings**, set **Root Directory** to `salespulse-dashboard`.
+5. Under **Environment Variables**, add:
+   - `DATABASE_URL`: Your Neon PostgreSQL connection string (with `?sslmode=require`).
+6. Click **Deploy**.
+
+For complete step-by-step instructions and troubleshooting, see [`DEPLOYMENT.md`](DEPLOYMENT.md).
+
+---
+
+## 21. Project Limitations & Future Improvements
 
 - **Historical Time Horizon**: The Olist public dataset covers historical orders from 2016 through 2018; current macroeconomic shifts and currency inflation adjustments are not reflected.
 - **Geolocation Cardinality**: `olist_geolocation_dataset.csv` contains multiple coordinate entries per ZIP prefix; aggregating coordinate centroids by prefix optimizes spatial queries.
-- **Inventory Visibility**: Real-time stock levels and merchant replenishment lead times are not recorded in the public dataset.
+- **Machine Learning Integration**: Future roadmap includes training XGBoost models to predict delivery delays and forecast customer churn risk.
 
 ---
 
-## 21. Future Improvements
-
-- **Predictive Machine Learning**: Train logistic regression and XGBoost models to predict delivery delays and customer review sentiment at checkout.
-- **Automated Cloud Data Pipeline**: Build automated ingestion DAGs using Apache Airflow or dbt for continuous incremental transformations.
-- **Customer Lifetime Value (CLV) Forecasting**: Implement BG/NBD and Gamma-Gamma probabilistic models to forecast customer lifetime spend.
-
----
-
-## 22. Author and Project Credits
+## 22. Author & Credits
 
 - **Author**: Muhammad Awais  
 - **GitHub**: [@Awaisbacha55](https://github.com/Awaisbacha55)  
 - **Project Repository**: [SalesPulse-Retail-Business-Analytics](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics)  
+- **Demonstration Video**: [YouTube Walkthrough](https://youtu.be/JfchSQo9VEQ)  
 - **Dataset Provider**: [Olist](https://www.olist.com/) via [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)  
 - **License**: Licensed under the [MIT License](LICENSE).
