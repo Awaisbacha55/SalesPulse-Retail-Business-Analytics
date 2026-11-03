@@ -10,9 +10,11 @@ The SalesPulse analytical engine comprises **39 verified distinct business analy
 | [`sql/01_basic_aggregate_analysis.sql`](../sql/01_basic_aggregate_analysis.sql) | Q1–Q10, Q12–Q20 | Aggregations, Grouping, Financial Totals, Seasonality | 19 |
 | [`sql/02_joins_and_cte_analysis.sql`](../sql/02_joins_and_cte_analysis.sql) | Q21–Q30 | Multi-Table Joins, CTEs, Customer Lifetime Value, Delivery Delays | 10 |
 | [`sql/03_window_functions.sql`](../sql/03_window_functions.sql) | Q31–Q40 | Window Functions (`LAG`, `SUM OVER`, `ROW_NUMBER`, `DENSE_RANK`, Moving Avg) | 10 |
-| **TOTAL** | **Q1–Q40** | **Comprehensive Business Intelligence Suite** | **39 Analyses + 1 Verification** |
+| [`sql/04_bonus_views_and_pareto.sql`](../sql/04_bonus_views_and_pareto.sql) | Q41–Q42 + Views | Reusable Production Views, Pareto (80/20), Performance Profiling | 4 Views + 3 Queries |
+| [`sql/05_join_validation.sql`](../sql/05_join_validation.sql) | Part A–F | Explicit Join Validation, Cartesian Multiplier Proof, Safe Pre-Agg CTEs | 9 Validation Queries |
+| **TOTAL** | **Q1–Q42 + Audit Suite** | **Comprehensive Business Intelligence & QA Suite** | **42 Analyses + Views & QA Audits** |
 
-*Note: In `sql/01_basic_aggregate_analysis.sql`, query numbering advances from Question 10 to Question 12 (Question 11 is not present). The actual count of unique business analyses is exactly 39.*
+*Note: In `sql/01_basic_aggregate_analysis.sql`, query numbering advances from Question 10 to Question 12 (Question 11 is not present). The actual count of unique business analyses is exactly 39, supplemented by 4 production views, 2 Pareto analyses, query profiling, and a complete 9-query join validation audit suite.*
 
 ---
 
@@ -351,5 +353,143 @@ The SalesPulse analytical engine comprises **39 verified distinct business analy
 - **Source File**: `sql/04_bonus_views_and_pareto.sql`
 - **Demonstration**: Benchmarking `idx_orders_customer` on `orders(customer_id)`.
 - **Execution Impact**: Index scan reduces query execution from a sequential table scan (~99k rows evaluated, ~15ms) down to a direct index bitmap heap scan (<0.08ms), achieving a **180x query speedup** on customer order lookups.
+
+---
+
+## 11. Quality Assurance: Explicit Join Validation & Safe Aggregation Architecture
+
+### Overview and Purpose
+A primary architectural risk in transactional e-commerce analytics is **join multiplication (fan-out)** caused by combining multiple 1-to-many child tables (`order_items`, `order_payments`) directly to a parent table (`orders`). Script [`sql/05_join_validation.sql`](../sql/05_join_validation.sql) provides comprehensive, reproducible verification proving that SalesPulse calculations prevent metric inflation and maintain mathematical grain integrity.
+
+---
+
+### Part A: Independent Base Table Baselines
+Before evaluating join behavior, baseline row counts and financial totals were established independently directly from the underlying PostgreSQL tables:
+
+| Table Name | Row Count | Distinct Orders | Primary Metric | Baseline Value | Grain / Notes |
+| :--- | :---: | :---: | :--- | :---: | :--- |
+| `orders` | **99,441** | **99,441** | Order Count | 99,441 | 1 row per order (`order_id` is PK) |
+| `order_items` | **112,650** | **98,666** | Merchandise GMV (`SUM(price)`) | **R$ 13,591,643.70** | 1 row per item (`order_item_id` 1, 2, ...) |
+| `order_items` | **112,650** | **98,666** | Freight (`SUM(freight_value)`) | **R$ 2,251,909.54** | Average 1.14 items per order |
+| `order_payments` | **103,886** | **99,440** | Payment Volume (`SUM(payment_value)`) | **R$ 16,008,872.12** | 1 row per payment split/installment |
+
+#### Relational Cardinality & Orphan Record Analysis
+- **Orders without Items**: Exactly **775 orders** in `orders` have no corresponding records in `order_items`. These represent orders canceled, unavailable, or refunded prior to warehouse fulfillment.
+- **Orders without Payments**: Exactly **1 order** (`bfbd0f9bdef84302105ad712db648a6c`) in `orders` has no corresponding record in `order_payments` (canceled order with 3 items totaling R$ 134.97).
+
+---
+
+### Part B: Orders and order_items Join Validation (1-to-Many)
+- **Relationship**: 1 parent order to 1 or more line items (`1:N`).
+- **Validation Query**: Compares base `order_items` against `orders INNER JOIN order_items` and `orders LEFT JOIN order_items`.
+
+| Stage | Row Count | Distinct Orders | Merchandise GMV | Freight Value | Grain Integrity Status |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Base `order_items`** | 112,650 | 98,666 | R$ 13,591,643.70 | R$ 2,251,909.54 | Baseline |
+| **`orders INNER JOIN order_items`** | 112,650 | 98,666 | R$ 13,591,643.70 | R$ 2,251,909.54 | **0.00% variance (Exact)** |
+| **`orders LEFT JOIN order_items`** | 113,425 | 99,441 | R$ 13,591,643.70 | R$ 2,251,909.54 | **0.00% variance (Exact)** |
+
+#### Key Insights:
+1. **Why Rows Expand from 99,441 to 112,650**: Multi-item baskets expand the order grain to the item grain.
+2. **Why GMV Does Not Inflate**: Because `orders.order_id` is a primary key, each item matches exactly one parent order. No duplicate item prices are introduced.
+3. **INNER vs. LEFT JOIN**: The INNER JOIN yields 112,650 rows (excludes the 775 orders with no items). The LEFT JOIN preserves all 99,441 orders (112,650 item rows + 775 orders with NULL item values = 113,425 rows) while returning the exact same GMV of R$ 13,591,643.70.
+
+---
+
+### Part C: Orders and order_payments Join Validation (1-to-Many)
+- **Relationship**: 1 parent order to 1 or more payment records (`1:N`).
+- **Validation Query**: Compares base `order_payments` against `orders INNER JOIN order_payments` and `orders LEFT JOIN order_payments`.
+
+| Stage | Row Count | Distinct Orders | Total Payment Value | Grain Integrity Status |
+| :--- | :---: | :---: | :---: | :--- |
+| **Base `order_payments`** | 103,886 | 99,440 | R$ 16,008,872.12 | Baseline |
+| **`orders INNER JOIN order_payments`** | 103,886 | 99,440 | R$ 16,008,872.12 | **0.00% variance (Exact)** |
+| **`orders LEFT JOIN order_payments`** | 103,887 | 99,441 | R$ 16,008,872.12 | **0.00% variance (Exact)** |
+
+#### Key Insights:
+1. **Why Rows Expand from 99,441 to 103,886**: Split-tender transactions (vouchers + credit cards) create multiple payment records per order.
+2. **Why Payment Value Does Not Inflate**: Each payment record joins to exactly one order row in `orders`. Total payment volume remains exactly R$ 16,008,872.12.
+
+---
+
+### Part D: Demonstrating Join Multiplication (The Cartesian Explosion Trap)
+When an analyst naively writes a 3-way join:
+```sql
+FROM orders o
+INNER JOIN order_items oi ON o.order_id = oi.order_id
+INNER JOIN order_payments op ON o.order_id = op.order_id
+```
+A severe mathematical error occurs: for every order with $M$ items and $N$ payment splits, the query produces an $M \times N$ Cartesian product for that order!
+
+#### Macro-Level Dollar Inflation (PostgreSQL 17 Actual Data):
+| Metric | True Base Total | Naive 3-Way Join Total | Artificial Inflation (BRL) | Inflation Percentage |
+| :--- | :---: | :---: | :---: | :---: |
+| **Total Rows** | 112,650 items / 103,886 pmts | **117,601 rows** | +4,951 rows | +4.39% row fan-out |
+| **Merchandise GMV** | **R$ 13,591,643.70** | **R$ 14,209,115.34** | **+ R$ 617,471.64** | **+ 4.54% false revenue** |
+| **Logistics Freight** | **R$ 2,251,909.54** | **R$ 2,357,428.51** | **+ R$ 105,518.97** | **+ 4.69% false logistics** |
+| **Payment Volume** | **R$ 16,008,872.12** | **R$ 20,308,134.71** | **+ R$ 4,299,262.59** | **+ 26.86% false payments** |
+
+#### Micro-Level Evidence: Case Study of Order `895ab968e7bb0d5659d16cd74cd1650c`
+- **True Base Records**:
+  - `order_items`: 3 items (Prices: R$ 12.99, R$ 12.99, R$ 83.80; True Order GMV = **R$ 109.78**).
+  - `order_payments`: 21 voucher installments (True Order Payment = **R$ 161.32**).
+- **In Naive 3-Way Join**:
+  - Row fan-out: $3 \times 21 =$ **63 rows generated** for this single order!
+  - `SUM(price)` becomes: $21 \times \text{R\$} 109.78 =$ **R$ 2,305.38** (**2,100% inflation!**).
+  - `SUM(payment_value)` becomes: $3 \times \text{R\$} 161.32 =$ **R$ 483.96** (**300% inflation!**).
+
+---
+
+### Part E: Recommended Safe Aggregation Strategy (Pre-Aggregation via CTEs)
+To analyze order items and payments together without corruption, each 1-to-many child table must be **pre-aggregated to the `order_id` grain in dedicated CTEs before joining to `orders`**:
+
+```sql
+WITH item_agg AS (
+    -- Collapse 112,650 line items down to 98,666 distinct orders (1:1 grain)
+    SELECT
+        order_id,
+        COUNT(order_item_id) AS total_items,
+        SUM(price) AS order_merchandise_gmv,
+        SUM(freight_value) AS order_freight_value
+    FROM public.order_items
+    GROUP BY order_id
+),
+payment_agg AS (
+    -- Collapse 103,886 payment records down to 99,440 distinct orders (1:1 grain)
+    SELECT
+        order_id,
+        COUNT(payment_sequential) AS total_payment_records,
+        SUM(payment_value) AS order_payment_value
+    FROM public.order_payments
+    GROUP BY order_id
+)
+SELECT
+    COUNT(*) AS total_rows,
+    COUNT(DISTINCT o.order_id) AS distinct_orders,
+    ROUND(SUM(COALESCE(ia.order_merchandise_gmv, 0))::NUMERIC, 2) AS verified_merchandise_gmv,
+    ROUND(SUM(COALESCE(ia.order_freight_value, 0))::NUMERIC, 2) AS verified_freight_value,
+    ROUND(SUM(COALESCE(pa.order_payment_value, 0))::NUMERIC, 2) AS verified_payment_value
+FROM public.orders o
+LEFT JOIN item_agg ia ON o.order_id = ia.order_id
+LEFT JOIN payment_agg pa ON o.order_id = pa.order_id;
+```
+
+#### Verification Results:
+- **Total Output Rows**: **99,441** (Exactly matches the parent `orders` table; 1 row per order).
+- **Distinct Orders**: **99,441** (0 duplicates).
+- **Verified Merchandise GMV**: **R$ 13,591,643.70** (Exact 0.00% variance vs base table).
+- **Verified Logistics Freight**: **R$ 2,251,909.54** (Exact 0.00% variance vs base table).
+- **Verified Payment Volume**: **R$ 16,008,872.12** (Exact 0.00% variance vs base table).
+
+---
+
+### Part F: Master Side-by-Side Validation Audit Matrix
+
+| Evaluation Method | Total Rows | Distinct Orders | Merchandise GMV (BRL) | Payment Volume (BRL) | Revenue Variance | Audit Status |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **1. Ground Truth (Base Tables)** | 99,441 | 99,441 | R$ 13,591,643.70 | R$ 16,008,872.12 | 0.00% | **Baseline Ground Truth** |
+| **2. Naive 3-Way Direct Join** | 117,601 | 98,665 | R$ 14,209,115.34 | R$ 20,308,134.71 | **+4.54% GMV / +26.86% Payments** | **FAIL: Corrupted by Cartesian Fan-Out** |
+| **3. Pre-Aggregated CTE Strategy** | 99,441 | 99,441 | R$ 13,591,643.70 | R$ 16,008,872.12 | **0.00% (R$ 0.00 error)** | **PASS: Production Certified** |
+
 
 
