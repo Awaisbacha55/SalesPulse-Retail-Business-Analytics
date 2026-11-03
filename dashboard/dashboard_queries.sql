@@ -62,6 +62,7 @@ FROM delivery_status;
 
 -- Visual 1: Monthly Revenue Velocity & Order Volume
 -- Time series chart displaying monthly financial trajectory and order counts
+-- Note: Excludes incomplete months (September and October 2018) to ensure consistent date boundaries
 SELECT
     DATE_TRUNC('month', o.order_purchase_timestamp) AS sales_month,
     ROUND(SUM(p.payment_value)::NUMERIC, 2) AS monthly_revenue,
@@ -70,12 +71,14 @@ FROM public.orders o
 INNER JOIN public.order_payments p
     ON o.order_id = p.order_id
 WHERE o.order_status = 'delivered'
+  AND o.order_purchase_timestamp < '2018-09-01'
 GROUP BY DATE_TRUNC('month', o.order_purchase_timestamp)
 ORDER BY sales_month;
 
 
 -- Visual 2: Month-over-Month Revenue Growth Percentage
 -- Evaluates growth acceleration across consecutive months
+-- Note: Excludes incomplete months (September and October 2018) so LAG compares complete months
 WITH monthly_sales AS (
     SELECT
         DATE_TRUNC('month', o.order_purchase_timestamp) AS sales_month,
@@ -84,6 +87,7 @@ WITH monthly_sales AS (
     INNER JOIN public.order_payments p
         ON o.order_id = p.order_id
     WHERE o.order_status = 'delivered'
+      AND o.order_purchase_timestamp < '2018-09-01'
     GROUP BY 1
 ),
 growth_calc AS (

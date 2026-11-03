@@ -2,6 +2,8 @@
 -- Q31. MONTH-OVER-MONTH REVENUE GROWTH
 -- Business Question:
 -- How much does monthly product sales revenue grow or decline?
+-- Note: Excludes incomplete months (September and October 2018) so LAG compares
+-- complete consecutive calendar months and prevents artificial declines.
 
 WITH monthly_revenue AS (
     SELECT
@@ -10,6 +12,7 @@ WITH monthly_revenue AS (
     FROM public.orders o
     INNER JOIN public.order_items oi
         ON o.order_id = oi.order_id
+    WHERE o.order_purchase_timestamp < '2018-09-01'
     GROUP BY 1
 ),
 revenue_comparison AS (
@@ -35,6 +38,7 @@ ORDER BY sales_month;
 -- Q32. RUNNING TOTAL OF MONTHLY REVENUE
 -- Business Question:
 -- How does cumulative product sales revenue increase over time?
+-- Note: Excludes incomplete months (September and October 2018) for accurate cumulative trajectory.
 
 WITH monthly_revenue AS (
     SELECT
@@ -43,6 +47,7 @@ WITH monthly_revenue AS (
     FROM public.orders o
     INNER JOIN public.order_items oi
         ON o.order_id = oi.order_id
+    WHERE o.order_purchase_timestamp < '2018-09-01'
     GROUP BY 1
 )
 SELECT
@@ -128,6 +133,7 @@ ORDER BY revenue_rank;
 -- Q35. THREE-MONTH MOVING AVERAGE REVENUE
 -- Business Question:
 -- What is the average revenue over the current and previous two months?
+-- Note: Excludes incomplete months (September and October 2018) to prevent trend distortions.
 
 WITH monthly_revenue AS (
     SELECT
@@ -136,6 +142,7 @@ WITH monthly_revenue AS (
     FROM public.orders o
     INNER JOIN public.order_items oi
         ON o.order_id = oi.order_id
+    WHERE o.order_purchase_timestamp < '2018-09-01'
     GROUP BY 1
 )
 SELECT

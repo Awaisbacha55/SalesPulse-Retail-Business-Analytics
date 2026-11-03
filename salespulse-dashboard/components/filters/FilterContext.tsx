@@ -17,7 +17,7 @@ const defaultOptions: FilterOptions = {
   states: [],
   categories: [],
   minDate: "2016-09-04",
-  maxDate: "2018-10-17",
+  maxDate: "2018-08-31",
 };
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);

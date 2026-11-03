@@ -200,7 +200,12 @@ export async function getOverviewMetrics(filters: FilterParams = {}): Promise<Ov
 export async function getMonthlyRevenueTrend(
   filters: FilterParams = {}
 ): Promise<MonthlyRevenuePoint[]> {
+  // Exclude incomplete months (September and October 2018 with only 20 orders total)
+  // to ensure consistent complete-month trend analysis and avoid false -99% MoM drops.
   const { whereClause, params } = buildSqlFilters(filters);
+  const cutoffClause = whereClause
+    ? `${whereClause} AND o.order_purchase_timestamp < '2018-09-01'`
+    : `WHERE o.order_purchase_timestamp < '2018-09-01'`;
 
   const res = await query<{
     sales_month: string;
@@ -220,7 +225,7 @@ export async function getMonthlyRevenueTrend(
       INNER JOIN public.order_items oi ON o.order_id = oi.order_id
       LEFT JOIN public.products p ON oi.product_id = p.product_id
       LEFT JOIN public.category_translation ct ON p.product_category_name = ct.product_category_name
-      ${whereClause}
+      ${cutoffClause}
       GROUP BY DATE_TRUNC('month', o.order_purchase_timestamp)
     ),
     growth_calc AS (
@@ -726,7 +731,7 @@ export async function getFilterOptions(): Promise<{
   const datesRes = await query<{ min_date: string; max_date: string }>(`
     SELECT
       TO_CHAR(MIN(order_purchase_timestamp), 'YYYY-MM-DD') AS min_date,
-      TO_CHAR(MAX(order_purchase_timestamp), 'YYYY-MM-DD') AS max_date
+      TO_CHAR(MAX(order_purchase_timestamp) FILTER (WHERE order_purchase_timestamp < '2018-09-01'), 'YYYY-MM-DD') AS max_date
     FROM public.orders
     WHERE order_purchase_timestamp IS NOT NULL;
   `);
@@ -735,7 +740,7 @@ export async function getFilterOptions(): Promise<{
     states: statesRes.rows.map((r) => r.customer_state),
     categories: categoriesRes.rows.map((r) => r.category),
     minDate: datesRes.rows[0]?.min_date || "2016-09-04",
-    maxDate: datesRes.rows[0]?.max_date || "2018-10-17",
+    maxDate: datesRes.rows[0]?.max_date || "2018-08-31",
   };
 }
 

@@ -49,14 +49,18 @@ The dashboard is structured into four functional tiers:
 All visual tiles are powered by the SQL queries cataloged in [`dashboard/dashboard_queries.sql`](dashboard_queries.sql):
 
 ### Tier 1: Executive KPI Scorecard
-1. **Total Platform Revenue**: `R$ 16,008,872.12` (~16.01M BRL) across historical transactions.
-2. **Total Paid Orders**: `99,440` completed orders.
-3. **Average Order Value (AOV)**: `R$ 160.99` per customer order.
-4. **On-Time Delivery SLA**: `91.89%` of delivered packages arrived on or before promised estimated dates.
+The analytics platform clearly delineates two distinct commercial revenue definitions:
+- **Merchandise GMV**: `R$ 13,591,643.70` — Calculated as `SUM(order_items.price)`, representing pure product merchandise sales across the entire dataset (112,650 line items across 98,666 orders). When scoped to complete operational months (`< '2018-09-01'`), cumulative merchandise revenue equals `R$ 13,591,498.70` (112,649 items across 98,665 orders); the exact R$ 145.00 difference is accounted for by 1 shipped order in September 2018 (`order_id: 54282e97f61c23b78330c15b154c867d`).
+- **Delivered Payment Revenue**: `R$ 15,422,461.77` — Calculated as `SUM(order_payments.payment_value)` for `order_status = 'delivered'`, representing total customer payments (item value + freight fees) collected on delivered orders.
+- **Total Platform Payment Volume**: `R$ 16,008,872.12` (~16.01M BRL) across all historical payment transactions (`SUM(order_payments.payment_value)`).
+- **Total Paid Orders**: `99,440` completed orders with confirmed payments (`99,441` total platform orders).
+- **Average Order Value (AOV)**: `R$ 160.99` per paid order (`R$ 137.75` for pure merchandise basket size).
+- **On-Time Delivery SLA**: `91.89%` of delivered packages arrived on or before promised estimated dates.
 
 ### Tier 2: Revenue Velocity & Seasonality
 - **Monthly Sales Trend Line**: Tracks revenue acceleration from October 2016 through August 2018, highlighting Black Friday peaks in November 2017 (`R$ 1,194,482.80`).
 - **Month-over-Month Growth**: Bar visual detailing percentage swings to pinpoint seasonal demand contractions and expansion periods.
+- **Incomplete Months Cutoff Policy**: All monthly trend charts enforce August 2018 as the final calendar month (`order_purchase_timestamp < '2018-09-01'`). September and October 2018 contain only 20 orders total due to dataset truncation, so excluding them prevents artificial drops and ensures genuine business trend representation.
 - **Day of Week Purchasing Heatmap**: Reveals purchase concentration on Mondays and Tuesdays, tapering off on weekends.
 
 ### Tier 3: Merchandising & Product Analytics

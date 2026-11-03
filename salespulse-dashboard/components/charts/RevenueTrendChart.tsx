@@ -36,7 +36,7 @@ export function RevenueTrendChart({ data, loading }: RevenueTrendChartProps) {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-sm font-bold text-slate-800">Monthly Revenue Trajectory</h3>
-          <p className="text-xs text-slate-500">Gross sales velocity across transaction months</p>
+          <p className="text-xs text-slate-500">Gross sales velocity across complete calendar months (through August 2018)</p>
         </div>
       </div>
 

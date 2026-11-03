@@ -258,26 +258,35 @@ FROM order_items_count;
 
 -- BUSINESS QUESTION 15:
 -- What is the monthly order volume?
+-- Note: Excludes incomplete months (September and October 2018) for accurate trend analysis.
 
 SELECT
     DATE_TRUNC('month', order_purchase_timestamp) AS sales_month,
     COUNT(*) AS total_orders
 FROM orders
+WHERE order_purchase_timestamp < '2018-09-01'
 GROUP BY DATE_TRUNC('month', order_purchase_timestamp)
 ORDER BY sales_month;
 
 
 -- BUSINESS QUESTION 16:
 -- What is the monthly freight and shipping cost?
+-- Note: Excludes incomplete months (September and October 2018) for accurate trend analysis.
+-- Disambiguation:
+--   - average_freight_per_item = AVG(oi.freight_value) across all line items (e.g., R$ 20.51 in August 2018 across 7,248 items).
+--   - average_freight_per_order = SUM(freight) / COUNT(DISTINCT orders) across customer orders (e.g., R$ 23.04 in August 2018 across 6,452 orders).
 
 SELECT
     DATE_TRUNC('month', o.order_purchase_timestamp) AS sales_month,
     COUNT(DISTINCT oi.order_id) AS total_orders,
+    COUNT(oi.order_item_id) AS total_items,
     ROUND(SUM(oi.freight_value)::NUMERIC, 2) AS total_freight,
-    ROUND(AVG(oi.freight_value)::NUMERIC, 2) AS average_freight_per_item
+    ROUND(AVG(oi.freight_value)::NUMERIC, 2) AS average_freight_per_item,
+    ROUND((SUM(oi.freight_value) / NULLIF(COUNT(DISTINCT oi.order_id), 0))::NUMERIC, 2) AS average_freight_per_order
 FROM orders o
 JOIN order_items oi
     ON o.order_id = oi.order_id
+WHERE o.order_purchase_timestamp < '2018-09-01'
 GROUP BY DATE_TRUNC('month', o.order_purchase_timestamp)
 ORDER BY sales_month;
 

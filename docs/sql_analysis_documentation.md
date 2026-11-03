@@ -222,10 +222,10 @@ The SalesPulse analytical engine comprises **39 verified distinct business analy
 
 ### Analysis Q16: Monthly Freight and Logistics Costs
 - **Source File**: `sql/01_basic_aggregate_analysis.sql`
-- **Business Question**: How do monthly freight costs and average shipping fees per item fluctuate over time?
-- **SQL Techniques**: `DATE_TRUNC()`, `SUM(freight_value)`, `AVG(freight_value)`.
+- **Business Question**: How do monthly freight costs and average shipping fees fluctuate over time?
+- **SQL Techniques**: `DATE_TRUNC()`, `COUNT(DISTINCT order_id)`, `SUM(freight_value)`, `AVG(freight_value)`, `SUM(freight) / COUNT(DISTINCT order_id)`.
 - **Tables Involved**: `orders`, `order_items`
-- **Business Interpretation**: Monitors shipping fee stability, ensuring carrier contract renegotiations keep logistics inflation in check.
+- **Business Interpretation**: Monitors shipping fee stability across complete operational months (`order_purchase_timestamp < '2018-09-01'`). Disambiguates average freight: in August 2018 (6,452 orders, 7,248 line items, R$ 148,622.14 total freight), the per-item freight fee is **R$ 20.51** (`AVG(oi.freight_value)` across 7,248 items), while the average freight paid per customer order is **R$ 23.04** (R$ 148,622.14 / 6,452 orders). Multi-item orders account for the spread between per-item and per-order freight.
 
 ### Analysis Q25: Orders Experiencing Longest Delivery Delays
 - **Source File**: `sql/02_joins_and_cte_analysis.sql`
@@ -268,6 +268,7 @@ The SalesPulse analytical engine comprises **39 verified distinct business analy
 - **Business Question**: What is the monthly rate of product sales revenue growth or decline?
 - **SQL Techniques**: `DATE_TRUNC()`, `LAG(revenue) OVER (ORDER BY sales_month)`, percentage delta calculation.
 - **Tables Involved**: `orders`, `order_items`
+- **Incomplete Months Handling**: Incomplete trailing months (September and October 2018, containing only 20 orders total) are excluded before calculating `LAG()` so that percentage growth reflects complete, consecutive calendar months through August 2018 and prevents an artificial -99.98% collapse.
 - **Business Interpretation**: Quantifies commercial momentum month-over-month, highlighting post-holiday contractions and promotional demand spikes.
 
 ### Analysis Q32: Running Cumulative Total of Monthly Revenue
@@ -275,7 +276,9 @@ The SalesPulse analytical engine comprises **39 verified distinct business analy
 - **Business Question**: How does cumulative platform sales revenue increase over time?
 - **SQL Techniques**: `SUM(revenue) OVER (ORDER BY sales_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)`.
 - **Tables Involved**: `orders`, `order_items`
-- **Business Interpretation**: Produces the milestone financial curve showing platform scaling from zero to over R\$ 13.5M in merchandise item value.
+- **Incomplete Months Handling**: Excludes incomplete trailing months (`order_purchase_timestamp < '2018-09-01'`) to maintain an accurate cumulative sales trajectory through August 2018, reaching **R$ 13,591,498.70** (112,649 items across 98,665 orders).
+- **Scope Reconciliation with All-Time GMV**: The full unconstrained dataset contains **R$ 13,591,643.70** (112,650 items across 98,666 orders). The exact R$ 145.00 difference is accounted for by 1 single order in September 2018 (`order_id: 54282e97f61c23b78330c15b154c867d`, status `shipped`, price `R$ 145.00`) before dataset collection ceased.
+- **Business Interpretation**: Produces the milestone financial curve showing platform scaling from zero to over R\$ 13.59M in merchandise item value across complete operational months.
 
 ### Analysis Q33: Top 3 Products in Each Category
 - **Source File**: `sql/03_window_functions.sql`

@@ -60,7 +60,7 @@ export default function RevenuePage() {
   return (
     <DashboardShell
       title="Revenue Analytics"
-      subtitle="Financial performance, monthly sales growth trajectory, and basket sizes"
+      subtitle="Financial performance, monthly sales growth trajectory, and basket sizes (complete calendar months through August 2018)"
     >
       {/* Summary KPI Highlights */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
