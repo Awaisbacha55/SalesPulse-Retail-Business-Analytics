@@ -239,6 +239,7 @@ ORDER BY customer_state, state_order_rank;
 -- Q38. CATEGORY MONTHLY REVENUE AND RUNNING TOTAL
 -- Business Question:
 -- How does each product category's cumulative revenue change over time?
+-- Note: Excludes incomplete months (September and October 2018) for accurate category trajectory.
 
 WITH category_monthly_revenue AS (
     SELECT
@@ -256,6 +257,7 @@ WITH category_monthly_revenue AS (
         ON oi.product_id = p.product_id
     LEFT JOIN public.category_translation ct
         ON p.product_category_name = ct.product_category_name
+    WHERE o.order_purchase_timestamp < '2018-09-01'
     GROUP BY 1, 2
 )
 SELECT
@@ -303,6 +305,7 @@ ORDER BY total_payment_value DESC;
 -- Q40. RANK SELLERS BY MONTHLY REVENUE
 -- Business Question:
 -- Which sellers perform best each month?
+-- Note: Excludes incomplete months (September and October 2018) for consistent monthly comparisons.
 
 WITH seller_monthly_revenue AS (
     SELECT
@@ -312,6 +315,7 @@ WITH seller_monthly_revenue AS (
     FROM public.orders o
     INNER JOIN public.order_items oi
         ON o.order_id = oi.order_id
+    WHERE o.order_purchase_timestamp < '2018-09-01'
     GROUP BY 1, 2
 ),
 ranked_sellers AS (

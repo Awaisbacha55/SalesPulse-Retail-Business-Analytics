@@ -322,48 +322,76 @@ LEFT JOIN payment_agg pa
 -- ==============================================================================
 -- Conclusive comparison table demonstrating the accuracy of the CTE pre-aggregation
 -- strategy alongside raw unjoined base tables and naive direct joins.
+-- Dynamically calculates all metrics from the underlying tables with zero hardcoding.
 
+WITH base_truth AS (
+    SELECT
+        (SELECT COUNT(*) FROM public.orders) AS base_orders,
+        (SELECT COUNT(DISTINCT order_id) FROM public.orders) AS base_distinct_orders,
+        (SELECT ROUND(SUM(price)::NUMERIC, 2) FROM public.order_items) AS base_gmv,
+        (SELECT ROUND(SUM(freight_value)::NUMERIC, 2) FROM public.order_items) AS base_freight,
+        (SELECT ROUND(SUM(payment_value)::NUMERIC, 2) FROM public.order_payments) AS base_payment
+),
+naive_join AS (
+    SELECT
+        COUNT(*) AS total_rows,
+        COUNT(DISTINCT o.order_id) AS distinct_orders,
+        ROUND(SUM(oi.price)::NUMERIC, 2) AS merchandise_gmv,
+        ROUND(SUM(oi.freight_value)::NUMERIC, 2) AS freight_value,
+        ROUND(SUM(op.payment_value)::NUMERIC, 2) AS payment_volume
+    FROM public.orders o
+    INNER JOIN public.order_items oi ON o.order_id = oi.order_id
+    INNER JOIN public.order_payments op ON o.order_id = op.order_id
+),
+preagg_cte AS (
+    SELECT
+        COUNT(*) AS total_rows,
+        COUNT(DISTINCT o.order_id) AS distinct_orders,
+        ROUND(SUM(COALESCE(ia.order_merchandise_gmv, 0))::NUMERIC, 2) AS merchandise_gmv,
+        ROUND(SUM(COALESCE(ia.order_freight_value, 0))::NUMERIC, 2) AS freight_value,
+        ROUND(SUM(COALESCE(pa.order_payment_value, 0))::NUMERIC, 2) AS payment_volume
+    FROM public.orders o
+    LEFT JOIN (
+        SELECT order_id, SUM(price) AS order_merchandise_gmv, SUM(freight_value) AS order_freight_value
+        FROM public.order_items GROUP BY order_id
+    ) ia ON o.order_id = ia.order_id
+    LEFT JOIN (
+        SELECT order_id, SUM(payment_value) AS order_payment_value
+        FROM public.order_payments GROUP BY order_id
+    ) pa ON o.order_id = pa.order_id
+)
 SELECT
     '1. Ground Truth (Base Tables)' AS method,
-    99441 AS total_rows,
-    99441 AS distinct_orders,
-    13591643.70 AS merchandise_gmv,
-    2251909.54 AS freight_value,
-    16008872.12 AS payment_volume,
+    bt.base_orders AS total_rows,
+    bt.base_distinct_orders AS distinct_orders,
+    bt.base_gmv AS merchandise_gmv,
+    bt.base_freight AS freight_value,
+    bt.base_payment AS payment_volume,
     0.00 AS gmv_inflation_pct,
     'Baseline (Exact)' AS audit_status
+FROM base_truth bt
 UNION ALL
 SELECT
     '2. Naive 3-Way Direct Join' AS method,
-    COUNT(*) AS total_rows,
-    COUNT(DISTINCT o.order_id) AS distinct_orders,
-    ROUND(SUM(oi.price)::NUMERIC, 2) AS merchandise_gmv,
-    ROUND(SUM(oi.freight_value)::NUMERIC, 2) AS freight_value,
-    ROUND(SUM(op.payment_value)::NUMERIC, 2) AS payment_volume,
-    ROUND(((SUM(oi.price) - 13591643.70) / 13591643.70 * 100)::NUMERIC, 2) AS gmv_inflation_pct,
+    nj.total_rows,
+    nj.distinct_orders,
+    nj.merchandise_gmv,
+    nj.freight_value,
+    nj.payment_volume,
+    ROUND(((nj.merchandise_gmv - bt.base_gmv) / bt.base_gmv * 100)::NUMERIC, 2) AS gmv_inflation_pct,
     'FAIL: Cartesian Inflation (+R$ 617k GMV, +R$ 4.3M Payments)' AS audit_status
-FROM public.orders o
-INNER JOIN public.order_items oi ON o.order_id = oi.order_id
-INNER JOIN public.order_payments op ON o.order_id = op.order_id
+FROM naive_join nj, base_truth bt
 UNION ALL
 SELECT
     '3. Pre-Aggregated CTE (Production Standard)' AS method,
-    COUNT(*) AS total_rows,
-    COUNT(DISTINCT o.order_id) AS distinct_orders,
-    ROUND(SUM(COALESCE(ia.order_merchandise_gmv, 0))::NUMERIC, 2) AS merchandise_gmv,
-    ROUND(SUM(COALESCE(ia.order_freight_value, 0))::NUMERIC, 2) AS freight_value,
-    ROUND(SUM(COALESCE(pa.order_payment_value, 0))::NUMERIC, 2) AS payment_volume,
-    0.00 AS gmv_inflation_pct,
+    pc.total_rows,
+    pc.distinct_orders,
+    pc.merchandise_gmv,
+    pc.freight_value,
+    pc.payment_volume,
+    ROUND(((pc.merchandise_gmv - bt.base_gmv) / bt.base_gmv * 100)::NUMERIC, 2) AS gmv_inflation_pct,
     'PASS: 100% Mathematically Exact' AS audit_status
-FROM public.orders o
-LEFT JOIN (
-    SELECT order_id, SUM(price) AS order_merchandise_gmv, SUM(freight_value) AS order_freight_value
-    FROM public.order_items GROUP BY order_id
-) ia ON o.order_id = ia.order_id
-LEFT JOIN (
-    SELECT order_id, SUM(payment_value) AS order_payment_value
-    FROM public.order_payments GROUP BY order_id
-) pa ON o.order_id = pa.order_id;
+FROM preagg_cte pc, base_truth bt;
 
 -- ==============================================================================
 -- END OF SCRIPT: 05_join_validation.sql

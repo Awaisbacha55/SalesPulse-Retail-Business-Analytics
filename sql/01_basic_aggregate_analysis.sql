@@ -18,6 +18,7 @@ FROM order_revenue;
 
 -- Business Question 2:
 -- How much revenue did the business generate each month?
+-- Note: Excludes incomplete trailing months (September and October 2018) for complete calendar month trend accuracy.
 
 SELECT
     DATE_TRUNC('month', o.order_purchase_timestamp) AS sales_month,
@@ -26,6 +27,7 @@ SELECT
 FROM orders o
 INNER JOIN order_payments p
     ON o.order_id = p.order_id
+WHERE o.order_purchase_timestamp < '2018-09-01'
 GROUP BY DATE_TRUNC('month', o.order_purchase_timestamp)
 ORDER BY sales_month;
 
@@ -128,6 +130,7 @@ ORDER BY total_payment_value DESC;
 
 -- Business Question 8:
 -- How much revenue does each product category generate monthly?
+-- Note: Excludes incomplete trailing months (September and October 2018) for complete calendar month trend accuracy.
 
 SELECT
     DATE_TRUNC('month', o.order_purchase_timestamp) AS sales_month,
@@ -146,6 +149,7 @@ INNER JOIN products p
     ON oi.product_id = p.product_id
 LEFT JOIN category_translation ct
     ON p.product_category_name = ct.product_category_name
+WHERE o.order_purchase_timestamp < '2018-09-01'
 GROUP BY
     DATE_TRUNC('month', o.order_purchase_timestamp),
     ct.product_category_name_english,
