@@ -106,3 +106,9 @@ The dashboard is configured with four global filter parameters:
    - **Password**: `[Your local password]`
 4. Import or execute the queries from [`dashboard/dashboard_queries.sql`](dashboard_queries.sql) and assemble the visual cards onto a shared dashboard canvas.
 
+---
+
+## 6. Live Dashboard Access & Public Demonstration
+
+- **YouTube Video Walkthrough**: [Watch SalesPulse Demo on YouTube](https://youtu.be/JfchSQo9VEQ)
+- **Metabase Public Dashboard Link**: `[METABASE_PUBLIC_DASHBOARD_URL_PLACEHOLDER]` *(To enable public access in your Metabase instance: navigate to Dashboard Settings → Sharing and Embedding → Enable Public Sharing → Copy Public Link).*

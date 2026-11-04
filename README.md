@@ -8,396 +8,608 @@
 [![Metabase](https://img.shields.io/badge/Metabase-BI%20Dashboard-509EE3?logo=metabase&logoColor=white)](https://www.metabase.com/)
 [![YouTube Walkthrough](https://img.shields.io/badge/YouTube-Video%20Demo-FF0000?logo=youtube&logoColor=white)](https://youtu.be/JfchSQo9VEQ)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![SQL Analytics](https://img.shields.io/badge/SQL%20Analytics-40%2B%20Queries%20%26%20Views-blueviolet)]()
+[![SQL Analytics](https://img.shields.io/badge/SQL%20Analytics-56%20Queries%20%26%20Views-blueviolet)]()
 
-> An enterprise-grade retail business analytics platform modeling 100,000+ Brazilian e-commerce orders. Features **PostgreSQL 17** / **Neon Serverless PostgreSQL**, 40+ commercial SQL analyses and saved views, a **Next.js 15 + React 19 + Recharts** interactive analytics dashboard deployable to **Vercel**, and an executive **Metabase BI Dashboard**.
+> An enterprise-grade retail business analytics platform modeling 100,000+ Brazilian e-commerce orders. Features **PostgreSQL 17** / **Neon Serverless PostgreSQL**, 56 commercial SQL analyses, join validation proofs, and saved views, a modern **Next.js 15 + React 19 + Recharts** interactive analytics dashboard, and an executive **Metabase BI Dashboard**.
 
-📺 **Video Walkthrough**: [Watch the SalesPulse Dashboard Demo on YouTube (2:45)](https://youtu.be/JfchSQo9VEQ)  
-🚀 **Deployment Guide**: [Step-by-step Vercel + Neon Cloud Deployment Guide](DEPLOYMENT.md)  
+📺 **Video Demonstration**: [Watch SalesPulse Project Demo on YouTube (2:45)](https://youtu.be/JfchSQo9VEQ)
+🚀 **Deployment Guide**: [Step-by-Step Vercel + Neon Cloud Deployment Guide](DEPLOYMENT.md)
 📖 **Data Dictionary**: [Complete Relational Schema & 9-Table Catalog](DATA_DICTIONARY.md)
+📊 **Executive Summary**: [C-Suite Business Insights & Recommendations](docs/executive_summary.md)
 
 ---
 
-## Table of Contents
+## 3. Table of Contents
 
-1. [Project Title](#1-project-title)
-2. [Project Overview](#2-project-overview)
-3. [Business Problem](#3-business-problem)
-4. [Project Objectives](#4-project-objectives)
-5. [Dataset Information](#5-dataset-information)
-6. [Technology Stack](#6-technology-stack)
+1. [Project Title and Overview](#1-project-title-and-overview)
+2. [Project Badges and Live Links](#2-project-badges-and-live-links)
+3. [Table of Contents](#3-table-of-contents)
+4. [Business Context and Executive Overview](#4-business-context-and-executive-overview)
+5. [Objectives and Analytical Scope](#5-objectives-and-analytical-scope)
+6. [Dataset Architecture and Relational Entities](#6-dataset-architecture-and-relational-entities)
 7. [System Architecture](#7-system-architecture)
-8. [Database Structure and Data Dictionary](#8-database-structure-and-data-dictionary)
-9. [Data Cleaning and Validation Process](#9-data-cleaning-and-validation-process)
-10. [SQL Analysis Categories](#10-sql-analysis-categories)
-11. [SQL Techniques Used](#11-sql-techniques-used)
-12. [Next.js Interactive Web Dashboard](#12-nextjs-interactive-web-dashboard)
-13. [Metabase BI Dashboard](#13-metabase-bi-dashboard)
-14. [Business Insights & Executive Recommendations](#14-business-insights--executive-recommendations)
-15. [Repository Structure](#15-repository-structure)
-16. [Installation & Local Setup](#16-installation--local-setup)
-17. [Database Setup & Data Ingestion](#17-database-setup--data-ingestion)
-18. [Executing SQL Analyses](#18-executing-sql-analyses)
-19. [Running the Next.js Dashboard Locally](#19-running-the-nextjs-dashboard-locally)
-20. [Deploying to Vercel](#20-deploying-to-vercel)
-21. [Project Limitations & Future Improvements](#21-project-limitations--future-improvements)
-22. [Author & Credits](#22-author--credits)
+8. [Relational Database Schema and ERD](#8-relational-database-schema-and-erd)
+9. [Data Cleaning, Validation and Anomaly Resolution](#9-data-cleaning-validation-and-anomaly-resolution)
+10. [Master KPI Definitions and Ground Truth Table](#10-master-kpi-definitions-and-ground-truth-table)
+11. [SQL Analysis Categories and Query Catalog](#11-sql-analysis-categories-and-query-catalog)
+12. [Advanced SQL Techniques and Anti-Inflation Proofs](#12-advanced-sql-techniques-and-anti-inflation-proofs)
+13. [Next.js Analytics Web Dashboard](#13-nextjs-analytics-web-dashboard)
+14. [Metabase Executive BI Dashboard](#14-metabase-executive-bi-dashboard)
+15. [Strategic Business Insights and Recommendations](#15-strategic-business-insights-and-recommendations)
+16. [Complete Visual Analytics Showcase](#16-complete-visual-analytics-showcase)
+17. [Repository Directory Structure](#17-repository-directory-structure)
+18. [Prerequisites and System Requirements](#18-prerequisites-and-system-requirements)
+19. [Step-by-Step Local Setup and Database Ingestion](#19-step-by-step-local-setup-and-database-ingestion)
+20. [SQL Suite Execution and Next.js Launch Guide](#20-sql-suite-execution-and-nextjs-launch-guide)
+21. [Limitations, Future Roadmap and Author Attribution](#21-limitations-future-roadmap-and-author-attribution)
 
 ---
 
-## 1. Project Title
+## 1. Project Title and Overview
 
-**SalesPulse — Retail Business Analytics with SQL & Next.js**  
-*A complete retail intelligence warehouse and interactive web analytics application modeling the Brazilian e-commerce ecosystem.*
+**SalesPulse — Retail Business Analytics with SQL & Next.js**
+*A comprehensive retail intelligence warehouse and interactive web analytics platform modeling the Brazilian e-commerce marketplace.*
 
----
-
-## 2. Project Overview
-
-**SalesPulse** is an end-to-end retail business intelligence and analytics solution powered by **PostgreSQL 17 / Neon Serverless PostgreSQL**, **Python 3.12**, **Next.js 15**, and **Metabase**. Built using the real-world **Brazilian E-Commerce Public Dataset by Olist**, the project models the full customer transaction lifecycle across **99,441 orders** and **1,547,842 total relational records** placed between 2016 and 2018.
-
-Key highlights of the solution:
-- **Relational Data Warehouse**: 9 normalized tables and 4 reusable analytical views in PostgreSQL.
-- **Enterprise SQL Suite**: 39 verified business queries answering revenue, customer, product, and logistics questions.
-- **Modern Full-Stack Dashboard (`salespulse-dashboard/`)**: Built with **Next.js 15 App Router**, **React 19**, **TypeScript**, **Tailwind CSS**, and **Recharts**, connecting directly to **Neon PostgreSQL** via server-side connection pooling.
-- **Executive BI Dashboard**: Metabase dashboard featuring interactive KPI scorecards, date filters, and SLA correlation charts.
-- **Evidence-Based Recommendations**: 5 empirical insights and 3 actionable business strategies to optimize delivery SLA, improve repeat rates, and capture regional demand.
+SalesPulse bridges the gap between raw, multi-table e-commerce transaction logs and executive decision-making. By combining a normalized **PostgreSQL 17** analytical warehouse with an interactive **Next.js 15 App Router** frontend and an executive **Metabase BI** dashboard, SalesPulse delivers verified metrics on customer lifetime value, logistics SLAs, delivery sentiment penalties, and regional demand dynamics.
 
 ---
 
-## 3. Business Problem
+## 2. Project Badges and Live Links
 
-Olist operates a major marketplace integrator connecting small and medium-sized independent merchants to the largest e-commerce platforms across Brazil. In multi-sided marketplace operations, key business bottlenecks arise:
-
-- **Logistics Latency Across Extreme Geographies**: Brazil spans vast transit corridors. Package delivery delays severely depress customer satisfaction and brand loyalty.
-- **Customer Churn & Retention Deficit**: While customer acquisition is high, understanding the repeat purchasing rate is critical to maximizing Customer Lifetime Value (LTV).
-- **Regional Sales Polarization**: Pinpointing revenue contribution across Brazilian states is vital for allocating fulfillment centers and localized advertising budgets.
-- **Payment Method Dynamics**: Brazilian consumers rely heavily on credit card installments and Boleto Bancário; optimizing checkout conversion requires understanding tender type distributions.
-- **Customer Satisfaction Sensitivity**: Understanding whether negative customer review scores are driven by product defects or logistics delivery delays is essential for seller remediation.
-
----
-
-## 4. Project Objectives
-
-1. **Relational Data Architecture**: Transform nine disparate flat CSV datasets into a normalized, high-performance PostgreSQL 17 relational database with strict primary/foreign key constraints and analytical B-tree indexing.
-2. **Data Integrity & Anomaly Resolution**: Detect and resolve real-world data quality anomalies—specifically non-unique natural keys in customer reviews and misspelled column headers.
-3. **Deep Commercial Analytics**: Author and execute 39 verified business queries answering strategic questions across revenue growth, customer segmentation, seller performance, and operational SLAs.
-4. **Interactive Web Dashboard**: Build and deploy an enterprise Next.js 15 web application with serverless database connectivity, parameterized SQL caching, and responsive charts.
-5. **Interactive BI Dashboards**: Build an executive Metabase dashboard featuring scorecards, time-series velocity trends, geographic penetration maps, and SLA correlation charts.
-6. **Actionable Recommendations**: Translate query findings into data-backed strategic interventions for executive management.
+| Resource | Link / Badge | Description |
+| :--- | :--- | :--- |
+| **Source Code** | [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics) | Main open-source repository |
+| **Walkthrough Video** | [![YouTube](https://img.shields.io/badge/YouTube-Video%20Demo-FF0000?logo=youtube&logoColor=white)](https://youtu.be/JfchSQo9VEQ) | 2:45 comprehensive video walkthrough |
+| **Web Dashboard** | [![Next.js 15](https://img.shields.io/badge/Next.js-15.x-black?logo=next.js&logoColor=white)](salespulse-dashboard/) | Next.js 15 full-stack analytics application |
+| **Database Engine** | [![PostgreSQL 17](https://img.shields.io/badge/PostgreSQL-17.x%20%7C%20Neon-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/) | Local PostgreSQL 17 & Neon serverless |
+| **Deployment Guide** | [`DEPLOYMENT.md`](DEPLOYMENT.md) | Vercel production hosting instructions |
+| **Data Catalog** | [`DATA_DICTIONARY.md`](DATA_DICTIONARY.md) | Entity, column, and constraint catalog |
+| **Metabase BI** | `[METABASE_PUBLIC_DASHBOARD_URL_PLACEHOLDER]` | Executive Business Intelligence Dashboard |
 
 ---
 
-## 5. Dataset Information
+## 4. Business Context and Executive Overview
+
+The Brazilian e-commerce market is one of the largest and most complex digital retail ecosystems in Latin America. Operating as a marketplace integrator, **Olist** connects thousands of small-to-medium retail merchants to major Brazilian sales channels (such as Mercado Livre, B2W, and Magazine Luiza).
+
+Managing a multi-sided marketplace presents significant operational and financial challenges:
+- **Severe Geographic Transit Disparities**: Spanning over 8.5 million square kilometers, delivery transit times range from 8.8 days in the industrial Southeast to over 29 days in northern equatorial states.
+- **The Delivery Delay Review Penalty**: Customer satisfaction collapses when estimated delivery dates are missed, directly degrading merchant review scores.
+- **Customer Acquisition vs. Retention Imbalance**: High customer acquisition volume (96,000+ buyers) masks an acute repeat purchase deficit, where 96.88% of customers purchase only once.
+- **Payment Method Preferences**: The dominance of credit cards (73.92% of payments) and multi-month installment financing shapes marketplace checkout conversion and cash collection cycles.
+- **Catalog Revenue Concentration**: A minority of high-velocity product categories and SKUs drive the vast majority of gross merchandise value.
+
+SalesPulse ingests, cleans, and interrogates **1,547,842 relational records** across **99,441 customer orders** to deliver empirical clarity to these core commercial questions.
+
+---
+
+## 5. Objectives and Analytical Scope
+
+1. **Relational Schema Engineering**: Design and populate a 3rd-normal-form (3NF) relational warehouse in PostgreSQL 17 with strict primary keys, foreign key constraints, and analytical indexing.
+2. **Data Profiling and Anomaly Resolution**: Detect and programmatically resolve real-world dirty data anomalies—specifically non-unique natural keys in customer reviews and misspelled column headers in upstream CSVs.
+3. **Rigorous SQL Analytical Suite**: Develop and execute 56 verified SQL queries, including aggregate baselines, multi-table joins, modular CTEs, window functions (`LAG`, `ROW_NUMBER`, `RANK`, `DENSE_RANK`), Pareto distribution models, and join anti-inflation validation proofs.
+4. **Interactive Full-Stack Web Application**: Build a production-ready Next.js 15 application (`salespulse-dashboard/`) with React 19, TypeScript, Tailwind CSS, and Recharts, connected to PostgreSQL via server-side connection pooling.
+5. **Executive Metabase BI Dashboard**: Construct an executive business intelligence command center with global date and state filters, interactive KPI cards, and SLA correlation charts.
+6. **Ground-Truth KPI Harmonization**: Eliminate metric discrepancies by establishing unambiguous mathematical definitions for Merchandise GMV, Gross Payment Volume, Delivered Payment Revenue, and Basket AOV.
+7. **Actionable Commercial Strategy**: Translate empirical query findings into concrete operational recommendations for logistics management, retention marketing, and inventory allocation.
+
+---
+
+## 6. Dataset Architecture and Relational Entities
 
 - **Source**: [Brazilian E-Commerce Public Dataset by Olist (Kaggle)](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
-- **Timeframe**: October 2016 – October 2018
-- **Scope**: ~100k real customer orders spanning all 27 Brazilian federative units.
-- **Relational Scale**: 9 datasets totaling 1,547,842 ingested records.
+- **Time Horizon**: October 2016 – October 2018
+- **Order Volume**: 99,441 orders placed across 4,119 Brazilian cities
+- **Total Ingested Records**: 1,547,842 rows across 9 normalized tables
 
----
+### Relational Table Specifications and Record Counts
 
-## 6. Technology Stack
+| # | Table Name | Primary Key | Foreign Keys | Row Count | Commercial Description |
+| :-: | :--- | :--- | :--- | :-: | :--- |
+| **1** | `customers` | `customer_id` | — | 99,441 | Order-level customer session tokens and locations |
+| **2** | `sellers` | `seller_id` | — | 3,095 | Merchant identifiers, ZIP codes, cities, and states |
+| **3** | `category_translation` | `product_category_name` | — | 71 | Portuguese-to-English product category mappings |
+| **4** | `products` | `product_id` | — | 32,951 | Product catalog dimensions, weight, and photo counts |
+| **5** | `orders` | `order_id` | `customer_id` $\rightarrow$ `customers` | 99,441 | Order lifecycle timestamps and delivery status |
+| **6** | `order_items` | `(order_id, order_item_id)` | `order_id` $\rightarrow$ `orders`<br>`product_id` $\rightarrow$ `products`<br>`seller_id` $\rightarrow$ `sellers` | 112,650 | Purchased line items, price, and freight fees |
+| **7** | `order_payments` | `(order_id, payment_sequential)` | `order_id` $\rightarrow$ `orders` | 103,886 | Payment methods, installment counts, and values |
+| **8** | `order_reviews` | `review_record_id` *(Surrogate PK)* | `order_id` $\rightarrow$ `orders` | 99,224 | 1-to-5 star customer ratings, comments, and dates |
+| **9** | `geolocation` | `geolocation_id` *(Identity PK)* | — | 1,000,163 | Brazilian geographic coordinates by ZIP prefix |
 
-| Domain | Technology / Tool | Version | Purpose |
-| :--- | :--- | :--- | :--- |
-| **Frontend Framework** | Next.js (App Router) | 15.x | Server-side rendering, API routes, fast edge delivery |
-| **UI Library** | React | 19.x | Component lifecycle, hooks, reactive state management |
-| **Language** | TypeScript | 5.x | Strict end-to-end type safety for data models and APIs |
-| **Styling** | Tailwind CSS | 3.4.x | Utility-first responsive styling and dark/light accents |
-| **Data Visualization** | Recharts | 2.15.x | Responsive SVG charts (Area, Bar, Donut, Multi-line) |
-| **Iconography** | Lucide React | Latest | Clean, consistent modern UI icons |
-| **Database** | PostgreSQL / Neon | 17.x | Relational warehousing, ACID transactions, SSL pooling |
-| **DB Client Driver** | `pg` / `psycopg2` | Latest | Serverless connection pooling and batch ETL ingestion |
-| **BI Tool** | Metabase | Latest OSS | Self-service executive analytics and embedded dashboards |
-| **Cloud Hosting** | Vercel | Free Tier | Global edge deployment with zero-config Next.js hosting |
-| **Scripting / ETL** | Python | 3.12 | Pre-ingestion profiling, quality validation, ETL loader |
-| **SQL Administration** | DBeaver Community | 24.x+ | Visual querying, EXPLAIN ANALYZE, ERD generation |
+*Total Verified Dataset Volume: **1,547,842 relational records**.*
 
 ---
 
 ## 7. System Architecture
 
-The high-level end-to-end architecture from raw CSV data ingestion to PostgreSQL warehousing, Next.js web application, and Metabase visual analytics:
-
-![Project Architecture](images/project_architecture.png)
-
-*Figure 1: SalesPulse End-to-End System Architecture.*
-
----
-
-## 8. Database Structure and Data Dictionary
-
-The database schema is organized into a hybrid star/snowflake relational model centered around the `orders` fact entity, linked to `customers`, `order_items`, `order_payments`, `order_reviews`, `products`, `sellers`, `category_translation`, and `geolocation`.
-
-![Database ERD](images/salespulse_erd.png)
-
-*Figure 2: SalesPulse PostgreSQL 17 Entity-Relationship Diagram (ERD).*
-
-### Database Tables and Verified Record Counts
-
-| # | Table Name | Primary Key | Foreign Keys | Row Count | Description |
-| :-: | :--- | :--- | :--- | :-: | :--- |
-| **1** | `customers` | `customer_id` | — | 99,441 | Order-level customer identifier and location |
-| **2** | `sellers` | `seller_id` | — | 3,095 | Merchant identifiers, ZIP codes, cities, and states |
-| **3** | `category_translation` | `product_category_name` | — | 71 | Portuguese-to-English product category mapping |
-| **4** | `products` | `product_id` | — | 32,951 | Product catalog, dimensions, weight, photos count |
-| **5** | `orders` | `order_id` | `customer_id` $\rightarrow$ `customers` | 99,441 | Order lifecycle timestamps and delivery status |
-| **6** | `order_items` | `(order_id, order_item_id)` | `order_id` $\rightarrow$ `orders`<br>`product_id` $\rightarrow$ `products`<br>`seller_id` $\rightarrow$ `sellers` | 112,650 | Purchased line items, pricing, and freight charges |
-| **7** | `order_payments` | `(order_id, payment_sequential)` | `order_id` $\rightarrow$ `orders` | 103,886 | Payment methods, installment counts, and values |
-| **8** | `order_reviews` | `review_record_id` *(Surrogate PK)* | `order_id` $\rightarrow$ `orders` | 99,224 | Customer ratings (1-5), review comments, timestamps |
-| **9** | `geolocation` | `geolocation_id` *(Identity PK)* | — | 1,000,163 | Brazilian geographic coordinates by ZIP code prefix |
-
-**Total Verified Records**: **1,547,842 rows** (100% data fidelity verified).  
-*For complete column-level definitions, constraints, and data types, refer to [`DATA_DICTIONARY.md`](DATA_DICTIONARY.md).*
-
----
-
-## 9. Data Cleaning and Validation Process
-
-Before importing data, automated profiling scripts inspected all nine CSV files for structural integrity, missing values, and candidate key uniqueness.
-
-![Data Quality Report](images/data_quality_report.png)
-
-*Figure 3: Automated Data Quality Audit Output.*
-
-### Key Validation Findings & Fixes
-1. **Header Normalization**: Two misspelled headers in the raw products CSV were detected and dynamically mapped during stream ingestion:
-   - `product_name_lenght` $\rightarrow$ normalized to `product_name_length`
-   - `product_description_lenght` $\rightarrow$ normalized to `product_description_length`
-2. **Duplicate Review Anomaly Resolution**:
-   - Automated checks revealed that the candidate natural key `review_id` contained **814 duplicate rows** across 99,224 records (**789 distinct review IDs** appearing more than once).
-   - Forensic analysis confirmed that when buyers purchased items across multiple orders in one session, the platform generated the identical `review_id` for distinct order evaluations.
-   - **Resolution**: Enforcing `review_id` as the primary key would have rejected 814 valid reviews. A surrogate primary key (`review_record_id BIGINT GENERATED ALWAYS AS IDENTITY`) was introduced, ensuring **100% of customer reviews** were ingested without data loss.
-
----
-
-## 10. SQL Analysis Categories
-
-The 39 verified business queries are organized into eight commercial domains:
+SalesPulse utilizes a modern three-tier data analytics architecture, bridging data engineering, relational querying, and full-stack web presentation:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│                        39 SQL BUSINESS ANALYSES                        │
+│                          SALESPULSE ARCHITECTURE                       │
+└────────────────────────────────────────────────────────────────────────┘
+
+ [ Raw Olist CSVs ] ─────────► [ Python 3.12 Batch ETL Loader ]
+ (9 files, 1.55M rows)         • Dynamic header normalization
+                               • Duplicate review surrogate PK generation
+                               • COPY batch streaming (2,000 rows/batch)
+                                              │
+                                              ▼
+                               [ PostgreSQL 17 / Neon Warehouse ]
+                               • 9 normalized relational tables (3NF)
+                               • Strict primary & foreign key constraints
+                               • Analytical B-tree indexes & 4 saved views
+                               • 56 commercial SQL queries & join proofs
+                                              │
+                    ┌─────────────────────────┴─────────────────────────┐
+                    ▼                                                   ▼
+       [ Next.js 15 Web Application ]                     [ Metabase Executive BI ]
+       • React 19 App Router                              • Interactive visual canvas
+       • TypeScript & Tailwind CSS                        • Global date & state filters
+       • Server-side connection pool                      • Scorecards, bars, donuts
+       • Recharts responsive visualizations               • SLA correlation charts
+       • Live /api/health PostgreSQL probe                • Video walkthrough demo
+```
+
+![End-to-End System Architecture](images/project_architecture.png)
+
+*Figure 1: End-to-End SalesPulse System Architecture Diagram.*
+
+---
+
+## 8. Relational Database Schema and ERD
+
+The database schema models a hybrid star/snowflake relational structure centered around the `orders` fact table, linking customer profiles, item line items, payment transactions, customer satisfaction evaluations, merchant locations, and product classifications.
+
+![Relational Database ERD](images/salespulse_erd.png)
+
+*Figure 2: SalesPulse PostgreSQL 17 Entity-Relationship Diagram (ERD).*
+
+### Key Relational Design Principles
+- **Orders Fact Hub**: The `orders` table acts as the central transaction hub, linking directly to `customers` (`customer_id`), `order_items` (`order_id`), `order_payments` (`order_id`), and `order_reviews` (`order_id`).
+- **Composite Primary Keys**:
+  - `order_items`: `(order_id, order_item_id)` uniquely identifies each line item within a multi-item basket.
+  - `order_payments`: `(order_id, payment_sequential)` tracks multiple tender types (e.g., voucher + credit card) applied to a single checkout.
+- **Dimensional Stars**: `products` links to Portuguese-to-English translations via `category_translation`. `sellers` and `customers` tie back to Brazilian coordinates via ZIP code prefixes.
+
+---
+
+## 9. Data Cleaning, Validation and Anomaly Resolution
+
+Before importing raw data into PostgreSQL, automated Python profiling scripts inspected all 9 CSV files for schema anomalies, null values, and candidate key violations.
+
+![Data Quality Report](images/data_quality_report.png)
+
+*Figure 3: Automated Python Data Quality and Primary Key Audit Output.*
+
+### Critical Anomalies Identified and Resolved
+
+1. **Header Spelling Normalization**:
+   - Upstream CSV headers contained spelling typos: `product_name_lenght` and `product_description_lenght`.
+   - The Python ETL pipeline (`python/import_olist_data.py`) automatically maps these to `product_name_length` and `product_description_length` during batch streaming.
+2. **Customer Review Duplicate Resolution (The 814 Duplicate Review Problem)**:
+   - Initial candidate key profiling revealed that `review_id` contained **814 duplicate rows** across 99,224 review records (**789 distinct review IDs** repeated 2 to 3 times).
+   - Forensic analysis confirmed that when buyers purchased items across multiple orders in a single checkout session, the Olist platform generated identical `review_id` values for distinct order evaluations.
+   - **Engineered Resolution**: Enforcing `review_id` as the primary key would have rejected 814 valid customer reviews. Instead, a surrogate primary key (`review_record_id BIGINT GENERATED ALWAYS AS IDENTITY`) was implemented in `database/create_tables.sql`. This preserved **100% of customer reviews** (99,224 rows) with zero data loss.
+3. **Primary Key Strategy for Multi-Item and Multi-Payment Tables**:
+   - `order_items` contains 112,650 rows across 98,666 distinct orders. Primary key: `(order_id, order_item_id)`.
+   - `order_payments` contains 103,886 rows across 99,440 distinct orders. Primary key: `(order_id, payment_sequential)`.
+4. **Timestamp Parsing and Timezone Normalization**:
+   - All lifecycle timestamps (`order_purchase_timestamp`, `order_approved_at`, `order_delivered_carrier_date`, `order_delivered_customer_date`, `order_estimated_delivery_date`) were parsed as ISO-8601 `TIMESTAMP WITHOUT TIME ZONE`, enabling precise PostgreSQL date interval math.
+
+---
+
+## 10. Master KPI Definitions and Ground Truth Table
+
+To prevent confusion between gross platform collections, delivered sales, and merchandise values, SalesPulse enforces strict definitional boundaries across all SQL scripts, API endpoints, and dashboard cards:
+
+### Master Definitional Matrix
+
+1. **Total Placed Orders (`99,441` orders)**: Represents all customer orders registered in `orders` across all 8 lifecycle statuses: `delivered` (96,478, 97.02%), `shipped` (1,107, 1.11%), `canceled` (625, 0.63%), `unavailable` (609, 0.61%), `invoiced` (314, 0.32%), `processing` (301, 0.30%), `created` (5, 0.01%), and `approved` (2, 0.00%).
+2. **Total Delivered Orders (`96,478` orders)**: Represents successfully fulfilled shipments (`order_status = 'delivered'`), comprising 97.02% of all placed orders.
+3. **Merchandise GMV (`R$ 13,591,643.70`)**: Calculated strictly as `SUM(order_items.price)`, representing product merchandise sales excluding freight. Encompasses all 112,650 line items across 98,666 orders. *(Note: when filtered to complete operating months `< '2018-09-01'`, GMV is R$ 13,591,498.70, reflecting exactly one shipped order of R$ 145.00 in September 2018).*
+4. **Delivered Payment Revenue (`R$ 15,422,461.77`)**: Calculated as `SUM(order_payments.payment_value)` for `order_status = 'delivered'`. Represents realized customer cash collections (items + freight) across 96,477 delivered paid orders.
+5. **Gross Platform Payment Volume (`R$ 16,008,869.50` / `R$ 16,008,872.12`)**: Total tender processed across all 99,440 paid orders regardless of delivery status (`SUM(payment_value)`).
+6. **Average Order Value (AOV)**:
+   - **Merchandise Basket AOV**: $\frac{\text{Merchandise GMV}}{\text{Distinct Orders with Items}} = \frac{\text{R\$}~13,591,643.70}{98,666~\text{orders}} = \mathbf{\text{R\$}~137.75}$
+   - **Delivered Payment AOV**: $\frac{\text{Delivered Payment Revenue}}{\text{Delivered Paid Orders}} = \frac{\text{R\$}~15,422,461.77}{96,477~\text{orders}} = \mathbf{\text{R\$}~159.86}$
+   - **Gross Payment AOV**: $\frac{\text{Gross Payment Volume}}{\text{Orders with Payments}} = \frac{\text{R\$}~16,008,872.12}{99,440~\text{orders}} = \mathbf{\text{R\$}~160.99}$
+7. **Unique Customer Buyers (`96,096` individuals)**: Count of distinct human consumers (`COUNT(DISTINCT customer_unique_id)`). Distinct from order-level session tokens (`customer_id`, 99,441 records).
+8. **On-Time Delivery SLA Rate (`91.89%`)**: Proportion of evaluated delivered orders arriving on or before the promised estimated date (88,649 / 96,470 orders with recorded delivery timestamps).
+
+### Executive Ground Truth KPI Summary
+
+| Metric Name | Verified Value | Population Scope | Primary SQL Table / Query |
+| :--- | :---: | :--- | :--- |
+| **Gross Payment Volume** | **R\$ 16,008,872.12** | All 99,440 paid orders (items + freight) | `order_payments` (Q1) |
+| **Delivered Payment Revenue** | **R\$ 15,422,461.77** | 96,477 delivered paid orders | `order_payments` $\bowtie$ `orders` |
+| **Merchandise GMV** | **R\$ 13,591,643.70** | All 112,650 line items (excl. freight) | `order_items` (Q2) |
+| **Total Placed Orders** | **99,441** | All 8 order statuses | `orders` (Q3) |
+| **Delivered Orders** | **96,478** | Completed doorstep deliveries | `orders` (`delivered`) |
+| **Merchandise Basket AOV** | **R\$ 137.75** | Average spend per item-containing order | `order_items` |
+| **Delivered Payment AOV** | **R\$ 159.86** | Average cash collected per delivered order | `order_payments` $\bowtie$ `orders` |
+| **Gross Payment AOV** | **R\$ 160.99** | Average cash collected across all paid orders | `order_payments` (Q1) |
+| **Unique Customer Buyers** | **96,096** | Distinct human buyers (`customer_unique_id`) | `customers` (Q4) |
+| **Customer Retention Rate** | **3.12%** | Buyers placing $\ge$ 2 orders (2,997 / 96,096) | `customers` $\bowtie$ `orders` (Q21) |
+| **On-Time Delivery SLA Rate** | **91.89%** | Delivered on or before estimated date | `v_delivery_sla_performance` |
+| **On-Time Average CSAT** | **4.29 / 5.0** | Review rating on punctual shipments | `order_reviews` $\bowtie$ `orders` (Q30) |
+| **Delayed Average CSAT** | **2.57 / 5.0** | Review rating on delayed shipments (-40.1%) | `order_reviews` $\bowtie$ `orders` (Q30) |
+| **Product Pareto Concentration** | **25.91%** | 8,536 of 32,951 SKUs generate 80.00% GMV | `04_bonus_views_and_pareto.sql` |
+| **Credit Card Share** | **73.92%** | Dominant payment method (76,795 payments) | `order_payments` (Q7, Q20) |
+
+---
+
+## 11. SQL Analysis Categories and Query Catalog
+
+The repository houses **56 verified SQL queries**, structured into five modular production scripts:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        SALESPULSE SQL SUITE (56 QUERIES)               │
 ├───────────────────────────────────┬────────────────────────────────────┤
-│ • Revenue & Sales Analysis (7)    │ • Seller Performance Analysis (2)  │
-│ • Product & Category Metrics (6)  │ • Order & Payment Dynamics (6)     │
-│ • Customer Analytics & LTV (5)    │ • Delivery & Operational SLAs (3)  │
-│ • Customer Satisfaction (2)       │ • Advanced Window Functions (8)    │
+│ • sql/00_verify_tables.sql (1)    │ Verification of 9 relational tables│
+│ • sql/01_basic_aggregates.sql (19)│ Baseline commercial metrics (Q1-20)│
+│ • sql/02_joins_and_cte.sql (10)   │ Joins, CTEs & retention (Q21-30)   │
+│ • sql/03_window_functions.sql (10)│ Window functions & velocity (Q31-40│
+│ • sql/04_bonus_views.sql (7)      │ 4 Views, Pareto 80/20 & EXPLAIN    │
+│ • sql/05_join_validation.sql (9)  │ Mathematical anti-inflation proofs │
 └───────────────────────────────────┴────────────────────────────────────┘
 ```
 
-For complete technical documentation of all 39 queries, see [`docs/sql_analysis_documentation.md`](docs/sql_analysis_documentation.md).
+### 1. Table Verification (`sql/00_verify_tables.sql`)
+- Verifies relational table existence, column data types, row counts, and schema alignment.
+
+### 2. Foundational Aggregates (`sql/01_basic_aggregate_analysis.sql` — 19 Queries)
+- **Q1**: Total gross revenue and average payment value across all orders.
+- **Q2**: Total merchandise sales volume and average item unit price.
+- **Q3**: Total order count breakdown by order status (`delivered`, `shipped`, etc.).
+- **Q4**: Total unique customer buyers vs. order session tokens.
+- **Q5**: Top 10 product categories ranked by gross merchandise revenue.
+- **Q6**: Total freight spend and average freight cost per item.
+- **Q7**: Distribution of payment transaction methods (Credit Card, Boleto, Voucher, Debit).
+- **Q8**: Overall customer review score distribution (1 to 5 stars).
+- **Q9**: Total active registered sellers across Brazilian states.
+- **Q10**: Average delivery duration (in days) grouped by customer federative unit.
+- *(Note on Q11: Numbering advances from Q10 to Q12 per documented project design; all 39 business questions remain preserved).*
+- **Q12–Q20**: Multi-item basket frequencies, price-to-freight ratios, seller product counts, payment installment distributions, and review comment frequencies.
+
+### 3. Joins, CTEs, and Customer Lifecycle (`sql/02_joins_and_cte_analysis.sql` — 10 Queries)
+- **Q21**: Customer order frequency distribution (identifying 96.88% one-time vs. 3.12% repeat buyers).
+- **Q22**: Repeat customer profile identification and total lifetime monetary spend.
+- **Q23**: Multi-level CTE calculating average inter-purchase repurchase interval (86.4 days).
+- **Q24**: Top 10 highest-value individual customers by cumulative historical spend.
+- **Q25**: Seller fulfillment velocity (purchase timestamp to carrier dispatch).
+- **Q26**: Delivery punctuality SLA comparison (on-time orders vs. carrier delays).
+- **Q27**: Cross-category purchasing behavior among repeat customer cohorts.
+- **Q28**: Top 10 revenue-generating merchant sellers and their category specializations.
+- **Q29**: Customer geographic migration patterns between initial and repeat purchases.
+- **Q30**: Delivery delay correlation with customer review scores (4.29 on-time vs. 2.57 delayed).
+
+### 4. Advanced Window Functions (`sql/03_window_functions.sql` — 10 Queries)
+- **Q31**: Month-over-Month (MoM) revenue trajectory and percentage growth rate using `LAG()`.
+- **Q32**: Cumulative running total of merchandise revenue using unbounded preceding window frames.
+- **Q33**: Top 3 best-selling products within each category using `ROW_NUMBER() OVER (PARTITION BY)`.
+- **Q34**: Brazilian state revenue rankings using `DENSE_RANK()`.
+- **Q35**: Rolling 3-month moving average of monthly merchandise sales.
+- **Q36**: Customer lifetime order sequence numbering using `ROW_NUMBER()`.
+- **Q37**: Customer purchase interval gap analysis in days between consecutive orders.
+- **Q38**: Monthly active customer buyer growth and MoM acquisition changes.
+- **Q39**: Percentile ranking of orders by total monetary value using `NTILE(100)`.
+- **Q40**: Month-over-month delivery punctuality SLA compliance trend.
+
+### 5. Production Analytical Views and Pareto Analysis (`sql/04_bonus_views_and_pareto.sql` — 7 Queries)
+- **View 1 (`v_monthly_revenue_kpis`)**: Reusable monthly revenue, order volume, and active customer metrics.
+- **View 2 (`v_customer_lifetime_metrics`)**: Customer lifetime spend, total orders, first/last purchase dates, and segment.
+- **View 3 (`v_category_performance`)**: Product category GMV, units sold, average item price, and freight contribution.
+- **View 4 (`v_delivery_sla_performance`)**: Delivery transit days, estimated vs. actual delta, on-time flag, and review rating.
+- **Bonus Q41 (Pareto Analysis)**: Cumulative revenue window calculation proving that **25.91% of products** generate **80.00% of revenue**.
+- **Bonus Q42 (Customer Pareto)**: Proving that the top 20% of customers account for 29.8% of platform GMV.
+- **Query Optimization**: `EXPLAIN ANALYZE` benchmarks demonstrating 10x-50x speedups using B-tree indexing.
+
+### 6. Explicit Join Validation Suite (`sql/05_join_validation.sql` — 9 Queries)
+- Demonstrates mathematical proof that joining `orders`, `order_items`, and `order_payments` produces 0.00% revenue inflation when aggregated with proper primary key discipline.
 
 ---
 
-## 11. SQL Techniques Used
+## 12. Advanced SQL Techniques and Anti-Inflation Proofs
 
-The analytical query suite demonstrates enterprise SQL competency:
+### Safe Join Patterns and Anti-Inflation Discipline
+When modeling relational retail datasets, joining `orders` (99,441 rows) directly to both `order_items` (112,650 rows) and `order_payments` (103,886 rows) in a single naive query produces a Cartesian product (multi-to-multi fan-out) that severely inflates both item prices and payment values.
 
-- **Aggregations & Grouping**: `SUM()`, `AVG()`, `COUNT(DISTINCT ...)`, multi-column `GROUP BY`, `HAVING`.
-- **Date & Time Intelligence**: `DATE_TRUNC('month', ...)`, `EXTRACT(DOW FROM ...)`, `TO_CHAR()`, timestamp intervals.
-- **Common Table Expressions (CTEs)**: Modular multi-level CTEs for customer lifetime value and order status pipelines.
-- **Complex Multi-Table Joins**: 3-to-5 table joins linking orders, customers, items, products, sellers, and translations.
-- **Window Functions**:
-  - `LAG()` for month-over-month revenue growth and customer repurchase intervals.
-  - `SUM() OVER (ORDER BY ... ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)` for running totals.
-  - `ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...)` for top 3 products per category and purchase sequence numbers.
-  - `RANK()` and `DENSE_RANK()` for state revenue rankings and top-value order rankings.
-  - `AVG() OVER (ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)` for rolling 3-month moving averages.
+SalesPulse employs CTE pre-aggregation and primary key deduplication to maintain mathematical integrity:
 
-![SQL Analysis](images/sql_analysis.png)
+```sql
+-- Safe pre-aggregated join preventing multi-item Cartesian fan-out
+WITH item_aggregates AS (
+    SELECT
+        order_id,
+        COUNT(order_item_id) AS total_items,
+        SUM(price) AS merchandise_gmv,
+        SUM(freight_value) AS total_freight
+    FROM order_items
+    GROUP BY order_id
+),
+payment_aggregates AS (
+    SELECT
+        order_id,
+        COUNT(payment_sequential) AS payment_transactions,
+        SUM(payment_value) AS total_payment_value
+    FROM order_payments
+    GROUP BY order_id
+)
+SELECT
+    o.order_id,
+    o.order_status,
+    COALESCE(i.merchandise_gmv, 0) AS merchandise_gmv,
+    COALESCE(p.total_payment_value, 0) AS total_payment_value,
+    (COALESCE(p.total_payment_value, 0) - (COALESCE(i.merchandise_gmv, 0) + COALESCE(i.total_freight, 0))) AS payment_variance
+FROM orders o
+LEFT JOIN item_aggregates i ON o.order_id = i.order_id
+LEFT JOIN payment_aggregates p ON o.order_id = p.order_id;
+```
 
-*Figure 4: Executing Complex SQL Customer & Window Analyses in DBeaver.*
+*Validation Result from `sql/05_join_validation.sql`*: Exactly **0.00% variance** across 99,441 orders.
 
----
+### Complete-Month Cutoff Policy
+In the raw Olist dataset, order intake concludes in mid-October 2018. As a result, September 2018 contains only 16 orders, and October 2018 contains only 4 orders. Presenting unadjusted monthly trends displays an artificial collapse to near-zero, misrepresenting business health.
 
-## 12. Next.js Interactive Web Dashboard
+SalesPulse enforces a strict operating calendar boundary across all time-series queries, window functions, and dashboard filters:
+$$\text{order\_purchase\_timestamp} < \text{'2018-09-01'}$$
 
-Located in the [`salespulse-dashboard/`](salespulse-dashboard/) directory, the Next.js web application provides an interactive, executive analytics dashboard designed for live public deployment on Vercel:
-
-### Key Application Features
-- **Real-Time Database Connectivity**: Connects to Neon Serverless PostgreSQL with SSL encryption and connection pooling (`lib/db.ts`).
-- **Interactive Global Filters**: Filter by date range (2016-2018), Brazilian state (e.g., `SP`, `RJ`, `MG`), and English product category with instant state propagation.
-- **Live Recharts Visualizations**:
-  - **Monthly Revenue & MoM Velocity**: Area chart and dual-axis growth velocity.
-  - **Top Categories Horizontal Bar Chart**: Top categories by GMV and units sold.
-  - **State Revenue Geographic Chart**: Highlighting Southeast corridor dominance.
-  - **Customer Retention Donut**: Visualizing 96.9% one-time vs. 3.1% repeat buyers.
-  - **Logistics SLA vs. CSAT Rating Chart**: Visualizing the -1.72 star drop on delayed orders.
-  - **Pareto 80/20 Distribution Card**: Top 20% SKU revenue contribution.
-- **Seven Dedicated Analytical Pages**:
-  1. `/` — Executive Overview with 8 live KPI scorecards.
-  2. `/revenue` — Monthly revenue trajectory, AOV trend line, and monthly ledger table.
-  3. `/products` — Category rankings, Pareto 80/20 analysis, and top revenue items.
-  4. `/customers` — Buyer retention donut, average repurchase gap (86.4 days), and top customer lifetime values.
-  5. `/regions` — Geographic state distribution and regional revenue shares.
-  6. `/delivery` — Delivery transit averages, on-time SLA rate (91.89%), and worst-case delay table.
-  7. `/insights` — 5 empirical data findings and 3 prioritized strategic recommendations.
-
----
-
-## 13. Metabase BI Dashboard
-
-The project includes a production-grade Metabase BI dashboard:
-
-![Dashboard Preview](images/dashboard_preview.png)
-
-*Figure 5: SalesPulse Interactive Metabase Business Intelligence Dashboard.*
-
-- **Video Demonstration**: [Watch the Metabase Dashboard Demo on YouTube](https://youtu.be/JfchSQo9VEQ)
-- **Verified Baseline Metrics & KPI Taxonomy**:
-  - **Merchandise GMV**: R\$ 13,591,643.70 (`SUM(price)` across 112,650 items, excl. freight)
-  - **Delivered Payment Revenue**: R\$ 15,422,461.77 (`SUM(payment_value)` on 96,477 delivered orders)
-  - **Gross Platform Payment Volume**: R\$ 16,008,872.12 (across all 99,440 paid orders)
-  - **Total Placed Orders**: 99,441 (across all 8 order statuses; 96,478 delivered, 97.02%)
-  - **Merchandise Basket AOV**: R\$ 137.75 (R\$ 13,591,643.70 GMV / 98,666 item orders)
-  - **Delivered Payment AOV**: R\$ 159.86 (R\$ 15,422,461.77 / 96,477 delivered orders)
-  - **Unique Customer Buyers**: 96,096 distinct individuals (`customer_unique_id`)
-  - **Average Delivery Duration**: 12.5 Days (order purchase to customer doorstep)
-  - **On-Time Delivery SLA Rate**: 91.89% (arrived on or before promised estimated date)
+This establishes **August 2018** as the definitive final complete operating month, ensuring accurate growth velocity calculations.
 
 ---
 
-## 14. Business Insights & Executive Recommendations
+## 13. Next.js Analytics Web Dashboard
 
-The 39 SQL analyses and dashboard analytics produced five critical empirical findings and three strategic recommendations:
+Located in the [`salespulse-dashboard/`](salespulse-dashboard/) directory, the Next.js web application provides an interactive, full-stack business analytics experience designed for executive exploration.
 
-![Revenue Analysis](images/revenue_analysis.png)
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                     SALESPULSE NEXT.JS 15 WEB DASHBOARD                │
+├───────────────────────────────────┬────────────────────────────────────┤
+│ • Next.js 15 App Router           │ • Serverless PostgreSQL (pg Pool)  │
+│ • React 19 Client Components      │ • Responsive Recharts Visuals      │
+│ • TypeScript Strict Typing        │ • Dynamic Date/State Filters       │
+│ • Tailwind CSS & Lucide Icons     │ • Live /api/health Connection Probe│
+└───────────────────────────────────┴────────────────────────────────────┘
+```
 
-*Figure 6: Revenue Analytics Execution in DBeaver.*
+### Application Pages and Capabilities
+1. **Executive Overview (`/`)**: 8 real-time KPI scorecards with trend indicators, Neon connection status badge, monthly revenue area chart, category bar chart, and customer retention donut.
+2. **Revenue Analytics (`/revenue`)**: Monthly revenue trajectory, AOV trend line, MoM velocity bars, and tabular financial ledger.
+3. **Product & Category Intelligence (`/products`)**: Top 10 categories by GMV, average selling price comparisons, and Pareto 80/20 distribution curves.
+4. **Customer Lifecycle & Retention (`/customers`)**: One-time vs. repeat buyer retention donut, average repurchase gap scorecard (86.4 days), and top customer lifetime value leaderboards.
+5. **Regional Geographic Distribution (`/regions`)**: State-by-state GMV breakdown, Southeast corridor share card, and average delivery duration rankings.
+6. **Delivery & Operational SLA (`/delivery`)**: Punctuality SLA compliance gauge (91.89%), delivery delay vs. review score correlation chart (-1.72 star drop), and worst-case delay tables.
+7. **Business Insights (`/insights`)**: The 5 core empirical findings and 3 prioritized strategic recommendations.
 
-### 5 Empirical Findings
-1. **Logistics SLA vs. Customer Review Rating (-1.72 Star Penalty)**:
-   - On-time orders average **4.29 / 5.0 stars** (88,649 orders).
-   - Delayed orders drop to **2.57 / 5.0 stars** (8,199 orders), representing a **-40.1% collapse** in satisfaction.
-2. **Severe Repeat Purchase Deficit (96.88% One-Time Buyers)**:
-   - Only **2,997 of 96,096 customers (3.12%)** made a second order.
-   - The average repurchase interval is **86.4 days**.
-3. **Extreme Geographic Concentration in Southeast Brazil (63.36% Share)**:
-   - São Paulo (`SP`) generates **R\$ 5.20M (38.28%)**, Rio de Janeiro (`RJ`) **R\$ 1.69M (12.44%)**, and Minas Gerais (`MG`) **R\$ 1.58M (11.64%)**.
-4. **Credit Card Dominance and Installment Financing**:
-   - Credit cards capture **73.9%** of payments (R\$ 12.54M), followed by Boleto Bancário (**19.0%**). Over **52%** of credit transactions use multi-month installments.
-5. **Top 5 Product Category Pareto Dominance**:
-   - Top 5 of 73 categories generate **36.8%** of total revenue (`bed_bath_table`, `health_beauty`, `computers_accessories`, `furniture_decor`, `sports_leisure`).
-
-### 3 Actionable Executive Recommendations
-1. **Automated Carrier SLA Exception Triggers**: Deploy automated carrier webhook triggers. When an order is 48 hours from estimated delivery and still in transit, trigger a proactive SMS/email apology and a 10% voucher to mitigate 1-star reviews.
-2. **86-Day Customer Retention Lifecycle Flow**: Capitalize on the 86.4-day average repurchase window by sending triggered email replenishment recommendations between Days 60 and 75, targeting a 2x increase in repeat customer rate.
-3. **Regional 3PL Micro-Fulfillment in Northern Corridors**: Pre-stock top 20 Pareto SKUs in regional fulfillment hubs in Salvador or Recife to slash 20+ day shipping delays and capture underserved regional demand.
-
-*For complete details, see [`docs/business_insights.md`](docs/business_insights.md) and [`docs/executive_summary.md`](docs/executive_summary.md).*
+### Technical Frontend Architecture
+- **Hydration & Sizing Resilience**: Recharts components are wrapped with `isMounted` client-side guards and explicit pixel heights (`height={280} minHeight={280} minWidth={0}`) to ensure zero layout shift or container collapse under React 19 and Next.js 15 SSR.
+- **Live Health Monitoring**: Top navigation header dynamically probes `/api/health` every 30 seconds, verifying active PostgreSQL pooling and reporting sub-50ms latency.
+- **Serverless API Routes**: Seven dedicated API endpoints (`/api/overview`, `/api/revenue`, `/api/products`, `/api/customers`, `/api/regions`, `/api/delivery`, `/api/filters`) query PostgreSQL using parameterized, SQL-injection-safe queries.
 
 ---
 
-## 15. Repository Structure
+## 14. Metabase Executive BI Dashboard
+
+SalesPulse includes an executive-ready Business Intelligence dashboard built in Metabase, providing instant visual feedback for executive leadership:
+
+![Metabase Dashboard Preview](images/dashboard_preview.png)
+
+*Figure 4: SalesPulse Interactive Metabase Business Intelligence Dashboard.*
+
+- **YouTube Video Walkthrough**: [Watch SalesPulse Demo on YouTube](https://youtu.be/JfchSQo9VEQ)
+- **Metabase Public Dashboard Link**: `[METABASE_PUBLIC_DASHBOARD_URL_PLACEHOLDER]` *(To make the dashboard public in your Metabase instance: navigate to Dashboard Settings → Sharing and Embedding → Enable Public Sharing → Copy Public Link).*
+
+### Visual Cards and Underlying Architecture
+- **Tier 1 (Executive Scorecards)**: Total Gross Payment Revenue (R$ 16.01M), Delivered Payment Revenue (R$ 15.42M), Merchandise GMV (R$ 13.59M), Paid Orders (99,440), Merchandise AOV (R$ 137.75), Delivered AOV (R$ 159.86), On-Time SLA Rate (91.89%).
+- **Tier 2 (Commercial Growth)**: Monthly Revenue Trajectory (Oct 2016 – Aug 2018), MoM Growth Velocity, Day-of-Week Purchasing Concentration.
+- **Tier 3 (Category Economics)**: Top 10 Product Categories by GMV, Units Sold vs. Average Selling Price, Freight-to-Price Ratios.
+- **Tier 4 (Operations & Customer Retention)**: Punctual vs. Delayed Customer Review Scores (4.29 vs. 2.57 stars), Geographic Revenue Map by Brazilian State (SP 38.28%), Payment Tender Share (Credit Card 73.92%, Boleto 19.04%), Customer Repeat Rate (3.12%).
+
+---
+
+## 15. Strategic Business Insights and Recommendations
+
+Every finding is verified against actual PostgreSQL database records and documented in [`docs/executive_summary.md`](docs/executive_summary.md) and [`docs/business_insights.md`](docs/business_insights.md):
+
+![Revenue Analytics Execution](images/revenue_analysis.png)
+
+*Figure 5: Executing Revenue Growth and Window Analysis Queries in DBeaver.*
+
+### Five Empirical Business Findings
+
+1. **Delivery Latency Strongly Correlates with Customer Review Score Reductions**:
+   - On-time orders average **4.29 / 5.0 stars** across 88,163 reviews.
+   - Delayed orders drop to **2.57 / 5.0 stars** across 7,661 reviews, representing a **-1.72 star (-40.1%) collapse** in customer satisfaction. Overall on-time SLA is **91.89%** (88,649 / 96,470 evaluated deliveries).
+2. **High Customer Acquisition Scale Accompanied by Low Retention (96.88% One-Time Buyers)**:
+   - Out of **96,096 unique customer profiles**, **93,099 buyers (96.88%) purchased only once**.
+   - Only **2,997 customers (3.12%)** placed a second order. For this cohort, the average inter-purchase interval was **86.4 days**.
+3. **Geographic Revenue Concentration in Southeast Brazil (63.36% across Top 3 States)**:
+   - São Paulo (`SP`) accounts for **R\$ 5,202,955.05 (38.28%)** of merchandise GMV. Combined with Rio de Janeiro (`RJ`, R\$ 1.82M, 13.42%) and Minas Gerais (`MG`, R\$ 1.58M, 11.66%), the top 3 states capture **63.36%** of total sales. Delivery durations average **8.8 days** in SP versus **24–29 days** in northern states.
+4. **Product Catalog Pareto Distribution (25.91% of SKUs Generate 80.00% of Revenue)**:
+   - Out of **32,951 distinct products sold**, the top **8,536 items (25.91%)** generate **80.00% of cumulative merchandise revenue** (R\$ 10,873,463.56). The remaining 24,415 SKUs contribute only 20.00%.
+5. **Credit Card Dominance and Installment Financing (73.92% of Payments)**:
+   - Credit cards represent **76,795 transactions (73.92%)** and account for **R\$ 12,542,084.19 (78.34% of total monetary value)**. Over **52% of credit card transactions** utilize multi-month installment plans (2 to 24 months). Boleto Bancário captures 19.04% of payments (R\$ 2.87M).
+
+### Three Actionable Executive Recommendations
+
+1. **Deploy Proactive Logistics Delay Triggers and Regional Carrier Reallocation**:
+   - *Operational Intervention*: Implement automated carrier webhook alerts. When an order is 48 hours from its estimated delivery date and has not reached the local distribution hub, automatically send a proactive SMS apology and a 10% discount voucher for their next order.
+   - *Expected Impact*: Mitigates the 1-star review penalty on delayed orders, preserving merchant review scores and preventing buyer churn.
+2. **Execute an 86-Day Customer Retention Lifecycle Flow**:
+   - *Marketing Intervention*: Capitalize on the observed 86.4-day average repurchase cycle by deploying automated email/WhatsApp replenishment campaigns between Days 60 and 75 post-purchase, offering personalized category recommendations and free shipping vouchers.
+   - *Expected Impact*: Doubles repeat customer conversion from 3.12% to 6.24%, generating an estimated R$ 400,000+ in incremental annual GMV without increasing top-of-funnel ad spend.
+3. **Establish Regional 3PL Micro-Fulfillment Hubs in Northern Transit Corridors**:
+   - *Supply Chain Intervention*: Partner with third-party logistics (3PL) providers to pre-position inventory for the top 20 Pareto SKUs in regional fulfillment centers in Salvador (`BA`) or Recife (`PE`).
+   - *Expected Impact*: Slashes delivery lead times to Northeast consumers from 25+ days down to 4–6 days, boosting order conversion in historically underserved states.
+
+---
+
+## 16. Complete Visual Analytics Showcase
+
+The repository contains eight analytical, architectural, and database artifacts verifying all technical deliverables:
+
+### 1. End-to-End System Architecture
+![End-to-End System Architecture](images/project_architecture.png)
+*Figure 6: Complete technical data flow from raw CSV ingestion to PostgreSQL warehousing, Next.js web application, and Metabase BI.*
+
+### 2. Relational Database Schema & ERD
+![Relational Database ERD](images/salespulse_erd.png)
+*Figure 7: Full PostgreSQL 17 Entity-Relationship Diagram detailing primary keys, foreign key constraints, and 3NF relationships.*
+
+### 3. Automated Data Quality and Primary Key Audit
+![Data Quality Audit Report](images/data_quality_report.png)
+*Figure 8: Automated Python data profiling report verifying row counts, missing values, and candidate key uniqueness.*
+
+### 4. Advanced SQL Analytics in DBeaver
+![Advanced SQL Analytics](images/sql_analysis.png)
+*Figure 9: DBeaver SQL console executing complex window functions, rankings, and multi-table customer analytics.*
+
+### 5. Interactive Metabase Executive BI Dashboard
+![Metabase BI Dashboard](images/dashboard_preview.png)
+*Figure 10: Metabase business intelligence dashboard with interactive KPI scorecards, date filters, and SLA correlation charts.*
+
+### 6. Revenue Analytics and Growth Velocity
+![Revenue Analytics](images/revenue_analysis.png)
+*Figure 11: SQL revenue trajectory queries demonstrating monthly growth velocity and complete-month boundaries.*
+
+### 7. Customer Retention and Cohort Analysis
+![Customer Retention Analysis](images/customer_analysis.png)
+*Figure 12: SQL customer frequency analysis evaluating one-time vs. repeat buyers and repurchase intervals.*
+
+### 8. Product Merchandising and Category Performance
+![Product Merchandising Analysis](images/product_analysis.png)
+*Figure 13: SQL category performance queries analyzing sales volume, price elasticity, and freight costs.*
+
+---
+
+## 17. Repository Directory Structure
 
 ```
 SalesPulse-Retail-Business-Analytics/
 │
-├── README.md                           # Main repository documentation & guide
-├── DEPLOYMENT.md                       # Vercel & Neon PostgreSQL deployment guide
+├── README.md                           # Main repository documentation & engineering guide
+├── DEPLOYMENT.md                       # Complete Vercel & Neon PostgreSQL deployment guide
 ├── DATA_DICTIONARY.md                  # Comprehensive schema & column data dictionary
-├── LICENSE                             # MIT License
-├── .gitignore                          # Excludes raw data, credentials, virtualenvs
-├── requirements.txt                    # Project Python dependencies
-├── .env.example                        # Template for database credentials
+├── LICENSE                             # MIT Open Source License
+├── .gitignore                          # Excludes raw CSV data, credentials, virtual environments
+├── requirements.txt                    # Python dependencies (psycopg2-binary, pandas, etc.)
+├── .env.example                        # Template for database connection credentials
 │
-├── salespulse-dashboard/               # Next.js 15 Full-Stack Web Application
-│   ├── app/                            # App Router (pages & API routes)
-│   │   ├── api/                        # Serverless SQL API endpoints (/overview, /revenue, etc.)
-│   │   ├── revenue/                    # Revenue analytics page
-│   │   ├── products/                   # Products & Pareto analysis page
-│   │   ├── customers/                  # Customer lifecycle page
-│   │   ├── regions/                    # Regional distribution page
-│   │   ├── delivery/                   # Logistics SLA page
-│   │   ├── insights/                   # 5 Insights & 3 Recommendations page
-│   │   ├── layout.tsx                  # Root layout with Client Providers
-│   │   └── page.tsx                    # Executive Overview page
-│   ├── components/                     # Reusable UI components
+├── salespulse-dashboard/               # Next.js 15 Full-Stack Analytics Web Application
+│   ├── app/                            # Next.js App Router (pages & serverless API routes)
+│   │   ├── api/                        # Serverless SQL API endpoints
+│   │   │   ├── overview/route.ts       # Executive KPIs & summary charts endpoint
+│   │   │   ├── revenue/route.ts        # Monthly revenue, AOV & MoM growth endpoint
+│   │   │   ├── products/route.ts       # Category rankings & Pareto distribution endpoint
+│   │   │   ├── customers/route.ts      # Customer retention & repurchase gap endpoint
+│   │   │   ├── regions/route.ts        # State distribution & regional share endpoint
+│   │   │   ├── delivery/route.ts       # Delivery transit & SLA correlation endpoint
+│   │   │   ├── filters/route.ts        # Dynamic category & state filter options endpoint
+│   │   │   └── health/route.ts         # Live PostgreSQL pool ping & status probe endpoint
+│   │   ├── revenue/page.tsx            # Revenue analytics page
+│   │   ├── products/page.tsx           # Product & category analytics page
+│   │   ├── customers/page.tsx          # Customer retention & lifetime value page
+│   │   ├── regions/page.tsx            # Regional geographic analytics page
+│   │   ├── delivery/page.tsx           # Logistics SLA & review rating page
+│   │   ├── insights/page.tsx           # 5 Business insights & 3 recommendations page
+│   │   ├── layout.tsx                  # Root application layout with Client Providers
+│   │   └── page.tsx                    # Executive Overview dashboard page
+│   ├── components/                     # Reusable UI component library
 │   │   ├── charts/                     # Recharts components (Area, Bar, Donut, SLA)
-│   │   ├── filters/                    # FilterBar & React Context Provider
-│   │   ├── header/                     # Top bar with Neon DB status badge
-│   │   ├── kpi/                        # Metric cards with loading states
-│   │   ├── layout/                     # Responsive DashboardShell
+│   │   ├── filters/                    # Global FilterBar & FilterContext provider
+│   │   ├── header/                     # Top navigation with live DB connection badge
+│   │   ├── kpi/                        # Metric scorecards with loading skeletons
+│   │   ├── layout/                     # Responsive DashboardShell layout
 │   │   └── sidebar/                    # Dark navy sidebar navigation
-│   ├── lib/                            # Database pool (pg) and SQL queries
+│   ├── lib/                            # Database client & analytical SQL queries
 │   │   ├── db.ts                       # Neon SSL PostgreSQL pool singleton
 │   │   ├── formatters.ts               # Currency (BRL), percentages, numbers
-│   │   └── queries/analytics.ts        # Parameterized SQL query suite
-│   ├── types/dashboard.ts              # TypeScript domain interfaces
-│   ├── package.json                    # Dashboard dependencies
-│   ├── tsconfig.json                   # TypeScript configuration
+│   │   └── queries/analytics.ts        # Parameterized analytical query suite
+│   ├── types/dashboard.ts              # TypeScript domain interfaces & API contracts
+│   ├── package.json                    # Dashboard dependencies & scripts
+│   ├── tsconfig.json                   # TypeScript compiler configuration
 │   └── tailwind.config.ts              # Tailwind CSS configuration
 │
 ├── database/
-│   └── create_tables.sql               # PostgreSQL 17 DDL and index creation script
+│   └── create_tables.sql               # PostgreSQL 17 DDL and index creation script (9 tables)
 │
 ├── data/
 │   ├── raw/                            # Directory for source CSV files (git-ignored)
 │   └── processed/                      # Directory for processed datasets (git-ignored)
 │
 ├── python/
-│   ├── inspect_dataset.py              # CSV profiling and structure inspector
+│   ├── inspect_dataset.py              # CSV schema profiling and structure inspector
 │   ├── check_data_quality.py           # Primary key & missing value validator
-│   ├── investigate_reviews.py          # Forensic review ID duplicate diagnostic
-│   └── import_olist_data.py            # High-performance batch ETL loader
+│   ├── investigate_reviews.py          # Forensic review ID duplicate diagnostic script
+│   └── import_olist_data.py            # High-performance batch ETL loader (2,000 rows/batch)
 │
 ├── sql/
-│   ├── 00_verify_tables.sql            # Table verification query
+│   ├── 00_verify_tables.sql            # Table verification & row count query
 │   ├── 01_basic_aggregate_analysis.sql # 19 foundational aggregate analyses (Q1-Q20)
 │   ├── 02_joins_and_cte_analysis.sql   # 10 joins, CTEs, and customer analyses (Q21-Q30)
 │   ├── 03_window_functions.sql         # 10 advanced window function analyses (Q31-Q40)
-│   └── 04_bonus_views_and_pareto.sql   # 4 reusable views, Pareto 80/20 & EXPLAIN
+│   ├── 04_bonus_views_and_pareto.sql   # 4 reusable views, Pareto 80/20 & EXPLAIN plans
+│   └── 05_join_validation.sql          # 9 mathematical join validation & anti-inflation proofs
 │
 ├── dashboard/
-│   ├── dashboard_overview.md           # Dashboard architecture and KPI layout
-│   ├── dashboard_queries.sql           # SQL queries powering dashboard tiles
+│   ├── dashboard_overview.md           # Dashboard architecture, layout & query mapping
+│   ├── dashboard_queries.sql           # SQL queries powering Metabase visual cards
 │   └── screenshots/                    # Dashboard preview screenshots
+│       ├── .gitkeep                    # Directory preservation
+│       └── dashboard_preview.png       # Canonical Metabase dashboard preview image
 │
 ├── images/                             # Architectural, ERD, and SQL execution screenshots
-│   ├── project_architecture.png
-│   ├── dashboard_preview.png
-│   ├── salespulse_erd.png
-│   ├── sql_analysis.png
-│   ├── revenue_analysis.png
-│   └── data_quality_report.png
+│   ├── project_architecture.png        # End-to-end system architecture diagram
+│   ├── salespulse_erd.png              # Relational database entity-relationship diagram
+│   ├── data_quality_report.png         # Automated data quality audit terminal output
+│   ├── sql_analysis.png                # DBeaver complex SQL execution screenshot
+│   ├── dashboard_preview.png           # Metabase interactive BI dashboard preview
+│   ├── revenue_analysis.png            # DBeaver revenue growth query execution screenshot
+│   ├── customer_analysis.png           # DBeaver customer frequency query execution screenshot
+│   └── product_analysis.png            # DBeaver product performance query execution screenshot
 │
-├── reports/                            # Automated profiling & forensic reports
-│   ├── dataset_inspection.txt
-│   ├── data_quality_report.txt
-│   ├── review_duplicate_investigation.txt
-│   └── repository_audit.md
+├── reports/                            # Automated profiling & forensic analysis reports
+│   ├── dataset_inspection.txt          # Raw dataset inspection report
+│   ├── data_quality_report.txt         # Pre-ingestion validation findings report
+│   ├── review_duplicate_investigation.txt # Review duplicate forensic analysis report
+│   └── repository_audit.md             # Complete repository audit and verification report
 │
 └── docs/                               # Formal engineering & analytics documentation
-    ├── project_overview.md
-    ├── database_schema.md
-    ├── sql_analysis_documentation.md
-    ├── dashboard_documentation.md
-    ├── business_insights.md
-    ├── executive_summary.md
-    ├── dashboard_walkthrough_script.md
-    └── deployment_guide.md
+    ├── project_overview.md             # High-level commercial project documentation
+    ├── database_schema.md              # Detailed schema design & constraint specifications
+    ├── sql_analysis_documentation.md   # Complete catalog of all 39 business queries
+    ├── dashboard_documentation.md      # Metabase BI configuration & setup guide
+    ├── business_insights.md            # Detailed analytical findings & strategic context
+    ├── executive_summary.md            # C-suite executive summary & recommendations
+    ├── dashboard_walkthrough_script.md # Video demonstration presentation script
+    └── deployment_guide.md             # Detailed deployment & hosting instructions
 ```
 
 ---
 
-## 16. Installation & Local Setup
+## 18. Prerequisites and System Requirements
 
-### Prerequisites
-- [Git](https://git-scm.com/)
-- [PostgreSQL 17](https://www.postgresql.org/download/) or a free [Neon](https://neon.tech/) account
-- [Node.js 18+ or 20+](https://nodejs.org/)
-- [Python 3.12+](https://www.python.org/)
-- [DBeaver Community](https://dbeaver.io/)
+- **Operating System**: Windows 10/11, macOS 12+, or Ubuntu 20.04+ LTS
+- **Database Engine**: [PostgreSQL 17](https://www.postgresql.org/download/) installed locally OR a free serverless instance on [Neon](https://neon.tech/)
+- **Node.js**: Node.js 18.x, 20.x, or 22.x LTS with npm
+- **Python**: Python 3.10, 3.11, or 3.12 with pip and virtualenv
+- **SQL Client**: [DBeaver Community](https://dbeaver.io/) (recommended) or `psql` command-line utility
+- **Git**: Latest Git CLI
 
-### Clone the Repository
+---
+
+## 19. Step-by-Step Local Setup and Database Ingestion
+
+### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics.git
 cd SalesPulse-Retail-Business-Analytics
 ```
 
-### Python Virtual Environment Setup (For ETL Scripts)
+### Step 2: Set Up Python Virtual Environment
 ```bash
 # Windows (PowerShell)
 python -m venv venv
@@ -407,28 +619,38 @@ python -m venv venv
 python3 -m venv venv
 source venv/bin/activate
 
-# Install required dependencies
+# Install required ETL dependencies
 pip install -r requirements.txt
 ```
 
----
+### Step 3: Configure Database Credentials
+Copy the example environment configuration:
+```bash
+cp .env.example .env
+```
+Open `.env` and set your local PostgreSQL credentials:
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=salespulse
+DB_USER=postgres
+DB_PASSWORD=your_password_here
+```
 
-## 17. Database Setup & Data Ingestion
+### Step 4: Create the Database and Schema
+Create the database and execute the DDL script to create all 9 tables and B-tree indexes:
+```bash
+# Create database
+psql -U postgres -c "CREATE DATABASE salespulse;"
 
-1. Start your local PostgreSQL service or provision a Neon Serverless instance.
-2. Create the `salespulse` database:
-   ```sql
-   CREATE DATABASE salespulse;
-   ```
-3. Execute the schema script to create all 9 tables and analytical B-tree indexes:
-   ```bash
-   psql -U postgres -d salespulse -f database/create_tables.sql
-   ```
-4. Configure your `.env` file from the provided template:
-   ```bash
-   cp .env.example .env
-   ```
-5. Run the automated data quality checks and batch ingestion ETL:
+# Create schema and indexes
+psql -U postgres -d salespulse -f database/create_tables.sql
+```
+
+### Step 5: Download Raw Data and Run ETL Batch Ingestion
+1. Download the [Olist Dataset from Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce).
+2. Place all 9 raw `.csv` files into `data/raw/`.
+3. Run data quality verification and high-performance batch ETL:
    ```bash
    python python/check_data_quality.py
    python python/investigate_reviews.py
@@ -437,90 +659,83 @@ pip install -r requirements.txt
 
 ---
 
-## 18. Executing SQL Analyses
+## 20. SQL Suite Execution and Next.js Launch Guide
 
-Connect using DBeaver or run directly via `psql`:
+### Running the SQL Analytical Suite
+Execute the analytical queries using `psql` or open them directly in DBeaver:
 
 ```bash
-# 1. Verify all 9 tables and record counts
+# 1. Verify tables and record counts (1,547,842 rows)
 psql -U postgres -d salespulse -f sql/00_verify_tables.sql
 
-# 2. Foundational aggregate queries (Q1 - Q20)
+# 2. Baseline aggregate queries (Q1 - Q20)
 psql -U postgres -d salespulse -f sql/01_basic_aggregate_analysis.sql
 
-# 3. Joins, CTEs, and customer analytics (Q21 - Q30)
+# 3. Joins, CTEs, and customer lifecycle analyses (Q21 - Q30)
 psql -U postgres -d salespulse -f sql/02_joins_and_cte_analysis.sql
 
-# 4. Advanced window functions (Q31 - Q40)
+# 4. Advanced window functions and growth velocity (Q31 - Q40)
 psql -U postgres -d salespulse -f sql/03_window_functions.sql
 
-# 5. Create 4 reusable views and run Pareto 80/20 analysis
+# 5. Create 4 reusable analytical views and run Pareto 80/20 analysis
 psql -U postgres -d salespulse -f sql/04_bonus_views_and_pareto.sql
+
+# 6. Run mathematical join anti-inflation validation proofs
+psql -U postgres -d salespulse -f sql/05_join_validation.sql
 ```
 
----
-
-## 19. Running the Next.js Dashboard Locally
-
+### Running the Next.js Analytics Web Dashboard
 ```bash
-# 1. Navigate to dashboard directory
+# Navigate to the dashboard directory
 cd salespulse-dashboard
 
-# 2. Copy the environment template
+# Create local environment file
 cp .env.example .env.local
 
-# 3. Add your database connection string to .env.local:
-# DATABASE_URL=postgresql://user:password@host/salespulse?sslmode=require
+# Edit .env.local and add your database connection string:
+# DATABASE_URL=postgresql://postgres:your_password@localhost:5432/salespulse
 
-# 4. Install dependencies
+# Install dependencies
 npm install
 
-# 5. Start the development server
+# Start local development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your web browser.
 
----
+### Building for Production
+```bash
+cd salespulse-dashboard
+npm run build
+npm run start
+```
 
-## 20. Deploying to Vercel
-
-The dashboard is configured for free-tier deployment on Vercel:
-
+### Deploying to Vercel
 1. Push your repository to GitHub.
-2. Sign in to [Vercel](https://vercel.com) and click **Import Project**.
-3. Select `Awaisbacha55/SalesPulse-Retail-Business-Analytics`.
-4. In **Project Settings**, set **Root Directory** to `salespulse-dashboard`.
-5. Under **Environment Variables**, add:
-   - `DATABASE_URL`: Your Neon PostgreSQL connection string (with `?sslmode=require`).
-6. Click **Deploy**.
-
-For complete step-by-step instructions and troubleshooting, see [`DEPLOYMENT.md`](DEPLOYMENT.md).
+2. Sign in to [Vercel](https://vercel.com) and import the repository.
+3. Set **Root Directory** to `salespulse-dashboard`.
+4. Add the `DATABASE_URL` environment variable containing your Neon PostgreSQL connection string.
+5. Deploy. Refer to [`DEPLOYMENT.md`](DEPLOYMENT.md) for detailed cloud configuration instructions.
 
 ---
 
-## 21. Project Limitations & Future Improvements
+## 21. Limitations, Future Roadmap and Author Attribution
 
-- **Historical Time Horizon**: The Olist public dataset covers historical orders from 2016 through 2018; current macroeconomic shifts and currency inflation adjustments are not reflected.
+### Project Limitations
+- **Historical Snapshot**: The Olist public dataset captures transactions from October 2016 through October 2018; modern macro trends and currency fluctuations are not modeled.
 - **Geolocation Cardinality**: `olist_geolocation_dataset.csv` contains multiple coordinate entries per ZIP prefix; aggregating coordinate centroids by prefix optimizes spatial queries.
-- **Machine Learning Integration**: Future roadmap includes training XGBoost models to predict delivery delays and forecast customer churn risk.
+- **Truncated Operating Months**: September and October 2018 contain only 20 total orders due to dataset truncation; all monthly time-series analyses strictly apply `< '2018-09-01'` to avoid artificial drops.
 
----
+### Future Roadmap
+- **Predictive Machine Learning**: Train an XGBoost or Random Forest regression model on order weight, freight fees, seller distance, and historical transit days to forecast delivery delays in real time.
+- **Automated Customer Churn Scoring**: Build an RFM (Recency, Frequency, Monetary) segmentation model with automated churn risk scores.
+- **Direct Geolocation Geospatial Visualizations**: Integrate PostGIS geospatial queries with Leaflet or Mapbox in the Next.js frontend to render interactive delivery transit heatmaps.
 
-## 22. Author & Credits
-
-- **Author**: Muhammad Awais  
-- **GitHub**: [@Awaisbacha55](https://github.com/Awaisbacha55)  
-- **Project Repository**: [SalesPulse-Retail-Business-Analytics](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics)  
-- **Demonstration Video**: [YouTube Walkthrough](https://youtu.be/JfchSQo9VEQ)  
-- **Dataset Provider**: [Olist](https://www.olist.com/) via [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)  
-- **License**: Licensed under the [MIT License](LICENSE).
-
-
-## 🎥 Project Demo Video
-
-Watch the complete SalesPulse project demonstration:
-
-[▶️ Watch SalesPulse Demo on YouTube](https://youtu.be/JfchSQo9VEQ)
-
-In this video, I demonstrate the PostgreSQL database, SQL analysis, database relationships, and interactive Metabase dashboard.
+### Author and License
+- **Author**: Muhammad Awais
+- **GitHub**: [@Awaisbacha55](https://github.com/Awaisbacha55)
+- **Repository**: [SalesPulse-Retail-Business-Analytics](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics)
+- **Video Walkthrough**: [YouTube Demonstration](https://youtu.be/JfchSQo9VEQ)
+- **Dataset Provider**: [Olist](https://www.olist.com/) via [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
+- **License**: Released under the [MIT License](LICENSE).

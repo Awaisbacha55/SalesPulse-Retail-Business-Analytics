@@ -43,6 +43,9 @@ The project demonstrates exceptional execution across data modeling, data qualit
 | `sql/01_basic_aggregate_analysis.sql` | Present | SQL Script | 19 foundational aggregate analyses (Q1–Q10, Q12–Q20) |
 | `sql/02_joins_and_cte_analysis.sql` | Present | SQL Script | 10 customer & operational join/CTE analyses (Q21–Q30) |
 | `sql/03_window_functions.sql` | Present | SQL Script | 10 advanced window function analyses (Q31–Q40) |
+| `sql/04_bonus_views_and_pareto.sql` | Present | SQL Script | 4 analytical views, Pareto 80/20 analysis (Q41–Q42), EXPLAIN plans |
+| `sql/05_join_validation.sql` | Present | SQL Script | 9 mathematical join validation & anti-inflation proofs |
+| `salespulse-dashboard/` | Present | Next.js App | Full-stack Next.js 15 + React 19 analytics web application |
 | `docs/project_overview.md` | Present | Documentation | Business context, scope, tools, 6-day roadmap |
 | `docs/database_schema.md` | Present | Documentation | Complete data dictionary and table relationships |
 | `docs/day1_completion_report.md`| Present | Documentation | Formal Day 1 milestone verification report |
@@ -52,6 +55,7 @@ The project demonstrates exceptional execution across data modeling, data qualit
 | `images/data_quality_report.png`| Present | Image | Terminal data quality execution screenshot (964x566 PNG) |
 | `images/customer_analysis.png` | Present | Image | Customer analysis query screenshot (1028x576 PNG) |
 | `images/product_analysis.png` | Present | Image | Product category query screenshot (1024x585 PNG) |
+| `images/sql_analysis.png` | Present | Image | Complex SQL query execution in DBeaver (1028x576 PNG) |
 | `images/project_architecture.png` | Present | Image | High-level system architecture diagram (1774x887 PNG) |
 
 ---

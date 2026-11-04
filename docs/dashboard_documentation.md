@@ -149,3 +149,9 @@ Metabase allows parameters to bind to multiple cards simultaneously:
   1. Add Database Connection string: `postgresql://postgres:[password]@localhost:5432/salespulse`.
   2. Use SQL Lab to execute query snippets and click **Explore** to save charts.
 
+---
+
+## 8. Dashboard Sharing & Public Demonstration
+
+- **YouTube Video Walkthrough**: [Watch SalesPulse Demo on YouTube](https://youtu.be/JfchSQo9VEQ)
+- **Metabase Public Link**: `[METABASE_PUBLIC_DASHBOARD_URL_PLACEHOLDER]` *(To generate: open Metabase → Dashboard Settings → Sharing and Embedding → Enable Public Link).*
