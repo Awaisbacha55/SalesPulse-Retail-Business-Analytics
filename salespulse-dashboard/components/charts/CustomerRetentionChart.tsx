@@ -1,13 +1,16 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { formatNumber, formatPercent } from "@/lib/formatters";
+import { AlertCircle, Inbox } from "lucide-react";
 
 interface CustomerRetentionChartProps {
   repeatCount: number;
   oneTimeCount: number;
   repeatPct: number;
   loading?: boolean;
+  error?: string | null;
 }
 
 export function CustomerRetentionChart({
@@ -15,11 +18,41 @@ export function CustomerRetentionChart({
   oneTimeCount,
   repeatPct,
   loading,
+  error,
 }: CustomerRetentionChartProps) {
-  if (loading) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted || loading) {
     return (
-      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex items-center justify-center">
-        <div className="h-6 w-32 bg-slate-200 animate-pulse rounded" />
+      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex flex-col items-center justify-center">
+        <div className="h-6 w-32 bg-slate-200 animate-pulse rounded mb-3" />
+        <p className="text-xs text-slate-400">Loading customer retention...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white p-5 rounded-xl border border-rose-200 shadow-sm h-80 flex flex-col items-center justify-center text-center p-6">
+        <AlertCircle className="w-8 h-8 text-rose-500 mb-2" />
+        <h4 className="text-sm font-semibold text-slate-800">Unable to load retention</h4>
+        <p className="text-xs text-slate-500 mt-1 max-w-sm">{error}</p>
+      </div>
+    );
+  }
+
+  const total = oneTimeCount + repeatCount;
+
+  if (total === 0) {
+    return (
+      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex flex-col items-center justify-center text-center p-6">
+        <Inbox className="w-8 h-8 text-slate-300 mb-2" />
+        <h4 className="text-sm font-semibold text-slate-700">No customer data available</h4>
+        <p className="text-xs text-slate-400 mt-1">No customer transactions match current filters.</p>
       </div>
     );
   }
@@ -30,7 +63,7 @@ export function CustomerRetentionChart({
   ];
 
   return (
-    <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm">
+    <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm min-w-0">
       <div className="flex items-center justify-between mb-2">
         <div>
           <h3 className="text-sm font-bold text-slate-800">Customer Retention Dynamics</h3>
@@ -40,13 +73,13 @@ export function CustomerRetentionChart({
         </div>
       </div>
 
-      <div className="h-64 w-full">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-64 w-full min-w-0">
+        <ResponsiveContainer width="100%" height={250} minWidth={0} minHeight={250}>
           <PieChart>
             <Pie
               data={data}
-              innerRadius={60}
-              outerRadius={85}
+              innerRadius={55}
+              outerRadius={80}
               paddingAngle={4}
               dataKey="value"
             >
@@ -58,7 +91,6 @@ export function CustomerRetentionChart({
               content={({ active, payload }) => {
                 if (!active || !payload?.length) return null;
                 const d = payload[0].payload as { name: string; value: number; color: string };
-                const total = oneTimeCount + repeatCount;
                 const pct = total > 0 ? (d.value * 100) / total : 0;
                 return (
                   <div className="bg-slate-900 text-white p-2.5 rounded-lg shadow-xl text-xs space-y-1">

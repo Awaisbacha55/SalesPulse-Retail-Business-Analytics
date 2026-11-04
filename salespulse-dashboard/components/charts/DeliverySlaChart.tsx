@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -11,6 +12,7 @@ import {
   Legend,
 } from "recharts";
 import { formatNumber } from "@/lib/formatters";
+import { AlertCircle, Inbox } from "lucide-react";
 
 interface DeliverySlaChartProps {
   onTimeOrders: number;
@@ -18,6 +20,7 @@ interface DeliverySlaChartProps {
   onTimeRating: number;
   delayedRating: number;
   loading?: boolean;
+  error?: string | null;
 }
 
 export function DeliverySlaChart({
@@ -26,11 +29,41 @@ export function DeliverySlaChart({
   onTimeRating,
   delayedRating,
   loading,
+  error,
 }: DeliverySlaChartProps) {
-  if (loading) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted || loading) {
     return (
-      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex items-center justify-center">
-        <div className="h-6 w-32 bg-slate-200 animate-pulse rounded" />
+      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex flex-col items-center justify-center">
+        <div className="h-6 w-32 bg-slate-200 animate-pulse rounded mb-3" />
+        <p className="text-xs text-slate-400">Loading delivery SLA metrics...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white p-5 rounded-xl border border-rose-200 shadow-sm h-80 flex flex-col items-center justify-center text-center p-6">
+        <AlertCircle className="w-8 h-8 text-rose-500 mb-2" />
+        <h4 className="text-sm font-semibold text-slate-800">Unable to load SLA chart</h4>
+        <p className="text-xs text-slate-500 mt-1 max-w-sm">{error}</p>
+      </div>
+    );
+  }
+
+  const totalDelivered = onTimeOrders + delayedOrders;
+
+  if (totalDelivered === 0) {
+    return (
+      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex flex-col items-center justify-center text-center p-6">
+        <Inbox className="w-8 h-8 text-slate-300 mb-2" />
+        <h4 className="text-sm font-semibold text-slate-700">No delivery data available</h4>
+        <p className="text-xs text-slate-400 mt-1">No delivered orders match current parameters.</p>
       </div>
     );
   }
@@ -49,7 +82,7 @@ export function DeliverySlaChart({
   ];
 
   return (
-    <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm">
+    <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm min-w-0">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-sm font-bold text-slate-800">
@@ -61,8 +94,8 @@ export function DeliverySlaChart({
         </div>
       </div>
 
-      <div className="h-72 w-full">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-72 w-full min-w-0">
+        <ResponsiveContainer width="100%" height={280} minWidth={0} minHeight={280}>
           <BarChart data={data} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
             <XAxis

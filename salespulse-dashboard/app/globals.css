@@ -18,6 +18,12 @@ body {
   height: 6px;
 }
 
+/* Ensure Recharts ResponsiveContainer always maintains minimum dimensions */
+.recharts-responsive-container {
+  min-height: 250px;
+  min-width: 0 !important;
+}
+
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
 }

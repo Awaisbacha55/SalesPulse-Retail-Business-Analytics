@@ -26,10 +26,13 @@ export default function ProductsPage() {
   });
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isCurrent = true;
     async function fetchProducts() {
       setLoading(true);
+      setError(null);
       try {
         const queryParams = new URLSearchParams();
         if (filters.startDate) queryParams.set("startDate", filters.startDate);
@@ -41,18 +44,27 @@ export default function ProductsPage() {
         const qs = queryParams.toString() ? `?${queryParams.toString()}` : "";
         const res = await fetch(`/api/products${qs}`);
         const json = await res.json();
-        if (json.success) {
-          setTopCategories(json.data.topCategories);
-          setTopProducts(json.data.topProducts);
+        if (!isCurrent) return;
+        if (json.success && json.data) {
+          setTopCategories(json.data.topCategories || []);
+          setTopProducts(json.data.topProducts || []);
           if (json.data.pareto) setPareto(json.data.pareto);
+        } else {
+          setError(json.error || "Failed to load product analytics from database.");
         }
-      } catch (err) {
-        console.error("Failed to load product analytics:", err);
+      } catch (err: any) {
+        if (isCurrent) {
+          console.error("Failed to load product analytics:", err);
+          setError(err?.message || "Failed to connect to product API.");
+        }
       } finally {
-        setLoading(false);
+        if (isCurrent) setLoading(false);
       }
     }
     fetchProducts();
+    return () => {
+      isCurrent = false;
+    };
   }, [filters, refreshTrigger]);
 
   return (
@@ -70,8 +82,10 @@ export default function ProductsPage() {
       />
 
       {/* Top Categories Chart */}
-      <div className="grid grid-cols-1 gap-6">
-        <TopCategoriesChart data={topCategories} loading={loading} />
+      <div className="grid grid-cols-1 gap-6 min-w-0">
+        <div className="min-w-0">
+          <TopCategoriesChart data={topCategories} loading={loading} error={error} />
+        </div>
       </div>
 
       {/* Top 10 Best-Selling Products Table */}

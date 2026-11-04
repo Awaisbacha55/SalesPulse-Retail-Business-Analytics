@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -11,17 +12,46 @@ import {
 } from "recharts";
 import { CategoryRevenueItem } from "@/types/dashboard";
 import { formatBRLCompact } from "@/lib/formatters";
+import { AlertCircle, Inbox } from "lucide-react";
 
 interface TopCategoriesChartProps {
   data: CategoryRevenueItem[];
   loading?: boolean;
+  error?: string | null;
 }
 
-export function TopCategoriesChart({ data, loading }: TopCategoriesChartProps) {
-  if (loading) {
+export function TopCategoriesChart({ data, loading, error }: TopCategoriesChartProps) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted || loading) {
     return (
-      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex items-center justify-center">
-        <div className="h-6 w-32 bg-slate-200 animate-pulse rounded" />
+      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex flex-col items-center justify-center">
+        <div className="h-6 w-32 bg-slate-200 animate-pulse rounded mb-3" />
+        <p className="text-xs text-slate-400">Loading top categories...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white p-5 rounded-xl border border-rose-200 shadow-sm h-80 flex flex-col items-center justify-center text-center p-6">
+        <AlertCircle className="w-8 h-8 text-rose-500 mb-2" />
+        <h4 className="text-sm font-semibold text-slate-800">Unable to load categories</h4>
+        <p className="text-xs text-slate-500 mt-1 max-w-sm">{error}</p>
+      </div>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex flex-col items-center justify-center text-center p-6">
+        <Inbox className="w-8 h-8 text-slate-300 mb-2" />
+        <h4 className="text-sm font-semibold text-slate-700">No data available for this chart</h4>
+        <p className="text-xs text-slate-400 mt-1">Try adjusting the filter criteria or category selection.</p>
       </div>
     );
   }
@@ -32,7 +62,7 @@ export function TopCategoriesChart({ data, loading }: TopCategoriesChartProps) {
   }));
 
   return (
-    <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm">
+    <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm min-w-0">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-sm font-bold text-slate-800">Top Product Categories</h3>
@@ -40,8 +70,8 @@ export function TopCategoriesChart({ data, loading }: TopCategoriesChartProps) {
         </div>
       </div>
 
-      <div className="h-72 w-full">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-72 w-full min-w-0">
+        <ResponsiveContainer width="100%" height={280} minWidth={0} minHeight={280}>
           <BarChart
             data={formattedData}
             layout="vertical"

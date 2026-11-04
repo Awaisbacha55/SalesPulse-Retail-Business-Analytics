@@ -10,21 +10,35 @@ import { Truck, CheckCircle2, AlertTriangle, Star, Clock } from "lucide-react";
 export default function DeliveryPage() {
   const [data, setData] = useState<DeliveryMetrics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isCurrent = true;
     async function fetchDelivery() {
       setLoading(true);
+      setError(null);
       try {
         const res = await fetch("/api/delivery");
         const json = await res.json();
-        if (json.success) setData(json.data);
-      } catch (err) {
-        console.error("Failed to load delivery analytics:", err);
+        if (!isCurrent) return;
+        if (json.success && json.data) {
+          setData(json.data);
+        } else {
+          setError(json.error || "Failed to load delivery analytics from database.");
+        }
+      } catch (err: any) {
+        if (isCurrent) {
+          console.error("Failed to load delivery analytics:", err);
+          setError(err?.message || "Failed to connect to delivery API.");
+        }
       } finally {
-        setLoading(false);
+        if (isCurrent) setLoading(false);
       }
     }
     fetchDelivery();
+    return () => {
+      isCurrent = false;
+    };
   }, []);
 
   return (
@@ -98,14 +112,15 @@ export default function DeliveryPage() {
       </div>
 
       {/* Main SLA Chart and Impact Box */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 min-w-0">
+        <div className="lg:col-span-2 min-w-0">
           <DeliverySlaChart
-            onTimeOrders={data?.onTimeOrders || 88649}
-            delayedOrders={data?.delayedOrders || 8199}
-            onTimeRating={data?.onTimeAvgRating || 4.29}
-            delayedRating={data?.delayedAvgRating || 2.57}
+            onTimeOrders={data?.onTimeOrders ?? 0}
+            delayedOrders={data?.delayedOrders ?? 0}
+            onTimeRating={data?.onTimeAvgRating ?? 4.29}
+            delayedRating={data?.delayedAvgRating ?? 2.57}
             loading={loading}
+            error={error}
           />
         </div>
 

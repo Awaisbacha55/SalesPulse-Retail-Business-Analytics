@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -11,17 +12,46 @@ import {
 } from "recharts";
 import { MonthlyRevenuePoint } from "@/types/dashboard";
 import { formatBRLCompact, formatMonthLabel } from "@/lib/formatters";
+import { AlertCircle, Inbox } from "lucide-react";
 
 interface RevenueTrendChartProps {
   data: MonthlyRevenuePoint[];
   loading?: boolean;
+  error?: string | null;
 }
 
-export function RevenueTrendChart({ data, loading }: RevenueTrendChartProps) {
-  if (loading) {
+export function RevenueTrendChart({ data, loading, error }: RevenueTrendChartProps) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted || loading) {
     return (
-      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex items-center justify-center">
-        <div className="h-6 w-32 bg-slate-200 animate-pulse rounded" />
+      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex flex-col items-center justify-center">
+        <div className="h-6 w-32 bg-slate-200 animate-pulse rounded mb-3" />
+        <p className="text-xs text-slate-400">Loading revenue trajectory...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white p-5 rounded-xl border border-rose-200 shadow-sm h-80 flex flex-col items-center justify-center text-center p-6">
+        <AlertCircle className="w-8 h-8 text-rose-500 mb-2" />
+        <h4 className="text-sm font-semibold text-slate-800">Unable to load revenue trend</h4>
+        <p className="text-xs text-slate-500 mt-1 max-w-sm">{error}</p>
+      </div>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm h-80 flex flex-col items-center justify-center text-center p-6">
+        <Inbox className="w-8 h-8 text-slate-300 mb-2" />
+        <h4 className="text-sm font-semibold text-slate-700">No data available for this chart</h4>
+        <p className="text-xs text-slate-400 mt-1">Try adjusting the filter criteria or date range.</p>
       </div>
     );
   }
@@ -32,7 +62,7 @@ export function RevenueTrendChart({ data, loading }: RevenueTrendChartProps) {
   }));
 
   return (
-    <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm">
+    <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm min-w-0">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-sm font-bold text-slate-800">Monthly Revenue Trajectory</h3>
@@ -40,8 +70,8 @@ export function RevenueTrendChart({ data, loading }: RevenueTrendChartProps) {
         </div>
       </div>
 
-      <div className="h-72 w-full">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-72 w-full min-w-0">
+        <ResponsiveContainer width="100%" height={280} minWidth={0} minHeight={280}>
           <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">

@@ -51,7 +51,10 @@ export function formatDays(value: number | string | null | undefined): string {
 
 export function formatMonthLabel(isoString: string): string {
   if (!isoString) return "";
-  const date = new Date(isoString);
+  // Ensure ISO format by replacing space with T if needed to prevent Safari Invalid Date
+  const normalized = isoString.includes(" ") ? isoString.replace(" ", "T") : isoString;
+  const date = new Date(normalized);
+  if (isNaN(date.getTime())) return isoString.slice(0, 7);
   return date.toLocaleDateString("en-US", { month: "short", year: "2-digit" });
 }
 

@@ -10,21 +10,35 @@ import { Users, UserCheck, Repeat, Clock, ShieldCheck } from "lucide-react";
 export default function CustomersPage() {
   const [data, setData] = useState<CustomerMetrics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isCurrent = true;
     async function fetchCustomers() {
       setLoading(true);
+      setError(null);
       try {
         const res = await fetch("/api/customers");
         const json = await res.json();
-        if (json.success) setData(json.data);
-      } catch (err) {
-        console.error("Failed to load customer analytics:", err);
+        if (!isCurrent) return;
+        if (json.success && json.data) {
+          setData(json.data);
+        } else {
+          setError(json.error || "Failed to load customer analytics from database.");
+        }
+      } catch (err: any) {
+        if (isCurrent) {
+          console.error("Failed to load customer analytics:", err);
+          setError(err?.message || "Failed to connect to customers API.");
+        }
       } finally {
-        setLoading(false);
+        if (isCurrent) setLoading(false);
       }
     }
     fetchCustomers();
+    return () => {
+      isCurrent = false;
+    };
   }, []);
 
   return (
@@ -91,13 +105,16 @@ export default function CustomersPage() {
       </div>
 
       {/* Retention Donut & Customer Spending Segments */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <CustomerRetentionChart
-          repeatCount={data?.repeatCustomers || 2997}
-          oneTimeCount={data?.oneTimeCustomers || 93099}
-          repeatPct={data?.repeatCustomerPct || 3.12}
-          loading={loading}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-w-0">
+        <div className="min-w-0">
+          <CustomerRetentionChart
+            repeatCount={data?.repeatCustomers ?? 2997}
+            oneTimeCount={data?.oneTimeCustomers ?? 93099}
+            repeatPct={data?.repeatCustomerPct ?? 3.12}
+            loading={loading}
+            error={error}
+          />
+        </div>
 
         {/* Customer Tiers */}
         <div className="bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm">

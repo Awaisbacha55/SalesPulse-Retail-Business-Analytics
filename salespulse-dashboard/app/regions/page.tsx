@@ -12,10 +12,13 @@ export default function RegionsPage() {
   const { filters, refreshTrigger } = useFilters();
   const [data, setData] = useState<StateRevenueItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isCurrent = true;
     async function fetchRegions() {
       setLoading(true);
+      setError(null);
       try {
         const queryParams = new URLSearchParams();
         if (filters.startDate) queryParams.set("startDate", filters.startDate);
@@ -27,14 +30,25 @@ export default function RegionsPage() {
         const qs = queryParams.toString() ? `?${queryParams.toString()}` : "";
         const res = await fetch(`/api/regions${qs}`);
         const json = await res.json();
-        if (json.success) setData(json.data);
-      } catch (err) {
-        console.error("Failed to load regional analytics:", err);
+        if (!isCurrent) return;
+        if (json.success && json.data) {
+          setData(json.data);
+        } else {
+          setError(json.error || "Failed to load regional analytics from database.");
+        }
+      } catch (err: any) {
+        if (isCurrent) {
+          console.error("Failed to load regional analytics:", err);
+          setError(err?.message || "Failed to connect to regions API.");
+        }
       } finally {
-        setLoading(false);
+        if (isCurrent) setLoading(false);
       }
     }
     fetchRegions();
+    return () => {
+      isCurrent = false;
+    };
   }, [filters, refreshTrigger]);
 
   const top3Revenue = data
@@ -89,7 +103,9 @@ export default function RegionsPage() {
       </div>
 
       {/* State Revenue Chart */}
-      <RegionalRevenueChart data={data} loading={loading} />
+      <div className="w-full min-w-0">
+        <RegionalRevenueChart data={data} loading={loading} error={error} />
+      </div>
 
       {/* Comprehensive States Table */}
       <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
