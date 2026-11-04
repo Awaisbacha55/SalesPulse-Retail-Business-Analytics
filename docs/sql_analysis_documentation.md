@@ -419,7 +419,7 @@ FROM orders o
 INNER JOIN order_items oi ON o.order_id = oi.order_id
 INNER JOIN order_payments op ON o.order_id = op.order_id
 ```
-A severe mathematical error occurs: for every order with $M$ items and $N$ payment splits, the query produces an $M \times N$ Cartesian product for that order!
+A severe mathematical error occurs: for every order with \(M\) items and \(N\) payment splits, the query produces an \(M \times N\) Cartesian product for that order!
 
 #### Macro-Level Dollar Inflation (PostgreSQL 17 Actual Data):
 | Metric | True Base Total | Naive 3-Way Join Total | Artificial Inflation (BRL) | Inflation Percentage |
@@ -434,9 +434,9 @@ A severe mathematical error occurs: for every order with $M$ items and $N$ payme
   - `order_items`: 3 items (Prices: R$ 12.99, R$ 12.99, R$ 83.80; True Order GMV = **R$ 109.78**).
   - `order_payments`: 21 voucher installments (True Order Payment = **R$ 161.32**).
 - **In Naive 3-Way Join**:
-  - Row fan-out: $3 \times 21 =$ **63 rows generated** for this single order!
-  - `SUM(price)` becomes: $21 \times \text{R\$} 109.78 =$ **R$ 2,305.38** (**2,100% inflation!**).
-  - `SUM(payment_value)` becomes: $3 \times \text{R\$} 161.32 =$ **R$ 483.96** (**300% inflation!**).
+  - Row fan-out: \(3 \times 21 = 63\) rows generated for this single order!
+  - `SUM(price)` becomes: \(21 \times 109.78 =\) **R$ 2,305.38** (**2,100% inflation!**).
+  - `SUM(payment_value)` becomes: \(3 \times 161.32 =\) **R$ 483.96** (**300% inflation!**).
 
 ---
 

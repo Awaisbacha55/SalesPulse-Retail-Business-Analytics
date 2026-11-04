@@ -84,7 +84,7 @@ The system separates the **Analytical Database** (holding the 1.55M Olist record
 ### Step 2: Deploying Cloud Metabase on Render (Docker)
 
 1. Sign up for a free account at [Render.com](https://render.com/).
-2. Select **New +** $\rightarrow$ **Web Service**.
+2. Select **New +** → **Web Service**.
 3. Choose **Deploy an existing image** and specify the official Metabase image:
    `metabase/metabase:latest`
 4. Configure Environment Variables for persistent Metabase application state:

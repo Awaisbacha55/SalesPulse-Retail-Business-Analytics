@@ -43,7 +43,7 @@ The dashboard connects directly to the PostgreSQL 17 `salespulse` relational dat
 ## 4. Connecting Metabase to the PostgreSQL Database
 
 1. On the initial Metabase welcome screen, complete your administrator profile.
-2. Select **Add your data** $\rightarrow$ **PostgreSQL**.
+2. Select **Add your data** → **PostgreSQL**.
 3. Fill in the connection parameters:
    - **Display Name**: `SalesPulse Production DB`
    - **Host**: `localhost` (or `host.docker.internal` if running inside Docker)
@@ -128,11 +128,11 @@ Open the **SalesPulse Dashboard** canvas and assemble the following cards using 
 Metabase allows parameters to bind to multiple cards simultaneously:
 
 1. Click the **Pencil (Edit Dashboard)** icon.
-2. Select **Add a Filter** $\rightarrow$ **Time** $\rightarrow$ **Date Range**.
+2. Select **Add a Filter** → **Time** → **Date Range**.
    - Connect filter to `o.order_purchase_timestamp` across all time-series queries.
-3. Select **Add a Filter** $\rightarrow$ **Location** $\rightarrow$ **State or Region**.
+3. Select **Add a Filter** → **Location** → **State or Region**.
    - Connect filter to `c.customer_state` in geographic and order queries.
-4. Select **Add a Filter** $\rightarrow$ **Dropdown** $\rightarrow$ **Product Category**.
+4. Select **Add a Filter** → **Dropdown** → **Product Category**.
    - Connect filter to `ct.product_category_name_english`.
 5. Click **Save**.
 
@@ -141,7 +141,7 @@ Metabase allows parameters to bind to multiple cards simultaneously:
 ## 7. Connecting Alternative BI Tools (Power BI / Superset)
 
 - **Power BI Desktop**:
-  1. Click **Get Data** $\rightarrow$ **PostgreSQL database**.
+  1. Click **Get Data** → **PostgreSQL database**.
   2. Server: `localhost:5432`, Database: `salespulse`.
   3. Data Connectivity mode: Select **DirectQuery** for live SQL execution or **Import** for in-memory caching.
   4. Paste SQL queries directly from [`dashboard/dashboard_queries.sql`](../dashboard/dashboard_queries.sql).

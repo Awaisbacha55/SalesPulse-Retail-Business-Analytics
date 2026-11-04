@@ -110,10 +110,10 @@ SalesPulse ingests, cleans, and interrogates **1,547,842 relational records** ac
 | **2** | `sellers` | `seller_id` | — | 3,095 | Merchant identifiers, ZIP codes, cities, and states |
 | **3** | `category_translation` | `product_category_name` | — | 71 | Portuguese-to-English product category mappings |
 | **4** | `products` | `product_id` | — | 32,951 | Product catalog dimensions, weight, and photo counts |
-| **5** | `orders` | `order_id` | `customer_id` $\rightarrow$ `customers` | 99,441 | Order lifecycle timestamps and delivery status |
-| **6** | `order_items` | `(order_id, order_item_id)` | `order_id` $\rightarrow$ `orders`<br>`product_id` $\rightarrow$ `products`<br>`seller_id` $\rightarrow$ `sellers` | 112,650 | Purchased line items, price, and freight fees |
-| **7** | `order_payments` | `(order_id, payment_sequential)` | `order_id` $\rightarrow$ `orders` | 103,886 | Payment methods, installment counts, and values |
-| **8** | `order_reviews` | `review_record_id` *(Surrogate PK)* | `order_id` $\rightarrow$ `orders` | 99,224 | 1-to-5 star customer ratings, comments, and dates |
+| **5** | `orders` | `order_id` | `customer_id` → `customers` | 99,441 | Order lifecycle timestamps and delivery status |
+| **6** | `order_items` | `(order_id, order_item_id)` | `order_id` → `orders`<br>`product_id` → `products`<br>`seller_id` → `sellers` | 112,650 | Purchased line items, price, and freight fees |
+| **7** | `order_payments` | `(order_id, payment_sequential)` | `order_id` → `orders` | 103,886 | Payment methods, installment counts, and values |
+| **8** | `order_reviews` | `review_record_id` *(Surrogate PK)* | `order_id` → `orders` | 99,224 | 1-to-5 star customer ratings, comments, and dates |
 | **9** | `geolocation` | `geolocation_id` *(Identity PK)* | — | 1,000,163 | Brazilian geographic coordinates by ZIP prefix |
 
 *Total Verified Dataset Volume: **1,547,842 relational records**.*
@@ -210,10 +210,31 @@ To prevent confusion between gross platform collections, delivered sales, and me
 3. **Merchandise GMV (`R$ 13,591,643.70`)**: Calculated strictly as `SUM(order_items.price)`, representing product merchandise sales excluding freight. Encompasses all 112,650 line items across 98,666 orders. *(Note: when filtered to complete operating months `< '2018-09-01'`, GMV is R$ 13,591,498.70, reflecting exactly one shipped order of R$ 145.00 in September 2018).*
 4. **Delivered Payment Revenue (`R$ 15,422,461.77`)**: Calculated as `SUM(order_payments.payment_value)` for `order_status = 'delivered'`. Represents realized customer cash collections (items + freight) across 96,477 delivered paid orders.
 5. **Gross Platform Payment Volume (`R$ 16,008,869.50` / `R$ 16,008,872.12`)**: Total tender processed across all 99,440 paid orders regardless of delivery status (`SUM(payment_value)`).
-6. **Average Order Value (AOV)**:
-   - **Merchandise Basket AOV**: $\frac{\text{Merchandise GMV}}{\text{Distinct Orders with Items}} = \frac{\text{R\$}~13,591,643.70}{98,666~\text{orders}} = \mathbf{\text{R\$}~137.75}$
-   - **Delivered Payment AOV**: $\frac{\text{Delivered Payment Revenue}}{\text{Delivered Paid Orders}} = \frac{\text{R\$}~15,422,461.77}{96,477~\text{orders}} = \mathbf{\text{R\$}~159.86}$
-   - **Gross Payment AOV**: $\frac{\text{Gross Payment Volume}}{\text{Orders with Payments}} = \frac{\text{R\$}~16,008,872.12}{99,440~\text{orders}} = \mathbf{\text{R\$}~160.99}$
+6. **Average Order Value (AOV)**: Calculated with strictly matching numerators and denominators:
+   - **Merchandise Basket AOV**:
+\[
+\text{Merchandise AOV} =
+\frac{13,591,643.70}{98,666}
+= 137.75
+\]
+   - **Delivered Merchandise AOV**:
+\[
+\text{Delivered Merchandise AOV} =
+\frac{13,221,498.11}{96,478}
+= 137.04
+\]
+   - **Delivered Payment AOV**:
+\[
+\text{Delivered Payment AOV} =
+\frac{15,422,461.77}{96,477}
+= 159.86
+\]
+   - **Gross Payment AOV**:
+\[
+\text{Gross Payment AOV} =
+\frac{16,008,872.12}{99,440}
+= 160.99
+\]
 7. **Unique Customer Buyers (`96,096` individuals)**: Count of distinct human consumers (`COUNT(DISTINCT customer_unique_id)`). Distinct from order-level session tokens (`customer_id`, 99,441 records).
 8. **On-Time Delivery SLA Rate (`91.89%`)**: Proportion of evaluated delivered orders arriving on or before the promised estimated date (88,649 / 96,470 orders with recorded delivery timestamps).
 
@@ -222,18 +243,18 @@ To prevent confusion between gross platform collections, delivered sales, and me
 | Metric Name | Verified Value | Population Scope | Primary SQL Table / Query |
 | :--- | :---: | :--- | :--- |
 | **Gross Payment Volume** | **R\$ 16,008,872.12** | All 99,440 paid orders (items + freight) | `order_payments` (Q1) |
-| **Delivered Payment Revenue** | **R\$ 15,422,461.77** | 96,477 delivered paid orders | `order_payments` $\bowtie$ `orders` |
+| **Delivered Payment Revenue** | **R\$ 15,422,461.77** | 96,477 delivered paid orders | `order_payments` ⋈ `orders` |
 | **Merchandise GMV** | **R\$ 13,591,643.70** | All 112,650 line items (excl. freight) | `order_items` (Q2) |
 | **Total Placed Orders** | **99,441** | All 8 order statuses | `orders` (Q3) |
 | **Delivered Orders** | **96,478** | Completed doorstep deliveries | `orders` (`delivered`) |
 | **Merchandise Basket AOV** | **R\$ 137.75** | Average spend per item-containing order | `order_items` |
-| **Delivered Payment AOV** | **R\$ 159.86** | Average cash collected per delivered order | `order_payments` $\bowtie$ `orders` |
+| **Delivered Payment AOV** | **R\$ 159.86** | Average cash collected per delivered order | `order_payments` ⋈ `orders` |
 | **Gross Payment AOV** | **R\$ 160.99** | Average cash collected across all paid orders | `order_payments` (Q1) |
 | **Unique Customer Buyers** | **96,096** | Distinct human buyers (`customer_unique_id`) | `customers` (Q4) |
-| **Customer Retention Rate** | **3.12%** | Buyers placing $\ge$ 2 orders (2,997 / 96,096) | `customers` $\bowtie$ `orders` (Q21) |
+| **Customer Retention Rate** | **3.12%** | Buyers placing ≥ 2 orders (2,997 / 96,096) | `customers` ⋈ `orders` (Q21) |
 | **On-Time Delivery SLA Rate** | **91.89%** | Delivered on or before estimated date | `v_delivery_sla_performance` |
-| **On-Time Average CSAT** | **4.29 / 5.0** | Review rating on punctual shipments | `order_reviews` $\bowtie$ `orders` (Q30) |
-| **Delayed Average CSAT** | **2.57 / 5.0** | Review rating on delayed shipments (-40.1%) | `order_reviews` $\bowtie$ `orders` (Q30) |
+| **On-Time Average CSAT** | **4.29 / 5.0** | Review rating on punctual shipments | `order_reviews` ⋈ `orders` (Q30) |
+| **Delayed Average CSAT** | **2.57 / 5.0** | Review rating on delayed shipments (-40.1%) | `order_reviews` ⋈ `orders` (Q30) |
 | **Product Pareto Concentration** | **25.91%** | 8,536 of 32,951 SKUs generate 80.00% GMV | `04_bonus_views_and_pareto.sql` |
 | **Credit Card Share** | **73.92%** | Dominant payment method (76,795 payments) | `order_payments` (Q7, Q20) |
 
@@ -354,7 +375,10 @@ LEFT JOIN payment_aggregates p ON o.order_id = p.order_id;
 In the raw Olist dataset, order intake concludes in mid-October 2018. As a result, September 2018 contains only 16 orders, and October 2018 contains only 4 orders. Presenting unadjusted monthly trends displays an artificial collapse to near-zero, misrepresenting business health.
 
 SalesPulse enforces a strict operating calendar boundary across all time-series queries, window functions, and dashboard filters:
-$$\text{order\_purchase\_timestamp} < \text{'2018-09-01'}$$
+
+\[
+\text{order\_purchase\_timestamp} < \text{'2018-09-01'}
+\]
 
 This establishes **August 2018** as the definitive final complete operating month, ensuring accurate growth velocity calculations.
 

@@ -85,7 +85,7 @@ Core transaction table tracking order fulfillment stages and lifecycle timestamp
 | Column Name | Data Type | Constraint | Description | Example |
 | :--- | :--- | :--- | :--- | :--- |
 | `order_id` | `VARCHAR(50)` | `PRIMARY KEY` | Unique transaction order hash. | `e481f51cbdc54678b7cc49136f2d6af7` |
-| `customer_id` | `VARCHAR(50)` | `FK` $\rightarrow$ `customers` | Customer order identity link. | `9ef432eb6251297304e76186b10a928d` |
+| `customer_id` | `VARCHAR(50)` | `FK` → `customers` | Customer order identity link. | `9ef432eb6251297304e76186b10a928d` |
 | `order_status` | `VARCHAR(20)` | `NOT NULL` | Order status (`delivered`, `shipped`, `canceled`, etc.). | `delivered` |
 | `order_purchase_timestamp` | `TIMESTAMP` | `NOT NULL` | Order placement timestamp. | `2017-10-02 10:56:33` |
 | `order_approved_at` | `TIMESTAMP` | — | Payment approval timestamp. | `2017-10-02 11:07:15` |
@@ -102,10 +102,10 @@ Individual line items purchased within each order, specifying merchant and prici
 
 | Column Name | Data Type | Constraint | Description | Example |
 | :--- | :--- | :--- | :--- | :--- |
-| `order_id` | `VARCHAR(50)` | `FK` $\rightarrow$ `orders` | Transaction reference identifier. | `00010242fe8c596d1c288480208a244d` |
+| `order_id` | `VARCHAR(50)` | `FK` → `orders` | Transaction reference identifier. | `00010242fe8c596d1c288480208a244d` |
 | `order_item_id` | `INTEGER` | `NOT NULL` | Sequential line item number within the order (1, 2, ...). | `1` |
-| `product_id` | `VARCHAR(50)` | `FK` $\rightarrow$ `products` | Product item SKU. | `4244733e06e7ecb4970a6e2683c13e61` |
-| `seller_id` | `VARCHAR(50)` | `FK` $\rightarrow$ `sellers` | Merchant fulfilling this line item. | `48436dade18ac8b2bce089ec2a041202` |
+| `product_id` | `VARCHAR(50)` | `FK` → `products` | Product item SKU. | `4244733e06e7ecb4970a6e2683c13e61` |
+| `seller_id` | `VARCHAR(50)` | `FK` → `sellers` | Merchant fulfilling this line item. | `48436dade18ac8b2bce089ec2a041202` |
 | `shipping_limit_date` | `TIMESTAMP` | — | Merchant SLA deadline to ship package. | `2017-09-19 09:45:35` |
 | `price` | `NUMERIC(10,2)` | `NOT NULL` | Merchandise selling price in Brazilian Reais (BRL). | `58.90` |
 | `freight_value` | `NUMERIC(10,2)` | `NOT NULL` | Shipping and handling fee charged for this item. | `13.29` |
@@ -119,7 +119,7 @@ Customer tender records and installment financing breakdowns.
 
 | Column Name | Data Type | Constraint | Description | Example |
 | :--- | :--- | :--- | :--- | :--- |
-| `order_id` | `VARCHAR(50)` | `FK` $\rightarrow$ `orders` | Transaction reference identifier. | `b81ef226f3fe1789b1e8b2acac839d17` |
+| `order_id` | `VARCHAR(50)` | `FK` → `orders` | Transaction reference identifier. | `b81ef226f3fe1789b1e8b2acac839d17` |
 | `payment_sequential` | `INTEGER` | `NOT NULL` | Payment sequence number (for split-tender checkouts). | `1` |
 | `payment_type` | `VARCHAR(20)` | `NOT NULL` | Tender type (`credit_card`, `boleto`, `voucher`, `debit_card`).| `credit_card` |
 | `payment_installments` | `INTEGER` | `NOT NULL` | Selected installment count (1 to 24). | `8` |
@@ -136,7 +136,7 @@ Customer post-purchase review submissions, satisfaction scores, and feedback tex
 | :--- | :--- | :--- | :--- | :--- |
 | `review_record_id` | `BIGINT` | `GENERATED ALWAYS AS IDENTITY PK` | Synthetic surrogate primary key. | `1` |
 | `review_id` | `VARCHAR(50)` | — | Natural review hash provided by Olist. | `7bc249e44d6eb1e3ea6194274ac4c026` |
-| `order_id` | `VARCHAR(50)` | `FK` $\rightarrow$ `orders` | Order evaluated by customer. | `73fc7af87114b39712e6da79b0a377eb` |
+| `order_id` | `VARCHAR(50)` | `FK` → `orders` | Order evaluated by customer. | `73fc7af87114b39712e6da79b0a377eb` |
 | `review_score` | `SMALLINT` | `NOT NULL` | Customer satisfaction rating on 1 to 5 scale. | `4` |
 | `review_comment_title` | `TEXT` | — | Review submission heading. | `Recomendo` |
 | `review_comment_message`| `TEXT` | — | Verbatim customer written review feedback. | `Aparelho muito bom...` |

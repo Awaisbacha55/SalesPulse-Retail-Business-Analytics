@@ -18,10 +18,30 @@ To eliminate ambiguity across commercial, financial, and logistics reporting, Sa
 3. **Merchandise GMV (`R$ 13,591,643.70`)**: Calculated strictly as `SUM(order_items.price)`, representing pure item sales revenue excluding logistics freight. It encompasses all 112,650 line items across 98,666 item-containing orders, including delivered items (R$ 13.22M, 97.28%), shipped items (R$ 150.7k), canceled items (R$ 95.2k), invoiced items (R$ 61.5k), and processing items (R$ 60.4k). *(Note: when filtered to complete operating months `< '2018-09-01'`, GMV is R$ 13,591,498.70, reflecting 1 shipped order of R$ 145.00 in September 2018).*
 4. **Delivered Payment Revenue (`R$ 15,422,461.77`)**: Calculated as `SUM(order_payments.payment_value)` where `orders.order_status = 'delivered'`. Represents realized customer cash collections (item price + freight fees) on fulfilled orders. Distinct from total platform payment volume across all statuses (`R$ 16,008,872.12`).
 5. **Average Order Value (AOV)**: Calculated with strictly matching numerators and denominators:
-   - **Merchandise AOV (Pure Basket Size)**: $\frac{\text{Merchandise GMV}}{\text{Distinct Orders with Items}} = \frac{\text{R\$}~13,591,643.70}{98,666~\text{orders}} = \mathbf{\text{R\$}~137.75}$
-   - **Delivered Merchandise AOV**: $\frac{\text{Delivered Merchandise GMV}}{\text{Delivered Orders with Items}} = \frac{\text{R\$}~13,221,498.11}{96,478~\text{orders}} = \mathbf{\text{R\$}~137.04}$
-   - **Delivered Payment AOV**: $\frac{\text{Delivered Payment Revenue}}{\text{Delivered Paid Orders}} = \frac{\text{R\$}~15,422,461.77}{96,477~\text{orders}} = \mathbf{\text{R\$}~159.86}$
-   - **Gross Payment AOV (Q1)**: $\frac{\text{Gross Payment Volume}}{\text{Orders with Payments}} = \frac{\text{R\$}~16,008,872.12}{99,440~\text{orders}} = \mathbf{\text{R\$}~160.99}$
+   - **Merchandise AOV (Pure Basket Size)**:
+\[
+\text{Merchandise AOV} =
+\frac{13,591,643.70}{98,666}
+= 137.75
+\]
+   - **Delivered Merchandise AOV**:
+\[
+\text{Delivered Merchandise AOV} =
+\frac{13,221,498.11}{96,478}
+= 137.04
+\]
+   - **Delivered Payment AOV**:
+\[
+\text{Delivered Payment AOV} =
+\frac{15,422,461.77}{96,477}
+= 159.86
+\]
+   - **Gross Payment AOV (Q1)**:
+\[
+\text{Gross Payment AOV} =
+\frac{16,008,872.12}{99,440}
+= 160.99
+\]
 6. **Total Unique Customers (`96,096` individuals)**: Count of distinct human consumers (`COUNT(DISTINCT customer_unique_id)`). Distinct from order-level customer tokens (`customer_id`, 99,441 records), which represent individual purchase sessions.
 
 ### Executive KPI Summary Table

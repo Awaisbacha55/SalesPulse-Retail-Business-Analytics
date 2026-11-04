@@ -44,7 +44,7 @@ This guide provides end-to-end instructions for deploying the **SalesPulse Retai
 1. Go to [https://vercel.com](https://vercel.com) and log in using your GitHub account.
 
 ### Step 2: Import the GitHub Repository
-1. On your Vercel Dashboard, click **Add New...** $\rightarrow$ **Project**.
+1. On your Vercel Dashboard, click **Add New...** → **Project**.
 2. Under "Import Git Repository", locate `Awaisbacha55/SalesPulse-Retail-Business-Analytics` and click **Import**.
 
 ### Step 3: Configure Project Root Directory (CRITICAL)
@@ -155,11 +155,11 @@ Verify that all features are functioning smoothly on your deployed Vercel URL:
 
 ### Q1: Vercel shows "Internal Server Error (500)" on API routes
 - **Cause**: The `DATABASE_URL` is missing or the database user has insufficient privileges.
-- **Fix**: In Vercel Project Settings $\rightarrow$ Environment Variables, verify `DATABASE_URL` is configured for **Production**, **Preview**, and **Development**. Ensure `?sslmode=require` is present at the end of the connection string.
+- **Fix**: In Vercel Project Settings → Environment Variables, verify `DATABASE_URL` is configured for **Production**, **Preview**, and **Development**. Ensure `?sslmode=require` is present at the end of the connection string.
 
 ### Q2: Build fails on Vercel with "Cannot find module"
 - **Cause**: The **Root Directory** in Vercel settings was left as `./` instead of `salespulse-dashboard`.
-- **Fix**: Go to Vercel $\rightarrow$ Project Settings $\rightarrow$ General $\rightarrow$ Root Directory, set to `salespulse-dashboard`, and trigger a Redeploy.
+- **Fix**: Go to Vercel → Project Settings → General → Root Directory, set to `salespulse-dashboard`, and trigger a Redeploy.
 
 ### Q3: Neon Connection Timeout / Too Many Clients
 - **Cause**: Serverless functions spawning concurrent connections.

@@ -104,8 +104,8 @@ This enabled 100% of the 99,224 customer reviews to be ingested into PostgreSQL 
 
 During schema creation and script testing, two spelling inconsistencies in the raw product dataset were identified and normalized:
 
-- Source header: `product_name_lenght` $\rightarrow$ Target column: `product_name_length`
-- Source header: `product_description_lenght` $\rightarrow$ Target column: `product_description_length`
+- Source header: `product_name_lenght` → Target column: `product_name_length`
+- Source header: `product_description_lenght` → Target column: `product_description_length`
 
 The batch ETL script (`python/import_olist_data.py`) applied dynamic column mapping during the CSV stream to map these columns cleanly into PostgreSQL without altering the raw CSV source files.
 
