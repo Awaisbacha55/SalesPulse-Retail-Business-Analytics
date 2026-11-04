@@ -471,45 +471,15 @@ Every finding is verified against actual PostgreSQL database records and documen
 
 ---
 
-## 16. Complete Visual Analytics Showcase
 
-The repository contains eight analytical, architectural, and database artifacts verifying all technical deliverables:
 
-### 1. End-to-End System Architecture
-![End-to-End System Architecture](images/project_architecture.png)
-*Figure 6: Complete technical data flow from raw CSV ingestion to PostgreSQL warehousing, Next.js web application, and Metabase BI.*
 
-### 2. Relational Database Schema & ERD
-![Relational Database ERD](images/salespulse_erd.png)
-*Figure 7: Full PostgreSQL 17 Entity-Relationship Diagram detailing primary keys, foreign key constraints, and 3NF relationships.*
 
-### 3. Automated Data Quality and Primary Key Audit
-![Data Quality Audit Report](images/data_quality_report.png)
-*Figure 8: Automated Python data profiling report verifying row counts, missing values, and candidate key uniqueness.*
 
-### 4. Advanced SQL Analytics in DBeaver
-![Advanced SQL Analytics](images/sql_analysis.png)
-*Figure 9: DBeaver SQL console executing complex window functions, rankings, and multi-table customer analytics.*
 
-### 5. Interactive Metabase Executive BI Dashboard
-![Metabase BI Dashboard](images/dashboard_preview.png)
-*Figure 10: Metabase business intelligence dashboard with interactive KPI scorecards, date filters, and SLA correlation charts.*
 
-### 6. Revenue Analytics and Growth Velocity
-![Revenue Analytics](images/revenue_analysis.png)
-*Figure 11: SQL revenue trajectory queries demonstrating monthly growth velocity and complete-month boundaries.*
-
-### 7. Customer Retention and Cohort Analysis
-![Customer Retention Analysis](images/customer_analysis.png)
-*Figure 12: SQL customer frequency analysis evaluating one-time vs. repeat buyers and repurchase intervals.*
-
-### 8. Product Merchandising and Category Performance
-![Product Merchandising Analysis](images/product_analysis.png)
-*Figure 13: SQL category performance queries analyzing sales volume, price elasticity, and freight costs.*
-
----
-
-## 17. Repository Directory Structure
+--
+## 16. Repository Directory Structure
 
 ```
 SalesPulse-Retail-Business-Analytics/
@@ -614,7 +584,7 @@ SalesPulse-Retail-Business-Analytics/
 
 ---
 
-## 18. Prerequisites and System Requirements
+## 17. Prerequisites and System Requirements
 
 - **Operating System**: Windows 10/11, macOS 12+, or Ubuntu 20.04+ LTS
 - **Database Engine**: [PostgreSQL 17](https://www.postgresql.org/download/) installed locally OR a free serverless instance on [Neon](https://neon.tech/)
@@ -625,7 +595,7 @@ SalesPulse-Retail-Business-Analytics/
 
 ---
 
-## 19. Step-by-Step Local Setup and Database Ingestion
+## 18. Step-by-Step Local Setup and Database Ingestion
 
 ### Step 1: Clone the Repository
 ```bash
@@ -683,7 +653,7 @@ psql -U postgres -d salespulse -f database/create_tables.sql
 
 ---
 
-## 20. SQL Suite Execution and Next.js Launch Guide
+## 19. SQL Suite Execution and Next.js Launch Guide
 
 ### Running the SQL Analytical Suite
 Execute the analytical queries using `psql` or open them directly in DBeaver:
@@ -744,7 +714,7 @@ npm run start
 
 ---
 
-## 21. Limitations, Future Roadmap and Author Attribution
+## 20. Limitations, Future Roadmap and Author Attribution
 
 ### Project Limitations
 - **Historical Snapshot**: The Olist public dataset captures transactions from October 2016 through October 2018; modern macro trends and currency fluctuations are not modeled.
