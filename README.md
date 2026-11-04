@@ -246,13 +246,16 @@ The project includes a production-grade Metabase BI dashboard:
 *Figure 5: SalesPulse Interactive Metabase Business Intelligence Dashboard.*
 
 - **Video Demonstration**: [Watch the Metabase Dashboard Demo on YouTube](https://youtu.be/JfchSQo9VEQ)
-- **Verified Baseline Metrics**:
-  - **Total Revenue**: R\$ 13,591,643.70 (Merchandise GMV)
-  - **Total Orders**: 99,441
-  - **Average Order Value (AOV)**: R\$ 137.75
-  - **Total Unique Customers**: 96,096
-  - **Average Delivery Duration**: 12.6 Days
-  - **On-Time Delivery Rate**: 91.89%
+- **Verified Baseline Metrics & KPI Taxonomy**:
+  - **Merchandise GMV**: R\$ 13,591,643.70 (`SUM(price)` across 112,650 items, excl. freight)
+  - **Delivered Payment Revenue**: R\$ 15,422,461.77 (`SUM(payment_value)` on 96,477 delivered orders)
+  - **Gross Platform Payment Volume**: R\$ 16,008,872.12 (across all 99,440 paid orders)
+  - **Total Placed Orders**: 99,441 (across all 8 order statuses; 96,478 delivered, 97.02%)
+  - **Merchandise Basket AOV**: R\$ 137.75 (R\$ 13,591,643.70 GMV / 98,666 item orders)
+  - **Delivered Payment AOV**: R\$ 159.86 (R\$ 15,422,461.77 / 96,477 delivered orders)
+  - **Unique Customer Buyers**: 96,096 distinct individuals (`customer_unique_id`)
+  - **Average Delivery Duration**: 12.5 Days (order purchase to customer doorstep)
+  - **On-Time Delivery SLA Rate**: 91.89% (arrived on or before promised estimated date)
 
 ---
 

@@ -69,8 +69,9 @@ export default function RevenuePage() {
             <DollarSign className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase text-slate-500">Period Revenue</p>
+            <p className="text-xs font-semibold uppercase text-slate-500">Period Merchandise GMV</p>
             <h3 className="text-xl font-bold text-slate-900">{formatBRL(totalPeriodRevenue)}</h3>
+            <p className="text-[11px] text-slate-400">Pure product sales (excl. freight)</p>
           </div>
         </div>
 
@@ -79,8 +80,9 @@ export default function RevenuePage() {
             <ShoppingCart className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase text-slate-500">Period Orders</p>
+            <p className="text-xs font-semibold uppercase text-slate-500">Period Item Orders</p>
             <h3 className="text-xl font-bold text-slate-900">{totalPeriodOrders.toLocaleString()}</h3>
+            <p className="text-[11px] text-slate-400">Orders with merchandise items</p>
           </div>
         </div>
 
@@ -89,8 +91,9 @@ export default function RevenuePage() {
             <TrendingUp className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase text-slate-500">Average Order Value</p>
+            <p className="text-xs font-semibold uppercase text-slate-500">Merchandise Basket AOV</p>
             <h3 className="text-xl font-bold text-slate-900">R$ {avgAov.toFixed(2)}</h3>
+            <p className="text-[11px] text-slate-400">Merchandise GMV / Item Orders</p>
           </div>
         </div>
       </div>

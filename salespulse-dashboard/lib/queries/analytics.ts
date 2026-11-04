@@ -145,20 +145,33 @@ export async function getOverviewMetrics(filters: FilterParams = {}): Promise<Ov
         oi.freight_value
       FROM public.orders o
       INNER JOIN public.customers c ON o.customer_id = c.customer_id
-      INNER JOIN public.order_items oi ON o.order_id = oi.order_id
+      LEFT JOIN public.order_items oi ON o.order_id = oi.order_id
       LEFT JOIN public.products p ON oi.product_id = p.product_id
       LEFT JOIN public.category_translation ct ON p.product_category_name = ct.product_category_name
       ${whereClause}
+    ),
+    order_level AS (
+      SELECT
+        order_id,
+        order_status,
+        order_delivered_customer_date,
+        order_estimated_delivery_date,
+        EXTRACT(EPOCH FROM (order_delivered_customer_date - order_purchase_timestamp)) / 86400.0 AS delivery_days,
+        customer_unique_id,
+        SUM(price) AS order_merchandise_gmv,
+        SUM(freight_value) AS order_freight_value
+      FROM filtered_orders
+      GROUP BY 1, 2, 3, 4, 5, 6
     )
     SELECT
-      COALESCE(SUM(price), 0) AS total_revenue,
-      COUNT(DISTINCT order_id) AS total_orders,
-      COALESCE(SUM(price) / NULLIF(COUNT(DISTINCT order_id), 0), 0) AS average_order_value,
+      COALESCE(SUM(order_merchandise_gmv), 0) AS total_revenue,
+      COUNT(order_id) AS total_orders,
+      COALESCE(SUM(order_merchandise_gmv) / NULLIF(COUNT(order_id) FILTER (WHERE order_merchandise_gmv IS NOT NULL), 0), 0) AS average_order_value,
       COUNT(DISTINCT customer_unique_id) AS total_customers,
-      COUNT(DISTINCT product_id) AS total_products,
-      COUNT(DISTINCT seller_id) AS total_sellers,
+      (SELECT COUNT(DISTINCT product_id) FROM filtered_orders WHERE product_id IS NOT NULL) AS total_products,
+      (SELECT COUNT(DISTINCT seller_id) FROM filtered_orders WHERE seller_id IS NOT NULL) AS total_sellers,
       COALESCE(
-        AVG(EXTRACT(EPOCH FROM (order_delivered_customer_date - order_purchase_timestamp)) / 86400.0)
+        AVG(delivery_days)
           FILTER (WHERE order_status = 'delivered' AND order_delivered_customer_date IS NOT NULL),
         0
       ) AS avg_delivery_days,
@@ -177,8 +190,8 @@ export async function getOverviewMetrics(filters: FilterParams = {}): Promise<Ov
         ),
         0
       ) AS on_time_delivery_rate,
-      COALESCE(SUM(freight_value), 0) AS total_freight
-    FROM filtered_orders;
+      COALESCE(SUM(order_freight_value), 0) AS total_freight
+    FROM order_level;
     `,
     params
   );

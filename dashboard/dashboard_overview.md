@@ -49,13 +49,18 @@ The dashboard is structured into four functional tiers:
 All visual tiles are powered by the SQL queries cataloged in [`dashboard/dashboard_queries.sql`](dashboard_queries.sql):
 
 ### Tier 1: Executive KPI Scorecard
-The analytics platform clearly delineates two distinct commercial revenue definitions:
-- **Merchandise GMV**: `R$ 13,591,643.70` — Calculated as `SUM(order_items.price)`, representing pure product merchandise sales across the entire dataset (112,650 line items across 98,666 orders). When scoped to complete operational months (`< '2018-09-01'`), cumulative merchandise revenue equals `R$ 13,591,498.70` (112,649 items across 98,665 orders); the exact R$ 145.00 difference is accounted for by 1 shipped order in September 2018 (`order_id: 54282e97f61c23b78330c15b154c867d`).
-- **Delivered Payment Revenue**: `R$ 15,422,461.77` — Calculated as `SUM(order_payments.payment_value)` for `order_status = 'delivered'`, representing total customer payments (item value + freight fees) collected on delivered orders.
-- **Total Platform Payment Volume**: `R$ 16,008,872.12` (~16.01M BRL) across all historical payment transactions (`SUM(order_payments.payment_value)`).
-- **Total Paid Orders**: `99,440` completed orders with confirmed payments (`99,441` total platform orders).
-- **Average Order Value (AOV)**: `R$ 160.99` per paid order (`R$ 137.75` for pure merchandise basket size).
-- **On-Time Delivery SLA**: `91.89%` of delivered packages arrived on or before promised estimated dates.
+The analytics platform clearly delineates commercial revenue, order, and customer definitions:
+- **Merchandise GMV**: `R$ 13,591,643.70` — Calculated as `SUM(order_items.price)`, representing pure product merchandise sales across all 112,650 line items across 98,666 orders (excluding freight). Covers all items recorded regardless of order status (delivered: R$ 13.22M, shipped: R$ 150.7k, canceled: R$ 95.2k, invoiced: R$ 61.5k, processing: R$ 60.4k, unavailable: R$ 2.0k, approved: R$ 0.2k). When scoped to complete operational months (`< '2018-09-01'`), cumulative merchandise revenue equals `R$ 13,591,498.70` (112,649 items across 98,665 orders); the exact R$ 145.00 difference is accounted for by 1 shipped order in September 2018 (`order_id: 54282e97f61c23b78330c15b154c867d`).
+- **Delivered Payment Revenue**: `R$ 15,422,461.77` — Calculated as `SUM(order_payments.payment_value)` for `order_status = 'delivered'`, representing total customer payments (item value + freight fees) collected on delivered orders (96,477 delivered orders with payments).
+- **Total Platform Payment Volume**: `R$ 16,008,872.12` (~16.01M BRL) across all historical payment transactions (`SUM(order_payments.payment_value)`) across 99,440 paid orders.
+- **Total Placed Orders**: `99,441` orders registered across all 8 lifecycle statuses (96,478 delivered, 97.02%).
+- **Delivered Orders**: `96,478` orders successfully fulfilled and delivered.
+- **Average Order Value (AOV)**:
+  - **Merchandise Basket AOV**: `R$ 137.75` per item-associated order (`R$ 13,591,643.70 / 98,666 orders`).
+  - **Delivered Payment AOV**: `R$ 159.86` per delivered paid order (`R$ 15,422,461.77 / 96,477 orders`).
+  - **Gross Payment AOV**: `R$ 160.99` per paid order (`R$ 16,008,872.12 / 99,440 orders`).
+- **Total Customers**: `96,096` unique individual buyers (`customer_unique_id`), distinct from `99,441` order session tokens (`customer_id`).
+- **On-Time Delivery SLA**: `91.89%` of evaluated delivered packages arrived on or before promised estimated dates (88,649 / 96,470 orders).
 
 ### Tier 2: Revenue Velocity & Seasonality
 - **Monthly Sales Trend Line**: Tracks revenue acceleration from October 2016 through August 2018, highlighting Black Friday peaks in November 2017 (`R$ 1,194,482.80`).

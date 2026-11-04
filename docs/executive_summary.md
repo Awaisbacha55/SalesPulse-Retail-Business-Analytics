@@ -8,22 +8,41 @@ The primary objective is to evaluate commercial scale, uncover customer behavior
 
 ---
 
-## 2. Key Business Metrics at a Glance
+## 2. Key Business Metrics & KPI Definitions
 
-| Strategic Metric | Value | Business Significance | Source / Scope |
+### Master KPI Definitions & Status Scope
+To eliminate ambiguity across commercial, financial, and logistics reporting, SalesPulse enforces strict definitional and population boundaries:
+
+1. **Total Placed Orders (`99,441` orders)**: Represents all customer transactions registered in `orders` across all 8 lifecycle statuses: `delivered` (96,478, 97.02%), `shipped` (1,107, 1.11%), `canceled` (625, 0.63%), `unavailable` (609, 0.61%), `invoiced` (314, 0.32%), `processing` (301, 0.30%), `created` (5, 0.01%), and `approved` (2, 0.00%).
+2. **Total Delivered Orders (`96,478` orders)**: Represents successfully fulfilled and delivered shipments (`order_status = 'delivered'`), accounting for 97.02% of all placed orders.
+3. **Merchandise GMV (`R$ 13,591,643.70`)**: Calculated strictly as `SUM(order_items.price)`, representing pure item sales revenue excluding logistics freight. It encompasses all 112,650 line items across 98,666 item-containing orders, including delivered items (R$ 13.22M, 97.28%), shipped items (R$ 150.7k), canceled items (R$ 95.2k), invoiced items (R$ 61.5k), and processing items (R$ 60.4k). *(Note: when filtered to complete operating months `< '2018-09-01'`, GMV is R$ 13,591,498.70, reflecting 1 shipped order of R$ 145.00 in September 2018).*
+4. **Delivered Payment Revenue (`R$ 15,422,461.77`)**: Calculated as `SUM(order_payments.payment_value)` where `orders.order_status = 'delivered'`. Represents realized customer cash collections (item price + freight fees) on fulfilled orders. Distinct from total platform payment volume across all statuses (`R$ 16,008,872.12`).
+5. **Average Order Value (AOV)**: Calculated with strictly matching numerators and denominators:
+   - **Merchandise AOV (Pure Basket Size)**: $\frac{\text{Merchandise GMV}}{\text{Distinct Orders with Items}} = \frac{\text{R\$}~13,591,643.70}{98,666~\text{orders}} = \mathbf{\text{R\$}~137.75}$
+   - **Delivered Merchandise AOV**: $\frac{\text{Delivered Merchandise GMV}}{\text{Delivered Orders with Items}} = \frac{\text{R\$}~13,221,498.11}{96,478~\text{orders}} = \mathbf{\text{R\$}~137.04}$
+   - **Delivered Payment AOV**: $\frac{\text{Delivered Payment Revenue}}{\text{Delivered Paid Orders}} = \frac{\text{R\$}~15,422,461.77}{96,477~\text{orders}} = \mathbf{\text{R\$}~159.86}$
+   - **Gross Payment AOV (Q1)**: $\frac{\text{Gross Payment Volume}}{\text{Orders with Payments}} = \frac{\text{R\$}~16,008,872.12}{99,440~\text{orders}} = \mathbf{\text{R\$}~160.99}$
+6. **Total Unique Customers (`96,096` individuals)**: Count of distinct human consumers (`COUNT(DISTINCT customer_unique_id)`). Distinct from order-level customer tokens (`customer_id`, 99,441 records), which represent individual purchase sessions.
+
+### Executive KPI Summary Table
+
+| Strategic Metric | Value | Business Definition & Scope | Primary SQL Table / View |
 | :--- | :---: | :--- | :--- |
-| **Gross Payment Volume** | **R\$ 16,008,872.12** | Total payment tender processed (including freight/installments) | `order_payments` |
-| **Merchandise Sales (GMV)** | **R\$ 13,591,643.70** | Total pure product item sales value | `order_items` |
-| **Total Paid Orders** | **99,441** | Total commercial customer orders placed | `orders` |
-| **Average Order Value (AOV)** | **R\$ 137.75** | Average merchandise spend per order item transaction | `order_items` |
-| **Unique Customer Individuals** | **96,096** | Total distinct buyer base across all 27 Brazilian states | `customers` |
-| **Customer Retention Rate** | **3.12%** | Proportion of unique buyers making 2 or more orders | `customers` / `orders` |
-| **On-Time Delivery SLA Rate** | **91.89%** | Deliveries fulfilled on or before the estimated SLA date | `v_delivery_sla_performance` |
-| **Average On-Time Review Score** | **4.29 / 5.0** | High satisfaction rating when shipments arrive on schedule | `order_reviews` / `orders` |
-| **Average Delayed Review Score** | **2.57 / 5.0** | Severe -1.72 star penalty (-40.1%) observed on delayed orders | `order_reviews` / `orders` |
-| **Top 3 States Revenue Share** | **63.36%** | Regional GMV concentration across `SP`, `RJ`, and `MG` | `customers` / `order_items` |
-| **Product Pareto Concentration** | **25.91%** | Proportion of product catalog generating 80.00% of revenue | Bonus Q41 (Pareto Analysis) |
-| **Credit Card Transaction Share** | **73.92%** | Dominant payment tender method across marketplace checkouts | `order_payments` (Q7 / Q20) |
+| **Gross Payment Volume** | **R\$ 16,008,872.12** | Total payment tender processed (items + freight + installments) across all 99,440 paid orders | `order_payments` |
+| **Delivered Payment Revenue** | **R\$ 15,422,461.77** | Realized customer cash collections on fulfilled orders (`order_status = 'delivered'`) | `order_payments` / `orders` |
+| **Merchandise GMV** | **R\$ 13,591,643.70** | Pure product sales value across all 112,650 line items (excl. freight) | `order_items` |
+| **Total Placed Orders** | **99,441** | Commercial orders placed across all 8 lifecycle statuses (96,478 delivered, 97.02%) | `orders` |
+| **Delivered Orders** | **96,478** | Completed orders delivered to customer doorsteps | `orders` (`delivered`) |
+| **Merchandise Basket AOV** | **R\$ 137.75** | Average product spend per item-containing order (R\$ 13,591,643.70 / 98,666 orders) | `order_items` |
+| **Delivered Payment AOV** | **R\$ 159.86** | Average cash collected per delivered order (R\$ 15,422,461.77 / 96,477 orders) | `order_payments` / `orders` |
+| **Unique Customer Buyers** | **96,096** | Distinct human individuals (`customer_unique_id`) across 99,441 order sessions | `customers` |
+| **Customer Retention Rate** | **3.12%** | Proportion of unique buyers making 2 or more orders (2,997 / 96,096) | `customers` / `orders` |
+| **On-Time Delivery SLA Rate** | **91.89%** | Deliveries fulfilled on or before estimated date (88,649 / 96,470 evaluated deliveries) | `v_delivery_sla_performance` |
+| **Average On-Time Review Score** | **4.29 / 5.0** | Satisfaction rating when shipments arrive on schedule (88,163 reviews) | `order_reviews` / `orders` |
+| **Average Delayed Review Score** | **2.57 / 5.0** | Severe -1.72 star penalty (-40.1%) observed on delayed orders (7,661 reviews) | `order_reviews` / `orders` |
+| **Top 3 States Revenue Share** | **63.36%** | Regional GMV concentration across Southeast corridor (`SP`, `RJ`, and `MG`) | `customers` / `order_items` |
+| **Product Pareto Concentration** | **25.91%** | Proportion of active product catalog (8,536 / 32,951 SKUs) generating 80.00% of GMV | Bonus Q41 (Pareto) |
+| **Credit Card Transaction Share** | **73.92%** | Dominant payment tender method across marketplace checkouts (76,795 / 103,886 payments) | `order_payments` (Q7 / Q20) |
 
 ---
 

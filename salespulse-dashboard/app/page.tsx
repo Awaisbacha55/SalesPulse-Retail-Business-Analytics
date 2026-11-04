@@ -102,20 +102,20 @@ export default function OverviewPage() {
       {/* 8 Required KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
-          title="Total Sales Revenue"
+          title="Merchandise GMV"
           value={overview ? formatBRL(overview.totalRevenue) : "R$ 13.59M"}
-          subtitle="Merchandise sales from order items"
-          badge="Core GMV"
+          subtitle="Pure product sales across all placed orders (excl. freight)"
+          badge="Merchandise GMV"
           badgeColor="emerald"
           icon={DollarSign}
           loading={loading}
         />
 
         <KpiCard
-          title="Total Orders"
+          title="Total Placed Orders"
           value={overview ? formatNumber(overview.totalOrders) : "99,441"}
-          subtitle="Completed transactional orders"
-          badge="100% Verified"
+          subtitle="Platform orders across all statuses (97.02% delivered)"
+          badge="All Placed"
           badgeColor="blue"
           icon={ShoppingCart}
           loading={loading}
@@ -124,18 +124,18 @@ export default function OverviewPage() {
         <KpiCard
           title="Average Order Value"
           value={overview ? `R$ ${overview.averageOrderValue.toFixed(2)}` : "R$ 137.75"}
-          subtitle="Average spend per customer order"
-          badge="AOV"
+          subtitle="Merchandise GMV per item-associated order (98,666)"
+          badge="Basket AOV"
           badgeColor="purple"
           icon={TrendingUp}
           loading={loading}
         />
 
         <KpiCard
-          title="Total Customers"
+          title="Unique Customers"
           value={overview ? formatNumber(overview.totalCustomers) : "96,096"}
-          subtitle="Unique buyer profiles across Brazil"
-          badge="Unique IDs"
+          subtitle="Distinct individual buyers (customer_unique_id)"
+          badge="Unique Buyers"
           badgeColor="blue"
           icon={Users}
           loading={loading}
