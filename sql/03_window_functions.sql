@@ -1,6 +1,6 @@
 
 -- Q31. MONTH-OVER-MONTH REVENUE GROWTH
--- Business Question:
+-- Business Question 31:
 -- How much does monthly product sales revenue grow or decline?
 -- Note: Excludes incomplete months (September and October 2018) so LAG compares
 -- complete consecutive calendar months and prevents artificial declines.
@@ -36,7 +36,7 @@ ORDER BY sales_month;
 
 
 -- Q32. RUNNING TOTAL OF MONTHLY REVENUE
--- Business Question:
+-- Business Question 32:
 -- How does cumulative product sales revenue increase over time?
 -- Note: Excludes incomplete months (September and October 2018) for accurate cumulative trajectory.
 
@@ -65,7 +65,7 @@ ORDER BY sales_month;
 
 
 -- Q33. TOP 3 PRODUCTS IN EACH CATEGORY
--- Business Question:
+-- Business Question 33:
 -- Which three products generate the highest sales in each category?
 
 WITH product_revenue AS (
@@ -106,7 +106,7 @@ ORDER BY category, product_rank;
 
 
 -- Q34. RANK CUSTOMER STATES BY REVENUE
--- Business Question:
+-- Business Question 34:
 -- Which Brazilian states generate the highest product sales revenue?
 
 WITH state_revenue AS (
@@ -131,7 +131,7 @@ ORDER BY revenue_rank;
 
 
 -- Q35. THREE-MONTH MOVING AVERAGE REVENUE
--- Business Question:
+-- Business Question 35:
 -- What is the average revenue over the current and previous two months?
 -- Note: Excludes incomplete months (September and October 2018) to prevent trend distortions.
 
@@ -160,7 +160,7 @@ ORDER BY sales_month;
 
 
 -- Q36. CUSTOMER PURCHASE SEQUENCE
--- Business Question:
+-- Business Question 36:
 -- What is the sequence of purchases made by each customer?
 
 WITH customer_purchase_sequence AS (
@@ -200,7 +200,7 @@ LIMIT 1000;
 
 
 -- Q37. RANK ORDERS BY VALUE WITHIN EACH STATE
--- Business Question:
+-- Business Question 37:
 -- What are the highest-value orders in each customer state?
 
 WITH order_values AS (
@@ -237,7 +237,7 @@ ORDER BY customer_state, state_order_rank;
 
 
 -- Q38. CATEGORY MONTHLY REVENUE AND RUNNING TOTAL
--- Business Question:
+-- Business Question 38:
 -- How does each product category's cumulative revenue change over time?
 -- Note: Excludes incomplete months (September and October 2018) for accurate category trajectory.
 
@@ -277,7 +277,7 @@ ORDER BY category, sales_month;
 
 
 -- Q39. PAYMENT TYPE SHARE OF TOTAL PAYMENT VALUE
--- Business Question:
+-- Business Question 39:
 -- What percentage of total payment value comes from each payment type?
 
 WITH payment_type_revenue AS (
@@ -303,7 +303,7 @@ ORDER BY total_payment_value DESC;
 
 
 -- Q40. RANK SELLERS BY MONTHLY REVENUE
--- Business Question:
+-- Business Question 40:
 -- Which sellers perform best each month?
 -- Note: Excludes incomplete months (September and October 2018) for consistent monthly comparisons.
 

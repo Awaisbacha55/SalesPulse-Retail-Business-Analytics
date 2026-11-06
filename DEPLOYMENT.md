@@ -63,27 +63,26 @@ The system separates the **Analytical Database** (housing the 1.55M Olist record
 4. **Deploy Analytical Views**:
    Execute [`sql/04_bonus_views_and_pareto.sql`](sql/04_bonus_views_and_pareto.sql) to compile the 4 reusable analytical views.
 5. **Verify Row Counts**:
-   Run [`sql/00_verify_tables.sql`](sql/00_verify_tables.sql) to confirm all 1,547,842 rows are loaded.
+   Run [`sql/00_verify_tables.sql`](sql/00_verify_tables.sql) to confirm all 1,550,922 rows across all 9 tables are loaded.
 
 ---
 
-## 4. Step 2: Deploying Cloud Metabase (Docker on Render)
+## 4. Step 2: Deploying Cloud Metabase (Docker on Render or Cloud VM)
 
-1. Sign up for a free account at [Render.com](https://render.com/).
-2. Click **New +** → **Web Service**.
-3. Select **Deploy an existing image** and specify the official image:
+1. Sign up for a free account at [Render.com](https://render.com/) or spin up a cloud VM (e.g. AWS EC2/DigitalOcean).
+2. For Docker deployment, specify the official Metabase image:
    ```text
    metabase/metabase:latest
    ```
-4. Set the environment variable to ensure JVM memory fits within free-tier limits:
+3. Set the environment variable to ensure JVM memory fits within host limits:
    - `JAVA_OPTS`: `-Xmx400m`
-5. Click **Create Web Service**. Render will provision and launch Metabase at `https://[app-name].onrender.com`.
+4. Launch the web service or container. Metabase will initialize at `http://[host]:3000` or `https://[app-name].onrender.com`.
 
 ---
 
 ## 5. Step 3: Connect Metabase to PostgreSQL
 
-1. Open your live Metabase URL (`https://[app-name].onrender.com`).
+1. Open your live Metabase instance (e.g., [SalesPulse Live Public Dashboard](http://51.21.250.3:3000/public/dashboard/a9d2ce25-d3b7-4958-8aeb-a9096cb2770f)).
 2. Complete the initial admin setup.
 3. Select **Add your data** → **PostgreSQL**.
 4. Input the connection parameters:
@@ -101,8 +100,9 @@ The system separates the **Analytical Database** (housing the 1.55M Olist record
 
 1. Import or paste the visual queries directly from [`dashboard/dashboard_queries.sql`](dashboard/dashboard_queries.sql).
 2. Configure scorecards, monthly revenue trajectories, and SLA correlation charts as documented in [`dashboard/dashboard_overview.md`](dashboard/dashboard_overview.md).
-3. To share the dashboard publicly without requiring login credentials:
+3. Connect the interactive Field Filters (`date_filter`, `state_filter`, `category_filter`) to their respective dashboard widgets.
+4. To share the dashboard publicly without requiring login credentials:
    - Open the **SalesPulse Executive Dashboard**.
    - Click the **Sharing & Embedding** icon in the top right.
    - Toggle on **Public Link**.
-   - Copy the public dashboard link and share it with reviewers.
+   - Copy the public dashboard link and share it with reviewers (e.g., `http://51.21.250.3:3000/public/dashboard/a9d2ce25-d3b7-4958-8aeb-a9096cb2770f`).

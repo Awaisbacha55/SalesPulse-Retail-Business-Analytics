@@ -13,7 +13,7 @@
 
 A comprehensive forensic audit of the **SalesPulse** repository was conducted covering directory structure, data pipelines, SQL analytical query suites, relational database schemas, image assets, documentation completeness, and Git version control status.
 
-The project demonstrates exceptional execution across data modeling, data quality engineering, and SQL analytics. The local PostgreSQL database houses all 9 Olist tables containing **1,547,842 verified records**. The repository currently contains **39 verified distinct business SQL analyses** spanning 3 dedicated SQL scripts, resolving core commercial questions across revenue, customers, sellers, logistics, and product categories.
+The project demonstrates exceptional execution across data modeling, data quality engineering, and SQL analytics. The local PostgreSQL database houses all 9 Olist tables containing **1,550,922 verified records**. The repository currently contains **56 verified distinct business SQL analyses, views, and proofs** spanning dedicated SQL scripts, resolving core commercial questions across revenue, customers, sellers, logistics, and product categories.
 
 ---
 
@@ -74,7 +74,7 @@ The local PostgreSQL database `salespulse` on port 5432 was queried directly usi
 | 7 | `orders` | `olist_orders_dataset.csv` | **99,441** | Verified |
 | 8 | `products` | `olist_products_dataset.csv` | **32,951** | Verified |
 | 9 | `sellers` | `olist_sellers_dataset.csv` | **3,095** | Verified |
-| **TOTAL** | **9 Relational Tables** | **9 CSV Datasets** | **1,547,842** | **100% Fidelity** |
+| **TOTAL** | **9 Relational Tables** | **9 CSV Datasets** | **1,550,922** | **100% Fidelity** |
 
 *Note: The total volume of 1.55 million rows represents the sum of rows across all 9 relational entities, not unique individual transactions.*
 

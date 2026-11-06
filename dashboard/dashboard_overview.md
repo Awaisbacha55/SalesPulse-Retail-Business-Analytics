@@ -4,7 +4,7 @@
 
 The **SalesPulse Business Intelligence Dashboard** translates the underlying 1.55-million-row PostgreSQL relational database into an intuitive, interactive analytical command center. Built and visualized in **Metabase** (and fully compatible with Power BI, Tableau, and Apache Superset), the dashboard empowers commercial leaders, operations managers, and merchandising directors to monitor retail velocity, logistics compliance, and customer retention metrics.
 
-![SalesPulse Dashboard Preview](../images/dashboard_preview.png)
+![SalesPulse Dashboard Preview](../images/metabase_dashboard.png)
 *Figure 1: SalesPulse Interactive Executive Business Intelligence Dashboard in Metabase.*
 
 ---
@@ -82,11 +82,34 @@ The analytics platform clearly delineates commercial revenue, order, and custome
 
 ## 4. Interactive Filters & Dashboard Controls
 
-The dashboard is configured with four global filter parameters:
-1. **Date Range Filter**: Filter all cards by custom purchase dates (e.g., Year 2017, Q4 2017, Year 2018).
-2. **Customer State Multi-Select**: Filter by federative units (e.g., `SP`, `RJ`, `MG`, `RS`, `PR`).
-3. **Product Category Dropdown**: Filter specific product categories (in English via `category_translation`).
-4. **Payment Type Selector**: Filter by `credit_card`, `boleto`, `voucher`, or `debit_card`.
+The dashboard is configured with global Metabase Field Filters that dynamically modify the underlying SQL queries:
+
+### Filter Configuration & Field Mappings
+1. **Date Range Filter (`date_filter`)**:
+   - Filter Type: Time / Date Range
+   - Field Mapping: `orders.order_purchase_timestamp`
+   - Dynamically filters revenue, order volume, and logistics velocity across specific date spans (e.g., Year 2017, Q4 2017, Year 2018).
+2. **Customer State Filter (`state_filter`)**:
+   - Filter Type: Location / State or Region
+   - Field Mapping: `customers.customer_state`
+   - Dynamically isolates orders, customers, and revenues by Brazilian state (e.g., `SP`, `RJ`, `MG`, `RS`, `PR`).
+3. **Product Category Filter (`category_filter`)**:
+   - Filter Type: Category / Dropdown
+   - Field Mapping: `products.product_category_name`
+   - Filters product catalog sales and average basket sizes by category.
+
+### Card-to-Filter Connection Matrix
+| Visual Tile / Question | Date Range (`date_filter`) | Customer State (`state_filter`) | Product Category (`category_filter`) |
+| :--- | :---: | :---: | :---: |
+| **Total Orders** | Yes | Yes | Optional |
+| **Total Customers** | Yes | Yes | No |
+| **Merchandise GMV** | Yes | Yes | Yes |
+| **Average Order Value (AOV)** | Yes | Yes | Yes |
+| **Monthly Revenue Trajectory** | Yes | Optional | Yes |
+| **Top 10 Product Categories** | Yes | Yes | Yes |
+| **Revenue Distribution by State** | Yes | Optional | Yes |
+| **Delivery SLA vs. Review Score** | Yes | Yes | No |
+| **Payment Method Distribution** | Yes | Yes | No |
 
 ---
 
@@ -105,10 +128,11 @@ The dashboard is configured with four global filter parameters:
    - **Username**: `postgres`
    - **Password**: `[Your local password]`
 4. Import or execute the queries from [`dashboard/dashboard_queries.sql`](dashboard_queries.sql) and assemble the visual cards onto a shared dashboard canvas.
+5. In Dashboard Edit Mode, add the Date Range, Customer State, and Product Category filters and connect them to their corresponding variables.
 
 ---
 
 ## 6. Live Dashboard Access & Public Demonstration
 
+- **Live Published Metabase Dashboard**: [SalesPulse Public Metabase Dashboard](http://51.21.250.3:3000/public/dashboard/a9d2ce25-d3b7-4958-8aeb-a9096cb2770f)
 - **YouTube Video Walkthrough**: [Watch SalesPulse Demo on YouTube](https://youtu.be/JfchSQo9VEQ)
-- **Metabase Public Dashboard Link**: `[METABASE_PUBLIC_DASHBOARD_URL_PLACEHOLDER]` *(To enable public access in your Metabase instance: navigate to Dashboard Settings → Sharing and Embedding → Enable Public Sharing → Copy Public Link).*

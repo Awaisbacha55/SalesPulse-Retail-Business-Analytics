@@ -6,7 +6,7 @@ This document provides technical instructions for configuring, deploying, and ma
 
 The dashboard connects directly to the PostgreSQL 17 `salespulse` relational database and presents real-time operational and commercial analytics. It is illustrated using **Metabase**, but the underlying SQL queries in [`dashboard/dashboard_queries.sql`](../dashboard/dashboard_queries.sql) are 100% ANSI-SQL compatible and can be executed inside **Power BI**, **Tableau**, or **Apache Superset**.
 
-![SalesPulse Dashboard Preview](../images/dashboard_preview.png)
+![SalesPulse Dashboard Preview](../images/metabase_dashboard.png)
 *Figure 1: Metabase Business Intelligence Dashboard for SalesPulse.*
 
 ---
@@ -125,16 +125,48 @@ Open the **SalesPulse Dashboard** canvas and assemble the following cards using 
 
 ## 6. Configuring Interactive Global Dashboard Filters
 
-Metabase allows parameters to bind to multiple cards simultaneously:
+In Metabase Native SQL mode, interactive dashboard filters require Field Filter parameters embedded in the underlying SQL queries (available in [`dashboard/dashboard_queries.sql`](../dashboard/dashboard_queries.sql)).
 
-1. Click the **Pencil (Edit Dashboard)** icon.
-2. Select **Add a Filter** → **Time** → **Date Range**.
-   - Connect filter to `o.order_purchase_timestamp` across all time-series queries.
-3. Select **Add a Filter** → **Location** → **State or Region**.
-   - Connect filter to `c.customer_state` in geographic and order queries.
-4. Select **Add a Filter** → **Dropdown** → **Product Category**.
-   - Connect filter to `ct.product_category_name_english`.
-5. Click **Save**.
+### 1. Filter Field Mappings
+- **Date Range Filter**:
+  - Variable Name: `date_filter`
+  - Variable Type: **Field Filter**
+  - Field to map to: `orders.order_purchase_timestamp`
+  - Widget Type: Date Range / Date Filter
+- **Customer State Filter**:
+  - Variable Name: `state_filter`
+  - Variable Type: **Field Filter**
+  - Field to map to: `customers.customer_state`
+  - Widget Type: Dropdown / Multiple Values
+- **Product Category Filter**:
+  - Variable Name: `category_filter`
+  - Variable Type: **Field Filter**
+  - Field to map to: `products.product_category_name`
+  - Widget Type: Dropdown / Search
+
+### 2. Card Connection Matrix
+| Dashboard Card / Question | Date Range (`date_filter`) | Customer State (`state_filter`) | Product Category (`category_filter`) |
+| :--- | :---: | :---: | :---: |
+| **Total Orders** | Connected | Connected | Optional |
+| **Total Customers** | Connected | Connected | No |
+| **Merchandise GMV** | Connected | Connected | Connected |
+| **Average Order Value (AOV)** | Connected | Connected | Connected |
+| **Monthly Revenue Trend** | Connected | Optional | Connected |
+| **Monthly Order Volume** | Connected | Optional | Optional |
+| **Revenue by State** | Connected | Optional | Connected |
+| **Top 10 Product Categories** | Connected | Connected | Connected |
+| **Delivery SLA vs Review Score** | Connected | Connected | No |
+| **Payment Method Distribution** | Connected | Connected | No |
+
+### 3. Step-by-Step Dashboard Linking Procedure
+1. Open the **SalesPulse Dashboard** in Metabase and click the **Pencil (Edit Dashboard)** icon.
+2. Click **Add a filter** → **Time** → **Date Range**.
+   - In each card's filter mapping dropdown, select `date_filter`.
+3. Click **Add a filter** → **Location** → **State or Region**.
+   - In each card's filter mapping dropdown, select `state_filter`.
+4. Click **Add a filter** → **Other Categories** → **Dropdown** (labeled "Product Category").
+   - In each card's filter mapping dropdown, select `category_filter`.
+5. Click **Save** to lock in the filter wirings. Test selecting a date range (e.g., Year 2017) or state (e.g., `SP`) to confirm numbers dynamically update across connected tiles.
 
 ---
 
@@ -144,7 +176,7 @@ Metabase allows parameters to bind to multiple cards simultaneously:
   1. Click **Get Data** → **PostgreSQL database**.
   2. Server: `localhost:5432`, Database: `salespulse`.
   3. Data Connectivity mode: Select **DirectQuery** for live SQL execution or **Import** for in-memory caching.
-  4. Paste SQL queries directly from [`dashboard/dashboard_queries.sql`](../dashboard/dashboard_queries.sql).
+  4. Paste SQL queries directly from [`dashboard/dashboard_queries.sql`](../dashboard/dashboard_queries.sql) (Section 2: Static ANSI-SQL Queries).
 - **Apache Superset**:
   1. Add Database Connection string: `postgresql://postgres:[password]@localhost:5432/salespulse`.
   2. Use SQL Lab to execute query snippets and click **Explore** to save charts.
@@ -153,5 +185,5 @@ Metabase allows parameters to bind to multiple cards simultaneously:
 
 ## 8. Dashboard Sharing & Public Demonstration
 
+- **Live Published Metabase Dashboard**: [SalesPulse Public Metabase Dashboard](http://51.21.250.3:3000/public/dashboard/a9d2ce25-d3b7-4958-8aeb-a9096cb2770f)
 - **YouTube Video Walkthrough**: [Watch SalesPulse Demo on YouTube](https://youtu.be/JfchSQo9VEQ)
-- **Metabase Public Link**: `[METABASE_PUBLIC_DASHBOARD_URL_PLACEHOLDER]` *(To generate: open Metabase → Dashboard Settings → Sharing and Embedding → Enable Public Link).*
