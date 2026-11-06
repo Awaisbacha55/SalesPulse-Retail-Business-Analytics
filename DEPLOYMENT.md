@@ -1,167 +1,108 @@
-# SalesPulse — Deployment Guide (Vercel & Neon PostgreSQL)
+# SalesPulse — Cloud Deployment Guide (PostgreSQL & Metabase)
 
-This guide provides end-to-end instructions for deploying the **SalesPulse Retail Analytics Dashboard** to **Vercel** connected to **Neon Serverless PostgreSQL**.
+This guide provides end-to-end instructions for deploying the **SalesPulse Retail Analytics Warehouse** to cloud PostgreSQL and hosting an interactive **Metabase Business Intelligence Dashboard** online.
+
+For architectural blueprints and container persistence strategies, refer to [`docs/deployment_guide.md`](docs/deployment_guide.md).
 
 ---
 
-## 1. System Architecture
+## 1. Cloud Architecture Overview
 
 ```
-                                  +------------------------------+
-                                  |   Neon Serverless Postgres   |
-                                  |      (Database: salespulse)  |
-                                  |  - 9 Relational Tables       |
-                                  |  - 4 Materialized Views      |
-                                  |  - SSL Encrypted (Port 5432) |
-                                  +--------------+---------------+
-                                                 ^
-                                                 | Server-side pg Pool
-                                                 | (SSL rejectUnauthorized: false)
-                                                 v
-+-------------------------------+  HTTPS JSON    +------------------------------+
-|     Vercel Client Browser     | <------------> |   Next.js 15 Serverless API  |
-|  - React 19 / Tailwind CSS    |                |  - /api/overview             |
-|  - Interactive Recharts       |                |  - /api/revenue              |
-|  - Global State & Category    |                |  - /api/products, /api/sla   |
-|    Filters                    |                |  - Parameterized SQL Caching |
-+-------------------------------+                +------------------------------+
+┌────────────────────────────────────────────────────────────────────────┐
+│                          SALESPULSE CLOUD STACK                        │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+    ┌───────────────────────────────┴───────────────────────────────┐
+    │                                                               │
+    ▼                                                               ▼
+┌────────────────────────┐                      ┌────────────────────────┐
+│ 1. Analytical Database │                      │ 2. Cloud BI Dashboard  │
+│    Cloud PostgreSQL    │◄── PostgreSQL SSL ───┤     Cloud Metabase     │
+│ • 9 Relational Tables  │    Read-Only Query   │ • Interactive Visuals  │
+│ • 4 Analytical Views   │    Connection        │ • Global Date Filters  │
+│ • Neon / Supabase Host │                      │ • Render / Docker Host │
+└────────────────────────┘                      └────────────────────────┘
 ```
+
+The system separates the **Analytical Database** (housing the 1.55M Olist records) from the **Metabase Application** (which saves card definitions, visual layouts, and public sharing tokens).
 
 ---
 
 ## 2. Prerequisites
 
-1. **GitHub Account**: Access to repository [Awaisbacha55/SalesPulse-Retail-Business-Analytics](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics).
-2. **Neon PostgreSQL Account**: Active instance hosting the `salespulse` database with the 9 Olist tables and 4 views populated.
-3. **Vercel Account**: Free tier hobby account on [vercel.com](https://vercel.com).
-4. **Node.js**: Version 18.x or 20.x installed locally (for optional local testing).
+1. **GitHub Account**: Access to [Awaisbacha55/SalesPulse-Retail-Business-Analytics](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics).
+2. **Cloud PostgreSQL Instance**: Free-tier PostgreSQL 16/17 database hosted on [Neon](https://neon.tech/) or [Supabase](https://supabase.com/).
+3. **Cloud Host / Container Runner**: Free-tier web service on [Render.com](https://render.com/) or local Docker engine.
+4. **Python 3.12+**: Local runtime for running the batch ETL ingestion pipeline.
 
 ---
 
-## 3. Step-by-Step Vercel Web Deployment (Recommended)
+## 3. Step 1: Analytical Database Setup (Cloud PostgreSQL)
 
-### Step 1: Sign in to Vercel
-1. Go to [https://vercel.com](https://vercel.com) and log in using your GitHub account.
-
-### Step 2: Import the GitHub Repository
-1. On your Vercel Dashboard, click **Add New...** → **Project**.
-2. Under "Import Git Repository", locate `Awaisbacha55/SalesPulse-Retail-Business-Analytics` and click **Import**.
-
-### Step 3: Configure Project Root Directory (CRITICAL)
-Because the Next.js application lives inside the `salespulse-dashboard/` folder:
-1. In the **Project Settings** screen, find **Root Directory**.
-2. Click **Edit** and set the path to:
-   ```text
-   salespulse-dashboard
+1. **Create Target Database**:
+   Provision a new PostgreSQL database named `salespulse` in your cloud provider.
+2. **Execute DDL Schema**:
+   Run [`database/create_tables.sql`](database/create_tables.sql) to generate all 9 tables and analytical B-tree indexes:
+   ```bash
+   psql "postgres://[user]:[password]@[host]:5432/salespulse?sslmode=require" -f database/create_tables.sql
    ```
-3. Click **Continue**. (Vercel will automatically detect the **Next.js** framework preset).
-
-### Step 4: Add Environment Variables
-Expand the **Environment Variables** accordion and add your database connection string:
-
-| Key | Example Value | Description |
-| :--- | :--- | :--- |
-| `DATABASE_URL` | `postgresql://<username>:<password>@ep-xyz.us-east-2.aws.neon.tech/salespulse?sslmode=require` | Neon connection string with SSL |
-
-> **Security Note**: Never commit your real database password or `.env.local` to Git. Only paste it directly into Vercel's secure environment variable form.
-
-*Optional individual fallback variables (if not using `DATABASE_URL`):*
-```env
-PGHOST=ep-xyz.us-east-2.aws.neon.tech
-PGDATABASE=salespulse
-PGUSER=neondb_owner
-PGPASSWORD=your_neon_password_here
-PGPORT=5432
-PGSSLMODE=require
-```
-
-### Step 5: Deploy
-1. Click **Deploy**.
-2. Vercel will install dependencies (`npm install`), execute the Next.js production build (`next build`), and deploy the app to global edge networks.
-3. Once completed (approx. 60–90 seconds), you will receive a public production URL (e.g. `https://salespulse-retail-business-analytics.vercel.app`).
+3. **Populate Dataset via Python ETL**:
+   Update your `.env` with the cloud connection parameters:
+   ```env
+   DB_HOST=[ep-xyz.us-east-2.aws.neon.tech]
+   DB_PORT=5432
+   DB_NAME=salespulse
+   DB_USER=[username]
+   DB_PASSWORD=[password]
+   ```
+   Execute the batch loader:
+   ```bash
+   python python/import_olist_data.py
+   ```
+4. **Deploy Analytical Views**:
+   Execute [`sql/04_bonus_views_and_pareto.sql`](sql/04_bonus_views_and_pareto.sql) to compile the 4 reusable analytical views.
+5. **Verify Row Counts**:
+   Run [`sql/00_verify_tables.sql`](sql/00_verify_tables.sql) to confirm all 1,547,842 rows are loaded.
 
 ---
 
-## 4. Alternative: Deploy via Vercel CLI
+## 4. Step 2: Deploying Cloud Metabase (Docker on Render)
 
-If you prefer deploying via your terminal:
-
-```bash
-# 1. Install Vercel CLI globally
-npm install -g vercel
-
-# 2. Navigate to dashboard directory
-cd salespulse-dashboard
-
-# 3. Authenticate and link project
-vercel login
-vercel
-
-# 4. Set production environment variable
-vercel env add DATABASE_URL production
-# (Paste your Neon PostgreSQL connection string when prompted)
-
-# 5. Deploy to Production
-vercel --prod
-```
+1. Sign up for a free account at [Render.com](https://render.com/).
+2. Click **New +** → **Web Service**.
+3. Select **Deploy an existing image** and specify the official image:
+   ```text
+   metabase/metabase:latest
+   ```
+4. Set the environment variable to ensure JVM memory fits within free-tier limits:
+   - `JAVA_OPTS`: `-Xmx400m`
+5. Click **Create Web Service**. Render will provision and launch Metabase at `https://[app-name].onrender.com`.
 
 ---
 
-## 5. Local Development and Verification
+## 5. Step 3: Connect Metabase to PostgreSQL
 
-Before deploying to Vercel or when testing locally:
-
-```bash
-# 1. Navigate to dashboard directory
-cd salespulse-dashboard
-
-# 2. Copy example environment file
-cp .env.example .env.local
-
-# 3. Populate .env.local with your database credentials
-# DATABASE_URL=postgresql://postgres:password@localhost:5432/salespulse
-
-# 4. Install dependencies
-npm install
-
-# 5. Run development server
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+1. Open your live Metabase URL (`https://[app-name].onrender.com`).
+2. Complete the initial admin setup.
+3. Select **Add your data** → **PostgreSQL**.
+4. Input the connection parameters:
+   - **Host**: Your cloud PostgreSQL host (e.g., `ep-xyz.us-east-2.aws.neon.tech`)
+   - **Port**: `5432`
+   - **Database Name**: `salespulse`
+   - **Database Username**: `[your_db_user]`
+   - **Database Password**: `[your_db_password]`
+   - **SSL**: Enabled (`require`)
+5. Click **Connect Database**. Metabase will synchronize table schemas and foreign key relationships.
 
 ---
 
-## 6. Post-Deployment Verification Checklist
+## 6. Step 4: Building Dashboard Cards & Enabling Public Sharing
 
-Verify that all features are functioning smoothly on your deployed Vercel URL:
-
-- [ ] **Neon Connection Status**: Top header shows the green `"Neon PostgreSQL Connected"` badge.
-- [ ] **Overview KPIs**: Total Revenue displays `R$ 13.59M`, Orders `99,441`, and AOV `R$ 137.75`.
-- [ ] **Interactive Filters**: Changing State (e.g., `SP`) or Category dynamically updates KPI cards and Recharts.
-- [ ] **Navigation Routes**:
-  - `/` — Executive Overview
-  - `/revenue` — Monthly GMV velocity and MoM growth rate
-  - `/products` — Top revenue categories, Pareto analysis, and top SKUs
-  - `/customers` — Retention donut, customer lifetime value segments
-  - `/regions` — Geographic state distribution and GMV share
-  - `/delivery` — Logistics SLA compliance and star rating penalty
-  - `/insights` — 5 empirical insights and 3 executive action recommendations
-- [ ] **Responsive Design**: Test desktop, tablet, and mobile views.
-
----
-
-## 7. Troubleshooting & Common Questions
-
-### Q1: Vercel shows "Internal Server Error (500)" on API routes
-- **Cause**: The `DATABASE_URL` is missing or the database user has insufficient privileges.
-- **Fix**: In Vercel Project Settings → Environment Variables, verify `DATABASE_URL` is configured for **Production**, **Preview**, and **Development**. Ensure `?sslmode=require` is present at the end of the connection string.
-
-### Q2: Build fails on Vercel with "Cannot find module"
-- **Cause**: The **Root Directory** in Vercel settings was left as `./` instead of `salespulse-dashboard`.
-- **Fix**: Go to Vercel → Project Settings → General → Root Directory, set to `salespulse-dashboard`, and trigger a Redeploy.
-
-### Q3: Neon Connection Timeout / Too Many Clients
-- **Cause**: Serverless functions spawning concurrent connections.
-- **Fix**: `salespulse-dashboard/lib/db.ts` uses connection pooling with `max: 10` and `idleTimeoutMillis: 30000`. In Neon, use the pooled connection string (`-pooler` in the host name) if high concurrency is expected.
-
+1. Import or paste the visual queries directly from [`dashboard/dashboard_queries.sql`](dashboard/dashboard_queries.sql).
+2. Configure scorecards, monthly revenue trajectories, and SLA correlation charts as documented in [`dashboard/dashboard_overview.md`](dashboard/dashboard_overview.md).
+3. To share the dashboard publicly without requiring login credentials:
+   - Open the **SalesPulse Executive Dashboard**.
+   - Click the **Sharing & Embedding** icon in the top right.
+   - Toggle on **Public Link**.
+   - Copy the public dashboard link and share it with reviewers.

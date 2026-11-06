@@ -1,11 +1,11 @@
 # SalesPulse — Full Repository Audit Report
 
-**Audit Date**: November 2, 2026  
-**Project**: SalesPulse — Retail Business Analytics with SQL  
-**Local Project Path**: `E:\Awais_Document\DawoodTech\SalesPulse-Retail-Business-Analytics`  
-**GitHub Repository**: [`https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics`](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics)  
-**Database**: PostgreSQL 17 (`salespulse` database, local instance on port 5432)  
-**Database Client**: DBeaver Community 24+  
+**Audit Date**: November 2, 2026
+**Project**: SalesPulse — Retail Business Analytics with SQL
+**Local Project Path**: `E:\Awais_Document\DawoodTech\SalesPulse-Retail-Business-Analytics`
+**GitHub Repository**: [`https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics`](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics)
+**Database**: PostgreSQL 17 (`salespulse` database, local instance on port 5432)
+**Database Client**: DBeaver Community 24+
 
 ---
 
@@ -45,7 +45,6 @@ The project demonstrates exceptional execution across data modeling, data qualit
 | `sql/03_window_functions.sql` | Present | SQL Script | 10 advanced window function analyses (Q31–Q40) |
 | `sql/04_bonus_views_and_pareto.sql` | Present | SQL Script | 4 analytical views, Pareto 80/20 analysis (Q41–Q42), EXPLAIN plans |
 | `sql/05_join_validation.sql` | Present | SQL Script | 9 mathematical join validation & anti-inflation proofs |
-| `salespulse-dashboard/` | Present | Next.js App | Full-stack Next.js 15 + React 19 analytics web application |
 | `docs/project_overview.md` | Present | Documentation | Business context, scope, tools, 6-day roadmap |
 | `docs/database_schema.md` | Present | Documentation | Complete data dictionary and table relationships |
 | `docs/day1_completion_report.md`| Present | Documentation | Formal Day 1 milestone verification report |

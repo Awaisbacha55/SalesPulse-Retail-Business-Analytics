@@ -2,7 +2,7 @@
 
 ## 1. Project Overview
 
-**SalesPulse** is an enterprise data engineering and business analytics platform built on the real-world Brazilian e-commerce transaction dataset provided by Olist. The project establishes a robust relational data warehouse in **PostgreSQL 17**, validates and cleans **1,547,842 records** across nine relational entities, executes **40+ commercial SQL analyses and saved views**, and visualizes key findings through an interactive **Metabase Business Intelligence Dashboard** alongside a modern **Next.js 15 Full-Stack Web Application**.
+**SalesPulse** is an enterprise data engineering and business analytics platform built on the real-world Brazilian e-commerce transaction dataset provided by Olist. The project establishes a robust relational data warehouse in **PostgreSQL 17**, validates and cleans **1,547,842 records** across nine relational entities, executes **40+ commercial SQL analyses and saved views**, and visualizes key findings through an interactive **Metabase Business Intelligence Dashboard**.
 
 The primary objective is to evaluate commercial scale, uncover customer behavioral bottlenecks, diagnose logistics delivery SLAs, and provide data-driven strategic interventions for e-commerce executive leadership.
 
@@ -110,7 +110,6 @@ To eliminate ambiguity across commercial, financial, and logistics reporting, Sa
 - **Relational Integrity Resolution**: Introduced a synthetic surrogate primary key (`review_record_id BIGINT GENERATED ALWAYS AS IDENTITY`) resolving 789 duplicate review IDs without discarding 814 legitimate customer evaluations.
 - **SQL Analysis Suite**: 40+ production SQL analyses spanning multi-table joins, modular CTEs, window functions (`LAG`, `ROW_NUMBER`, `RANK`, `DENSE_RANK`, running totals, rolling moving averages), and 4 reusable analytical views.
 - **Business Intelligence**: Interactive Metabase executive dashboard with date and geographic filters, backed by an ERD, query catalog, and video demonstration.
-- **Full-Stack Web Application**: Production-ready Next.js 15 dashboard (`salespulse-dashboard/`) built with React 19, TypeScript, Tailwind CSS, Recharts, and direct Neon Serverless PostgreSQL connection pooling.
 
 ---
 

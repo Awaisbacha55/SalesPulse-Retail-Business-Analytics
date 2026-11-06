@@ -1,21 +1,20 @@
-# SalesPulse — Retail Business Analytics with SQL & Next.js
+# SalesPulse — Retail Business Analytics with SQL & Metabase
 
-[![Next.js 15](https://img.shields.io/badge/Next.js-15.x-black?logo=next.js&logoColor=white)](https://nextjs.org/)
-[![React 19](https://img.shields.io/badge/React-19.x-61DAFB?logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.x%20%7C%20Neon-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel&logoColor=white)](https://vercel.com/)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![DBeaver](https://img.shields.io/badge/DBeaver-Community-382923?logo=dbeaver&logoColor=white)](https://dbeaver.io/)
 [![Metabase](https://img.shields.io/badge/Metabase-BI%20Dashboard-509EE3?logo=metabase&logoColor=white)](https://www.metabase.com/)
 [![YouTube Walkthrough](https://img.shields.io/badge/YouTube-Video%20Demo-FF0000?logo=youtube&logoColor=white)](https://youtu.be/JfchSQo9VEQ)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![SQL Analytics](https://img.shields.io/badge/SQL%20Analytics-56%20Queries%20%26%20Views-blueviolet)]()
 
-> An enterprise-grade retail business analytics platform modeling 100,000+ Brazilian e-commerce orders. Features **PostgreSQL 17** / **Neon Serverless PostgreSQL**, 56 commercial SQL analyses, join validation proofs, and saved views, a modern **Next.js 15 + React 19 + Recharts** interactive analytics dashboard, and an executive **Metabase BI Dashboard**.
+> An enterprise-grade retail business analytics platform modeling 100,000+ Brazilian e-commerce orders. Features **PostgreSQL 17** / **Neon Serverless PostgreSQL**, Python 3.12 batch ETL pipelines, 56 commercial SQL analyses, join validation proofs, 4 analytical views, and an interactive executive **Metabase BI Dashboard**.
 
 📺 **Video Demonstration**: [Watch SalesPulse Project Demo on YouTube (2:45)](https://youtu.be/JfchSQo9VEQ)
-🚀 **Deployment Guide**: [Step-by-Step Vercel + Neon Cloud Deployment Guide](DEPLOYMENT.md)
+🚀 **Deployment Guide**: [Cloud Deployment Guide (PostgreSQL & Metabase)](DEPLOYMENT.md)
 📖 **Data Dictionary**: [Complete Relational Schema & 9-Table Catalog](DATA_DICTIONARY.md)
 📊 **Executive Summary**: [C-Suite Business Insights & Recommendations](docs/executive_summary.md)
+📈 **Metabase Dashboard**: `[METABASE_PUBLIC_DASHBOARD_URL_PLACEHOLDER]`
 
 ---
 
@@ -33,24 +32,30 @@
 10. [Master KPI Definitions and Ground Truth Table](#10-master-kpi-definitions-and-ground-truth-table)
 11. [SQL Analysis Categories and Query Catalog](#11-sql-analysis-categories-and-query-catalog)
 12. [Advanced SQL Techniques and Anti-Inflation Proofs](#12-advanced-sql-techniques-and-anti-inflation-proofs)
-13. [Next.js Analytics Web Dashboard](#13-nextjs-analytics-web-dashboard)
-14. [Metabase Executive BI Dashboard](#14-metabase-executive-bi-dashboard)
-15. [Strategic Business Insights and Recommendations](#15-strategic-business-insights-and-recommendations)
-16. [Complete Visual Analytics Showcase](#16-complete-visual-analytics-showcase)
-17. [Repository Directory Structure](#17-repository-directory-structure)
-18. [Prerequisites and System Requirements](#18-prerequisites-and-system-requirements)
-19. [Step-by-Step Local Setup and Database Ingestion](#19-step-by-step-local-setup-and-database-ingestion)
-20. [SQL Suite Execution and Next.js Launch Guide](#20-sql-suite-execution-and-nextjs-launch-guide)
-21. [Limitations, Future Roadmap and Author Attribution](#21-limitations-future-roadmap-and-author-attribution)
+13. [Metabase Executive BI Dashboard](#13-metabase-executive-bi-dashboard)
+14. [Strategic Business Insights and Recommendations](#14-strategic-business-insights-and-recommendations)
+15. [Complete Visual Analytics Showcase](#15-complete-visual-analytics-showcase)
+16. [Repository Directory Structure](#16-repository-directory-structure)
+17. [Prerequisites and System Requirements](#17-prerequisites-and-system-requirements)
+18. [Step-by-Step Local Setup and Database Ingestion](#18-step-by-step-local-setup-and-database-ingestion)
+19. [SQL Suite Execution and Metabase Launch Guide](#19-sql-suite-execution-and-metabase-launch-guide)
+20. [Limitations, Future Roadmap and Author Attribution](#20-limitations-future-roadmap-and-author-attribution)
 
 ---
 
 ## 1. Project Title and Overview
 
-**SalesPulse — Retail Business Analytics with SQL & Next.js**
-*A comprehensive retail intelligence warehouse and interactive web analytics platform modeling the Brazilian e-commerce marketplace.*
+**SalesPulse — Retail Business Analytics with SQL & Metabase**
+*A comprehensive retail intelligence warehouse and executive BI analytics platform modeling the Brazilian e-commerce marketplace.*
 
-SalesPulse bridges the gap between raw, multi-table e-commerce transaction logs and executive decision-making. By combining a normalized **PostgreSQL 17** analytical warehouse with an interactive **Next.js 15 App Router** frontend and an executive **Metabase BI** dashboard, SalesPulse delivers verified metrics on customer lifetime value, logistics SLAs, delivery sentiment penalties, and regional demand dynamics.
+SalesPulse bridges the gap between raw, multi-table e-commerce transaction logs and executive decision-making. By combining a normalized **PostgreSQL 17** analytical warehouse with an interactive **Metabase BI** dashboard, SalesPulse delivers verified metrics on customer lifetime value, logistics SLAs, delivery sentiment penalties, and regional demand dynamics.
+
+The core solution leverages:
+- **PostgreSQL 17** for relational data warehousing and ACID integrity.
+- **SQL (ANSI & PostgreSQL)** for deep commercial querying, window functions, and Pareto modeling.
+- **Python 3.12** for automated schema profiling, anomaly resolution, and batch ingestion.
+- **Metabase** for executive visual analytics, interactive filtering, and scorecards.
+- **GitHub** for repository version control, schema documentation, and reproducible code.
 
 ---
 
@@ -60,11 +65,12 @@ SalesPulse bridges the gap between raw, multi-table e-commerce transaction logs 
 | :--- | :--- | :--- |
 | **Source Code** | [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github)](https://github.com/Awaisbacha55/SalesPulse-Retail-Business-Analytics) | Main open-source repository |
 | **Walkthrough Video** | [![YouTube](https://img.shields.io/badge/YouTube-Video%20Demo-FF0000?logo=youtube&logoColor=white)](https://youtu.be/JfchSQo9VEQ) | 2:45 comprehensive video walkthrough |
-| **Web Dashboard** | [![Next.js 15](https://img.shields.io/badge/Next.js-15.x-black?logo=next.js&logoColor=white)](salespulse-dashboard/) | Next.js 15 full-stack analytics application |
 | **Database Engine** | [![PostgreSQL 17](https://img.shields.io/badge/PostgreSQL-17.x%20%7C%20Neon-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/) | Local PostgreSQL 17 & Neon serverless |
-| **Deployment Guide** | [`DEPLOYMENT.md`](DEPLOYMENT.md) | Vercel production hosting instructions |
+| **ETL & Validation** | [![Python 3.12](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/) | Python batch loader & data profiler |
+| **BI Dashboard** | [![Metabase](https://img.shields.io/badge/Metabase-BI%20Dashboard-509EE3?logo=metabase&logoColor=white)](https://www.metabase.com/) | Interactive Business Intelligence canvas |
+| **Public Metabase** | `[METABASE_PUBLIC_DASHBOARD_URL_PLACEHOLDER]` | Live interactive executive dashboard |
+| **Deployment Guide** | [`DEPLOYMENT.md`](DEPLOYMENT.md) | PostgreSQL & Metabase deployment instructions |
 | **Data Catalog** | [`DATA_DICTIONARY.md`](DATA_DICTIONARY.md) | Entity, column, and constraint catalog |
-| **Metabase BI** | `[METABASE_PUBLIC_DASHBOARD_URL_PLACEHOLDER]` | Executive Business Intelligence Dashboard |
 
 ---
 
@@ -88,10 +94,9 @@ SalesPulse ingests, cleans, and interrogates **1,547,842 relational records** ac
 1. **Relational Schema Engineering**: Design and populate a 3rd-normal-form (3NF) relational warehouse in PostgreSQL 17 with strict primary keys, foreign key constraints, and analytical indexing.
 2. **Data Profiling and Anomaly Resolution**: Detect and programmatically resolve real-world dirty data anomalies—specifically non-unique natural keys in customer reviews and misspelled column headers in upstream CSVs.
 3. **Rigorous SQL Analytical Suite**: Develop and execute 56 verified SQL queries, including aggregate baselines, multi-table joins, modular CTEs, window functions (`LAG`, `ROW_NUMBER`, `RANK`, `DENSE_RANK`), Pareto distribution models, and join anti-inflation validation proofs.
-4. **Interactive Full-Stack Web Application**: Build a production-ready Next.js 15 application (`salespulse-dashboard/`) with React 19, TypeScript, Tailwind CSS, and Recharts, connected to PostgreSQL via server-side connection pooling.
-5. **Executive Metabase BI Dashboard**: Construct an executive business intelligence command center with global date and state filters, interactive KPI cards, and SLA correlation charts.
-6. **Ground-Truth KPI Harmonization**: Eliminate metric discrepancies by establishing unambiguous mathematical definitions for Merchandise GMV, Gross Payment Volume, Delivered Payment Revenue, and Basket AOV.
-7. **Actionable Commercial Strategy**: Translate empirical query findings into concrete operational recommendations for logistics management, retention marketing, and inventory allocation.
+4. **Executive Metabase BI Dashboard**: Construct an executive business intelligence command center with global date and state filters, interactive KPI cards, and SLA correlation charts.
+5. **Ground-Truth KPI Harmonization**: Eliminate metric discrepancies by establishing unambiguous mathematical definitions for Merchandise GMV, Gross Payment Volume, Delivered Payment Revenue, and Basket AOV.
+6. **Actionable Commercial Strategy**: Translate empirical query findings into concrete operational recommendations for logistics management, retention marketing, and inventory allocation.
 
 ---
 
@@ -122,7 +127,7 @@ SalesPulse ingests, cleans, and interrogates **1,547,842 relational records** ac
 
 ## 7. System Architecture
 
-SalesPulse utilizes a modern three-tier data analytics architecture, bridging data engineering, relational querying, and full-stack web presentation:
+SalesPulse utilizes a modern data analytics architecture bridging automated data engineering, relational warehousing, and executive business intelligence:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -141,14 +146,13 @@ SalesPulse utilizes a modern three-tier data analytics architecture, bridging da
                                • Analytical B-tree indexes & 4 saved views
                                • 56 commercial SQL queries & join proofs
                                               │
-                    ┌─────────────────────────┴─────────────────────────┐
-                    ▼                                                   ▼
-       [ Next.js 15 Web Application ]                     [ Metabase Executive BI ]
-       • React 19 App Router                              • Interactive visual canvas
-       • TypeScript & Tailwind CSS                        • Global date & state filters
-       • Server-side connection pool                      • Scorecards, bars, donuts
-       • Recharts responsive visualizations               • SLA correlation charts
-       • Live /api/health PostgreSQL probe                • Video walkthrough demo
+                                              ▼
+                               [ Metabase Executive BI Dashboard ]
+                               • Interactive visual canvas
+                               • Global date, state & category filters
+                               • Executive KPI scorecards (GMV, AOV, Orders)
+                               • Monthly revenue velocity & SLA correlations
+                               • Video walkthrough demonstration
 ```
 
 ![End-to-End System Architecture](images/project_architecture.png)
@@ -201,7 +205,7 @@ Before importing raw data into PostgreSQL, automated Python profiling scripts in
 
 ## 10. Master KPI Definitions and Ground Truth Table
 
-To prevent confusion between gross platform collections, delivered sales, and merchandise values, SalesPulse enforces strict definitional boundaries across all SQL scripts, API endpoints, and dashboard cards:
+To prevent confusion between gross platform collections, delivered sales, and merchandise values, SalesPulse enforces strict definitional boundaries across all SQL scripts and dashboard cards:
 
 ### Master Definitional Matrix
 
@@ -384,38 +388,7 @@ This establishes **August 2018** as the definitive final complete operating mont
 
 ---
 
-## 13. Next.js Analytics Web Dashboard
-
-Located in the [`salespulse-dashboard/`](salespulse-dashboard/) directory, the Next.js web application provides an interactive, full-stack business analytics experience designed for executive exploration.
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                     SALESPULSE NEXT.JS 15 WEB DASHBOARD                │
-├───────────────────────────────────┬────────────────────────────────────┤
-│ • Next.js 15 App Router           │ • Serverless PostgreSQL (pg Pool)  │
-│ • React 19 Client Components      │ • Responsive Recharts Visuals      │
-│ • TypeScript Strict Typing        │ • Dynamic Date/State Filters       │
-│ • Tailwind CSS & Lucide Icons     │ • Live /api/health Connection Probe│
-└───────────────────────────────────┴────────────────────────────────────┘
-```
-
-### Application Pages and Capabilities
-1. **Executive Overview (`/`)**: 8 real-time KPI scorecards with trend indicators, Neon connection status badge, monthly revenue area chart, category bar chart, and customer retention donut.
-2. **Revenue Analytics (`/revenue`)**: Monthly revenue trajectory, AOV trend line, MoM velocity bars, and tabular financial ledger.
-3. **Product & Category Intelligence (`/products`)**: Top 10 categories by GMV, average selling price comparisons, and Pareto 80/20 distribution curves.
-4. **Customer Lifecycle & Retention (`/customers`)**: One-time vs. repeat buyer retention donut, average repurchase gap scorecard (86.4 days), and top customer lifetime value leaderboards.
-5. **Regional Geographic Distribution (`/regions`)**: State-by-state GMV breakdown, Southeast corridor share card, and average delivery duration rankings.
-6. **Delivery & Operational SLA (`/delivery`)**: Punctuality SLA compliance gauge (91.89%), delivery delay vs. review score correlation chart (-1.72 star drop), and worst-case delay tables.
-7. **Business Insights (`/insights`)**: The 5 core empirical findings and 3 prioritized strategic recommendations.
-
-### Technical Frontend Architecture
-- **Hydration & Sizing Resilience**: Recharts components are wrapped with `isMounted` client-side guards and explicit pixel heights (`height={280} minHeight={280} minWidth={0}`) to ensure zero layout shift or container collapse under React 19 and Next.js 15 SSR.
-- **Live Health Monitoring**: Top navigation header dynamically probes `/api/health` every 30 seconds, verifying active PostgreSQL pooling and reporting sub-50ms latency.
-- **Serverless API Routes**: Seven dedicated API endpoints (`/api/overview`, `/api/revenue`, `/api/products`, `/api/customers`, `/api/regions`, `/api/delivery`, `/api/filters`) query PostgreSQL using parameterized, SQL-injection-safe queries.
-
----
-
-## 14. Metabase Executive BI Dashboard
+## 13. Metabase Executive BI Dashboard
 
 SalesPulse includes an executive-ready Business Intelligence dashboard built in Metabase, providing instant visual feedback for executive leadership:
 
@@ -434,7 +407,7 @@ SalesPulse includes an executive-ready Business Intelligence dashboard built in 
 
 ---
 
-## 15. Strategic Business Insights and Recommendations
+## 14. Strategic Business Insights and Recommendations
 
 Every finding is verified against actual PostgreSQL database records and documented in [`docs/executive_summary.md`](docs/executive_summary.md) and [`docs/business_insights.md`](docs/business_insights.md):
 
@@ -471,61 +444,56 @@ Every finding is verified against actual PostgreSQL database records and documen
 
 ---
 
+## 15. Complete Visual Analytics Showcase
 
+The repository contains eight analytical, architectural, and database artifacts verifying all technical deliverables:
 
+### 1. End-to-End System Architecture
+![End-to-End System Architecture](images/project_architecture.png)
+*Figure 6: Complete technical data flow from raw CSV ingestion to PostgreSQL warehousing and Metabase BI.*
 
+### 2. Relational Database Schema & ERD
+![Relational Database ERD](images/salespulse_erd.png)
+*Figure 7: Full PostgreSQL 17 Entity-Relationship Diagram detailing primary keys, foreign key constraints, and 3NF relationships.*
 
+### 3. Automated Data Quality and Primary Key Audit
+![Data Quality Audit Report](images/data_quality_report.png)
+*Figure 8: Automated Python data profiling report verifying row counts, missing values, and candidate key uniqueness.*
 
+### 4. Advanced SQL Analytics in DBeaver
+![Advanced SQL Analytics](images/sql_analysis.png)
+*Figure 9: DBeaver SQL console executing complex window functions, rankings, and multi-table customer analytics.*
 
+### 5. Interactive Metabase Executive BI Dashboard
+![Metabase BI Dashboard](images/dashboard_preview.png)
+*Figure 10: Metabase business intelligence dashboard with interactive KPI scorecards, date filters, and SLA correlation charts.*
 
---
+### 6. Revenue Analytics and Growth Velocity
+![Revenue Analytics](images/revenue_analysis.png)
+*Figure 11: SQL revenue trajectory queries demonstrating monthly growth velocity and complete-month boundaries.*
+
+### 7. Customer Retention and Cohort Analysis
+![Customer Retention Analysis](images/customer_analysis.png)
+*Figure 12: SQL customer frequency analysis evaluating one-time vs. repeat buyers and repurchase intervals.*
+
+### 8. Product Merchandising and Category Performance
+![Product Merchandising Analysis](images/product_analysis.png)
+*Figure 13: SQL category performance queries analyzing sales volume, price elasticity, and freight costs.*
+
+---
+
 ## 16. Repository Directory Structure
 
 ```
 SalesPulse-Retail-Business-Analytics/
 │
 ├── README.md                           # Main repository documentation & engineering guide
-├── DEPLOYMENT.md                       # Complete Vercel & Neon PostgreSQL deployment guide
+├── DEPLOYMENT.md                       # Cloud deployment guide for PostgreSQL & Metabase
 ├── DATA_DICTIONARY.md                  # Comprehensive schema & column data dictionary
 ├── LICENSE                             # MIT Open Source License
 ├── .gitignore                          # Excludes raw CSV data, credentials, virtual environments
-├── requirements.txt                    # Python dependencies (psycopg2-binary, pandas, etc.)
+├── requirements.txt                    # Python dependencies (psycopg2-binary, python-dotenv)
 ├── .env.example                        # Template for database connection credentials
-│
-├── salespulse-dashboard/               # Next.js 15 Full-Stack Analytics Web Application
-│   ├── app/                            # Next.js App Router (pages & serverless API routes)
-│   │   ├── api/                        # Serverless SQL API endpoints
-│   │   │   ├── overview/route.ts       # Executive KPIs & summary charts endpoint
-│   │   │   ├── revenue/route.ts        # Monthly revenue, AOV & MoM growth endpoint
-│   │   │   ├── products/route.ts       # Category rankings & Pareto distribution endpoint
-│   │   │   ├── customers/route.ts      # Customer retention & repurchase gap endpoint
-│   │   │   ├── regions/route.ts        # State distribution & regional share endpoint
-│   │   │   ├── delivery/route.ts       # Delivery transit & SLA correlation endpoint
-│   │   │   ├── filters/route.ts        # Dynamic category & state filter options endpoint
-│   │   │   └── health/route.ts         # Live PostgreSQL pool ping & status probe endpoint
-│   │   ├── revenue/page.tsx            # Revenue analytics page
-│   │   ├── products/page.tsx           # Product & category analytics page
-│   │   ├── customers/page.tsx          # Customer retention & lifetime value page
-│   │   ├── regions/page.tsx            # Regional geographic analytics page
-│   │   ├── delivery/page.tsx           # Logistics SLA & review rating page
-│   │   ├── insights/page.tsx           # 5 Business insights & 3 recommendations page
-│   │   ├── layout.tsx                  # Root application layout with Client Providers
-│   │   └── page.tsx                    # Executive Overview dashboard page
-│   ├── components/                     # Reusable UI component library
-│   │   ├── charts/                     # Recharts components (Area, Bar, Donut, SLA)
-│   │   ├── filters/                    # Global FilterBar & FilterContext provider
-│   │   ├── header/                     # Top navigation with live DB connection badge
-│   │   ├── kpi/                        # Metric scorecards with loading skeletons
-│   │   ├── layout/                     # Responsive DashboardShell layout
-│   │   └── sidebar/                    # Dark navy sidebar navigation
-│   ├── lib/                            # Database client & analytical SQL queries
-│   │   ├── db.ts                       # Neon SSL PostgreSQL pool singleton
-│   │   ├── formatters.ts               # Currency (BRL), percentages, numbers
-│   │   └── queries/analytics.ts        # Parameterized analytical query suite
-│   ├── types/dashboard.ts              # TypeScript domain interfaces & API contracts
-│   ├── package.json                    # Dashboard dependencies & scripts
-│   ├── tsconfig.json                   # TypeScript compiler configuration
-│   └── tailwind.config.ts              # Tailwind CSS configuration
 │
 ├── database/
 │   └── create_tables.sql               # PostgreSQL 17 DDL and index creation script (9 tables)
@@ -579,7 +547,7 @@ SalesPulse-Retail-Business-Analytics/
     ├── business_insights.md            # Detailed analytical findings & strategic context
     ├── executive_summary.md            # C-suite executive summary & recommendations
     ├── dashboard_walkthrough_script.md # Video demonstration presentation script
-    └── deployment_guide.md             # Detailed deployment & hosting instructions
+    └── deployment_guide.md             # Cloud deployment blueprint (free-tier architecture)
 ```
 
 ---
@@ -588,9 +556,9 @@ SalesPulse-Retail-Business-Analytics/
 
 - **Operating System**: Windows 10/11, macOS 12+, or Ubuntu 20.04+ LTS
 - **Database Engine**: [PostgreSQL 17](https://www.postgresql.org/download/) installed locally OR a free serverless instance on [Neon](https://neon.tech/)
-- **Node.js**: Node.js 18.x, 20.x, or 22.x LTS with npm
 - **Python**: Python 3.10, 3.11, or 3.12 with pip and virtualenv
 - **SQL Client**: [DBeaver Community](https://dbeaver.io/) (recommended) or `psql` command-line utility
+- **BI Platform**: [Metabase](https://www.metabase.com/start/oss/) (Docker container or standalone JAR)
 - **Git**: Latest Git CLI
 
 ---
@@ -653,7 +621,7 @@ psql -U postgres -d salespulse -f database/create_tables.sql
 
 ---
 
-## 19. SQL Suite Execution and Next.js Launch Guide
+## 19. SQL Suite Execution and Metabase Launch Guide
 
 ### Running the SQL Analytical Suite
 Execute the analytical queries using `psql` or open them directly in DBeaver:
@@ -678,39 +646,21 @@ psql -U postgres -d salespulse -f sql/04_bonus_views_and_pareto.sql
 psql -U postgres -d salespulse -f sql/05_join_validation.sql
 ```
 
-### Running the Next.js Analytics Web Dashboard
+### Launching the Metabase BI Dashboard
+
+#### Method A: Run Metabase via Docker
 ```bash
-# Navigate to the dashboard directory
-cd salespulse-dashboard
-
-# Create local environment file
-cp .env.example .env.local
-
-# Edit .env.local and add your database connection string:
-# DATABASE_URL=postgresql://postgres:your_password@localhost:5432/salespulse
-
-# Install dependencies
-npm install
-
-# Start local development server
-npm run dev
+docker run -d -p 3000:3000 --name salespulse-metabase metabase/metabase:latest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your web browser.
+#### Method B: Run Metabase via Standalone JAR
+1. Download `metabase.jar` from [Metabase Official Downloads](https://www.metabase.com/start/oss/).
+2. Launch the application:
+   ```bash
+   java -jar metabase.jar
+   ```
 
-### Building for Production
-```bash
-cd salespulse-dashboard
-npm run build
-npm run start
-```
-
-### Deploying to Vercel
-1. Push your repository to GitHub.
-2. Sign in to [Vercel](https://vercel.com) and import the repository.
-3. Set **Root Directory** to `salespulse-dashboard`.
-4. Add the `DATABASE_URL` environment variable containing your Neon PostgreSQL connection string.
-5. Deploy. Refer to [`DEPLOYMENT.md`](DEPLOYMENT.md) for detailed cloud configuration instructions.
+Open [http://localhost:3000](http://localhost:3000) in your web browser. Follow [`docs/dashboard_documentation.md`](docs/dashboard_documentation.md) to connect your PostgreSQL database and import the pre-built visual queries from [`dashboard/dashboard_queries.sql`](dashboard/dashboard_queries.sql).
 
 ---
 
@@ -724,7 +674,7 @@ npm run start
 ### Future Roadmap
 - **Predictive Machine Learning**: Train an XGBoost or Random Forest regression model on order weight, freight fees, seller distance, and historical transit days to forecast delivery delays in real time.
 - **Automated Customer Churn Scoring**: Build an RFM (Recency, Frequency, Monetary) segmentation model with automated churn risk scores.
-- **Direct Geolocation Geospatial Visualizations**: Integrate PostGIS geospatial queries with Leaflet or Mapbox in the Next.js frontend to render interactive delivery transit heatmaps.
+- **Direct Geolocation Geospatial Visualizations**: Integrate PostGIS geospatial queries with Metabase geo-maps to render interactive delivery transit heatmaps.
 
 ### Author and License
 - **Author**: Muhammad Awais
